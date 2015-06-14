@@ -11,6 +11,8 @@ public class Growthbeat
 	#if UNITY_IPHONE
 	[DllImport("__Internal")] static extern void initializeWithApplicationId(string applicationId, string credentialId);
 	[DllImport("__Internal")] static extern void start();
+	[DllImport("__Internal")] static extern void stop();
+	[DllImport("__Internal")] static extern void setLoggerSilent(bool silent);
 	#endif
 	
 	public static Growthbeat GetInstance ()
@@ -34,8 +36,26 @@ public class Growthbeat
 
 	public void Start ()
 	{
-		#if UNITY_IPHONE && !UNITY_EDITOR
+		#if UNITY_ANDROID
+		#elif UNITY_IPHONE && !UNITY_EDITOR
 		start();
 		#endif
 	}
+
+	public void Stop ()
+	{
+		#if UNITY_ANDROID
+		#elif UNITY_IPHONE && !UNITY_EDITOR
+		stop();
+		#endif
+	}
+
+	public void SetLoggerSilent (bool silent)
+	{
+		#if UNITY_ANDROID
+		#elif UNITY_IPHONE && !UNITY_EDITOR
+		setLoggerSilent(silent);
+		#endif
+	}
+	
 }
