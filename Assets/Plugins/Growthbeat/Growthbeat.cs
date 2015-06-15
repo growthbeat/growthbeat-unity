@@ -1,4 +1,12 @@
-﻿using UnityEngine;
+﻿//
+//  Growthbeat.h
+//  Growthbeat-unity
+//
+//  Created by Baekwoo Chung on 2015/06/15.
+//  Copyright (c) 2015年 SIROK, Inc. All rights reserved.
+//
+
+using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;

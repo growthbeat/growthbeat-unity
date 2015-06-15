@@ -1,9 +1,9 @@
 //
-//  GrowthPush.mm
+//  GrowthAnalytics.mm
+//  Growthbeat-unity
 //
-//
-//  Created by Cuong Do on 11/5/13.
-//
+//  Created by Baekwoo Chung on 2015/06/15.
+//  Copyright (c) 2015年 SIROK, Inc. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

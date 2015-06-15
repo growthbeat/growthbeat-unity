@@ -1,9 +1,9 @@
 //
 //  Growthbeat.mm
+//  Growthbeat-unity
 //
-//
-//  Created by Baekwoo Chung on 02/10/15.
-//
+//  Created by Baekwoo Chung on 2015/06/15.
+//  Copyright (c) 2015年 SIROK, Inc. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

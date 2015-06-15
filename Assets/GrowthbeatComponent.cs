@@ -1,4 +1,12 @@
-﻿using UnityEngine;
+﻿//
+//  GrowthbeatComponent.cs
+//  Growthbeat-unity
+//
+//  Created by Baekwoo Chung on 2015/06/15.
+//  Copyright (c) 2015年 SIROK, Inc. All rights reserved.
+//
+
+using UnityEngine;
 using System.Collections;
 
 public class GrowthbeatComponent : MonoBehaviour {
@@ -10,6 +18,9 @@ public class GrowthbeatComponent : MonoBehaviour {
 	void Start () {
 		Growthbeat.GetInstance ().Start ();
 		GrowthAnalytics.GetInstance ().SetName ("OHoH");
+		GrowthPush.GetInstance ().RequestDeviceToken ();
+		GrowthPush.GetInstance ().SetDeviceToken ("dodo");
+		GrowthPush.GetInstance ().ClearBadge ();
 	}
 	
 	void Update () {

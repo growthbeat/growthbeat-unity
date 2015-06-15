@@ -1,3 +1,11 @@
+//
+//  GrowthPush.cs
+//  Growthbeat-unity
+//
+//  Created by Baekwoo Chung on 2015/06/15.
+//  Copyright (c) 2015年 SIROK, Inc. All rights reserved.
+//
+
 using UnityEngine;
 using System;
 using System.Collections;
@@ -7,6 +15,13 @@ using System.Runtime.InteropServices;
 public class GrowthPush {
 
 	private static GrowthPush instance = new GrowthPush ();
+
+	#if UNITY_IPHONE
+	[DllImport("__Internal")] private static extern void growthPushInitializeWithApplicationId(string applicationId, string credentialId, int environment);
+	[DllImport("__Internal")] private static extern void growthPushRequestDeviceToken();
+	[DllImport("__Internal")] private static extern void growthPushSetDeviceToken(string deviceToken);
+	[DllImport("__Internal")] private static extern void growthPushClearBadge();
+	#endif
 
 	public static GrowthPush GetInstance ()
 	{
@@ -19,40 +34,40 @@ public class GrowthPush {
 		Production = 2
 	}
 
-	public static void Initialize (string applicationId, string credentialId, Environment environment) {
+	public void Initialize (string applicationId, string credentialId, Environment environment) {
 		#if UNITY_ANDROID
-		#elif UNITY_IPHONE
-		GrowthPushIOS.Initialize(applicationId, credentialId, environment); 
+		#elif UNITY_IPHONE && !UNITY_EDITOR
+		growthPushInitializeWithApplicationId(applicationId, credentialId, (int)environment);
 		#endif
 	}
 
-	public static void Initialize (string applicationId, string credentialId, Environment environment, bool debug, string senderId) {
+	public void Initialize (string applicationId, string credentialId, Environment environment, bool debug, string senderId) {
 		#if UNITY_ANDROID	
 		GrowthPushAndroid.Initialize(applicationId, secret, environment, debug, senderId);
-		#elif UNITY_IPHONE
+		#elif UNITY_IPHONE && !UNITY_EDITOR
 		Initialize(applicationId, credentialId, environment);
 		#endif
 	}
 
-	public static void RequestDeviceToken () {
+	public void RequestDeviceToken () {
 		#if UNITY_ANDROID
 		GrowthPushAndroid.RequestDeviceToken();
-		#elif UNITY_IPHONE
-		GrowthPushIOS.RequestDeviceToken();
+		#elif UNITY_IPHONE && !UNITY_EDITOR
+		growthPushRequestDeviceToken();
 		#endif
 	}
 
-	public static void SerDeviceToken (string deviceToken) {
+	public void SetDeviceToken (string deviceToken) {
 		#if UNITY_ANDROID
 		GrowthPushAndroid.SerDeviceToken(deviceToken);
-		#elif UNITY_IPHONE
-		GrowthPushIOS.SerDeviceToken(deviceToken);
+		#elif UNITY_IPHONE && !UNITY_EDITOR
+		growthPushSetDeviceToken(deviceToken);
 		#endif
 	}
 
-	public static void ClearBadge () {
-		#if UNITY_IPHONE
-		GrowthPushIOS.ClearBadge();
+	public void ClearBadge () {
+		#if UNITY_IPHONE && !UNITY_EDITOR
+		growthPushClearBadge();
 		#endif
 	}
 		
