@@ -16,7 +16,7 @@ public class GrowthAnalytics
 {
 	private static GrowthAnalytics instance = new GrowthAnalytics ();
 
-	#if UNITY_IPHONE && !UNITY_EDITOR
+	#if UNITY_IPHONE
 	[DllImport("__Internal")] static extern void growthAnalyticsInitializeWithApplicationId(string applicationID, string credentialId);
 	[DllImport("__Internal")] static extern void growthAnalyticsTrack(string eventId);
 	/*

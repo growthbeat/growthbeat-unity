@@ -28,20 +28,23 @@ public class GrowthPush {
 		return GrowthPush.instance;
 	}
 
-	public enum Environment {
+	public enum Environment
+	{
 		Unknown = 0,
 		Development = 1,
 		Production = 2
 	}
 
-	public void Initialize (string applicationId, string credentialId, Environment environment) {
+	public void Initialize (string applicationId, string credentialId, Environment environment)
+	{
 		#if UNITY_ANDROID
 		#elif UNITY_IPHONE && !UNITY_EDITOR
 		growthPushInitializeWithApplicationId(applicationId, credentialId, (int)environment);
 		#endif
 	}
 
-	public void Initialize (string applicationId, string credentialId, Environment environment, bool debug, string senderId) {
+	public void Initialize (string applicationId, string credentialId, Environment environment, bool debug, string senderId)
+	{
 		#if UNITY_ANDROID	
 		GrowthPushAndroid.Initialize(applicationId, secret, environment, debug, senderId);
 		#elif UNITY_IPHONE && !UNITY_EDITOR
@@ -49,7 +52,8 @@ public class GrowthPush {
 		#endif
 	}
 
-	public void RequestDeviceToken () {
+	public void RequestDeviceToken ()
+	{
 		#if UNITY_ANDROID
 		GrowthPushAndroid.RequestDeviceToken();
 		#elif UNITY_IPHONE && !UNITY_EDITOR
@@ -57,7 +61,8 @@ public class GrowthPush {
 		#endif
 	}
 
-	public void SetDeviceToken (string deviceToken) {
+	public void SetDeviceToken (string deviceToken)
+	{
 		#if UNITY_ANDROID
 		GrowthPushAndroid.SerDeviceToken(deviceToken);
 		#elif UNITY_IPHONE && !UNITY_EDITOR
@@ -65,7 +70,8 @@ public class GrowthPush {
 		#endif
 	}
 
-	public void ClearBadge () {
+	public void ClearBadge ()
+	{
 		#if UNITY_IPHONE && !UNITY_EDITOR
 		growthPushClearBadge();
 		#endif
