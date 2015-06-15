@@ -9,32 +9,32 @@ public class GrowthAnalytics
 	private static GrowthAnalytics instance = new GrowthAnalytics ();
 
 	#if UNITY_IPHONE && !UNITY_EDITOR
-	[DllImport("__Internal")] static extern void AnalyticsInitializeWithApplicationId(string applicationID, string credentialId);
-	[DllImport("__Internal")] static extern void AnalyticsTrack(string eventId);
+	[DllImport("__Internal")] static extern void growthAnalyticsInitializeWithApplicationId(string applicationID, string credentialId);
+	[DllImport("__Internal")] static extern void growthAnalyticsTrack(string eventId);
 	/*
-	 * [DllImport("__Internal")] static extern void AnalyticsTrack(string applicationID, string credentialId);
-	 * [DllImport("__Internal")] static extern void AnalyticsTrack(string applicationID, string credentialId);
-	 * [DllImport("__Internal")] static extern void AnalyticsTrack(string applicationID, string credentialId);
+	 * [DllImport("__Internal")] static extern void growthAnalyticsTrack(string applicationID, string credentialId);
+	 * [DllImport("__Internal")] static extern void growthAnalyticsTrack(string applicationID, string credentialId);
+	 * [DllImport("__Internal")] static extern void growthAnalyticsTrack(string applicationID, string credentialId);
 	 */
-	[DllImport("__Internal")] static extern void AnalyticsTag(string tagId, string value); 
-	[DllImport("__Internal")] static extern void AnalyticsOpen();
-	[DllImport("__Internal")] static extern void AnalyticsClose();
-	[DllImport("__Internal")] static extern void AnalyticsPurchase(int price, string category, string product);
-	[DllImport("__Internal")] static extern void AnalyticsSetUserId(string userId);
-	[DllImport("__Internal")] static extern void AnalyticsSetName(string name);
-	[DllImport("__Internal")] static extern void AnalyticsSetAge(int age);
-	//	[DllImport("__Internal")] static extern void AnalyticsSetGender();
-	[DllImport("__Internal")] static extern void AnalyticsSetLevel(int level);
-	//	[DllImport("__Internal")] static extern void AnalyticsSetDevelopment();
-	[DllImport("__Internal")] static extern void AnalyticsSetDeviceModel();
-	[DllImport("__Internal")] static extern void AnalyticsSetOS();
-	[DllImport("__Internal")] static extern void AnalyticsSetLanguage();
-	[DllImport("__Internal")] static extern void AnalyticsSetTimeZone();
-	[DllImport("__Internal")] static extern void AnalyticsSetTimeZoneOffset();
-	[DllImport("__Internal")] static extern void AnalyticsSetAppVersion();
-	[DllImport("__Internal")] static extern void AnalyticsSetRandom();
-	[DllImport("__Internal")] static extern void AnalyticsSetAdvertisingId(string idfa);
-	[DllImport("__Internal")] static extern void AnalyticsSetBasicTags();
+	[DllImport("__Internal")] static extern void growthAnalyticsTag(string tagId, string value); 
+	[DllImport("__Internal")] static extern void growthAnalyticsOpen();
+	[DllImport("__Internal")] static extern void growthAnalyticsClose();
+	[DllImport("__Internal")] static extern void growthAnalyticsPurchase(int price, string category, string product);
+	[DllImport("__Internal")] static extern void growthAnalyticsSetUserId(string userId);
+	[DllImport("__Internal")] static extern void growthAnalyticsSetName(string name);
+	[DllImport("__Internal")] static extern void growthAnalyticsSetAge(int age);
+	//	[DllImport("__Internal")] static extern void growthAnalyticsSetGender();
+	[DllImport("__Internal")] static extern void growthAnalyticsSetLevel(int level);
+	//	[DllImport("__Internal")] static extern void growthAnalyticsSetDevelopment();
+	[DllImport("__Internal")] static extern void growthAnalyticsSetDeviceModel();
+	[DllImport("__Internal")] static extern void growthAnalyticsSetOS();
+	[DllImport("__Internal")] static extern void growthAnalyticsSetLanguage();
+	[DllImport("__Internal")] static extern void growthAnalyticsSetTimeZone();
+	[DllImport("__Internal")] static extern void growthAnalyticsSetTimeZoneOffset();
+	[DllImport("__Internal")] static extern void growthAnalyticsSetAppVersion();
+	[DllImport("__Internal")] static extern void growthAnalyticsSetRandom();
+	[DllImport("__Internal")] static extern void growthAnalyticsSetAdvertisingId(string idfa);
+	[DllImport("__Internal")] static extern void growthAnalyticsSetBasicTags();
 	#endif
 
 	public static GrowthAnalytics GetInstance ()
@@ -47,7 +47,7 @@ public class GrowthAnalytics
 		#if UNITY_ANDROID
 		GrowthAnalyticsAndroid.Initialize(applicationId, credentialId);
 		#elif UNITY_IPHONE && !UNITY_EDITOR
-		AnalyticsInitializeWithApplicationId(applicationId, credentialId);
+		growthAnalyticsInitializeWithApplicationId(applicationId, credentialId);
 		#endif
 	}
 
@@ -61,7 +61,7 @@ public class GrowthAnalytics
 		#if UNITY_ANDROID
 		GrowthAnalyticsAndroid.tag(tagId, value);
 		#elif UNITY_IPHONE && !UNITY_EDITOR
-		AnalyticsTag(tagId, value); 
+		growthAnalyticsTag(tagId, value); 
 		#endif
 	}
 
@@ -70,7 +70,7 @@ public class GrowthAnalytics
 		#if UNITY_ANDROID
 		GrowthAnalyticsAndroid.track(eventId);
 		#elif UNITY_IPHONE && !UNITY_EDITOR
-		AnalyticsTrack(eventId);
+		growthAnalyticsTrack(eventId);
 		#endif
 	}
 
@@ -105,7 +105,7 @@ public class GrowthAnalytics
 		#if UNITY_ANDROID
 		GrowthAnalyticsAndroid.open();
 		#elif UNITY_IPHONE && !UNITY_EDITOR
-		AnalyticsOpen(); 
+		growthAnalyticsOpen(); 
 		#endif
 	}
 	
@@ -114,7 +114,7 @@ public class GrowthAnalytics
 		#if UNITY_ANDROID
 		GrowthAnalyticsAndroid.close();
 		#elif UNITY_IPHONE && !UNITY_EDITOR
-		AnalyticsClose(); 
+		growthAnalyticsClose(); 
 		#endif
 	}
 	
@@ -123,7 +123,7 @@ public class GrowthAnalytics
 		#if UNITY_ANDROID
 		GrowthAnalyticsAndroid.purchase(price, category, product);
 		#elif UNITY_IPHONE && !UNITY_EDITOR
-		AnalyticsPurchase(price, category, product); 
+		growthAnalyticsPurchase(price, category, product); 
 		#endif
 	}
 	
@@ -132,7 +132,7 @@ public class GrowthAnalytics
 		#if UNITY_ANDROID
 		GrowthAnalyticsAndroid.setUserId(userId);
 		#elif UNITY_IPHONE && !UNITY_EDITOR
-		AnalyticsSetUserId(userId); 
+		growthAnalyticsSetUserId(userId); 
 		#endif
 	}
 	
@@ -141,7 +141,7 @@ public class GrowthAnalytics
 		#if UNITY_ANDROID
 		GrowthAnalyticsAndroid.setName(name);
 		#elif UNITY_IPHONE && !UNITY_EDITOR
-		AnalyticsSetName(name); 
+		growthAnalyticsSetName(name); 
 		#endif
 	}
 	
@@ -150,7 +150,7 @@ public class GrowthAnalytics
 		#if UNITY_ANDROID
 		GrowthAnalyticsAndroid.setAge(age);
 		#elif UNITY_IPHONE && !UNITY_EDITOR
-		AnalyticsSetAge(age); 
+		growthAnalyticsSetAge(age); 
 		#endif
 	}
 
@@ -168,7 +168,7 @@ public class GrowthAnalytics
 		#if UNITY_ANDROID
 		GrowthAnalyticsAndroid.setLevel(level);
 		#elif UNITY_IPHONE && !UNITY_EDITOR
-		AnalyticsSetLevel(level); 
+		growthAnalyticsSetLevel(level); 
 		#endif
 	}
 
@@ -186,7 +186,7 @@ public class GrowthAnalytics
 		#if UNITY_ANDROID
 		GrowthAnalyticsAndroid.setDeviceModel();
 		#elif UNITY_IPHONE && !UNITY_EDITOR
-		AnalyticsSetDeviceModel(); 
+		growthAnalyticsSetDeviceModel(); 
 		#endif
 	}
 	
@@ -195,7 +195,7 @@ public class GrowthAnalytics
 		#if UNITY_ANDROID
 		GrowthAnalyticsAndroid.setOS();
 		#elif UNITY_IPHONE && !UNITY_EDITOR
-		AnalyticsSetOS(); 
+		growthAnalyticsSetOS(); 
 		#endif
 	}
 	
@@ -204,7 +204,7 @@ public class GrowthAnalytics
 		#if UNITY_ANDROID
 		GrowthAnalyticsAndroid.setLanguage();
 		#elif UNITY_IPHONE && !UNITY_EDITOR
-		AnalyticsSetLanguage(); 
+		growthAnalyticsSetLanguage(); 
 		#endif
 	}
 	
@@ -213,7 +213,7 @@ public class GrowthAnalytics
 		#if UNITY_ANDROID
 		GrowthAnalyticsAndroid.setTimeZone();
 		#elif UNITY_IPHONE && !UNITY_EDITOR
-		AnalyticsSetTimeZone(); 
+		growthAnalyticsSetTimeZone(); 
 		#endif
 	}
 	
@@ -222,7 +222,7 @@ public class GrowthAnalytics
 		#if UNITY_ANDROID
 		GrowthAnalyticsAndroid.setTimeZoneOffset();
 		#elif UNITY_IPHONE && !UNITY_EDITOR
-		AnalyticsSetTimeZoneOffset(); 
+		growthAnalyticsSetTimeZoneOffset(); 
 		#endif
 	}
 	
@@ -231,7 +231,7 @@ public class GrowthAnalytics
 		#if UNITY_ANDROID
 		GrowthAnalyticsAndroid.setAppVersion();
 		#elif UNITY_IPHONE && !UNITY_EDITOR
-		AnalyticsSetAppVersion(); 
+		growthAnalyticsSetAppVersion(); 
 		#endif
 	}
 	
@@ -240,7 +240,7 @@ public class GrowthAnalytics
 		#if UNITY_ANDROID
 		GrowthAnalyticsAndroid.setRandom();
 		#elif UNITY_IPHONE && !UNITY_EDITOR
-		AnalyticsSetRandom(); 
+		growthAnalyticsSetRandom(); 
 		#endif
 	}
 	
@@ -249,7 +249,7 @@ public class GrowthAnalytics
 		#if UNITY_ANDROID
 		GrowthAnalyticsAndroid.setAdvertisingId(idfa);
 		#elif UNITY_IPHONE && !UNITY_EDITOR
-		AnalyticsSetAdvertisingId(idfa); 
+		growthAnalyticsSetAdvertisingId(idfa); 
 		#endif
 	}
 	
@@ -258,7 +258,7 @@ public class GrowthAnalytics
 		#if UNITY_ANDROID
 		GrowthAnalyticsAndroid.setBasicTags();
 		#elif UNITY_IPHONE && !UNITY_EDITOR
-		AnalyticsSetBasicTags(); 
+		growthAnalyticsSetBasicTags(); 
 		#endif
 	}
 
