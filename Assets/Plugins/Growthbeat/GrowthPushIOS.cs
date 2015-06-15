@@ -4,43 +4,35 @@ using System.Runtime.InteropServices;
 using System;
 
 public class GrowthPushIOS {
+	#if UNITY_IPHONE
+	[DllImport("__Internal")] private static extern void growthPushInitializeWithApplicationId(string applicationId, string credentialId, int environment);
+	[DllImport("__Internal")] private static extern void growthPushRequestDeviceToken();
+	[DllImport("__Internal")] private static extern void growthPushSetDeviceToken(string deviceToken);
+	[DllImport("__Internal")] private static extern void growthPushClearBadge();
+	#endif
 
-		#if UNITY_IPHONE
-			[DllImport("__Internal")] private static extern void growthPushInitializeWithApplicationId(string applicationID, string credentialId, int environment, bool debug);
-//			[DllImport("__Internal")] private static extern void growthPushTrackEvent(string name, string value);
-//			[DllImport("__Internal")] private static extern void growthPushSetTag(string name, string value);
-//			[DllImport("__Internal")] private static extern void growthPushSetDeviceTags();
-//			[DllImport("__Internal")] private static extern void growthPushClearBadge();
+	public static void Initialize (string applicationId, string credentialId, GrowthPush.Environment environment) {
+		#if UNITY_IPHONE && !UNITY_EDITOR
+		growthPushInitializeWithApplicationId(applicationId, credentialId, (int)environment);
 		#endif
+	}
 
-		public static void Initialize(string applicationID, string credentialId, GrowthPush.Environment environment, bool debug) {
-				#if UNITY_IPHONE && !UNITY_EDITOR
-					growthPushInitializeWithApplicationId(applicationID, credentialId, (int)environment, debug);
-				#endif
-		}
+	public static void RequestDeviceToken () {
+		#if UNITY_IPHONE && !UNITY_EDITOR
+		growthPushRequestDeviceToken();
+		#endif
+	}
 
-//		public static void TrackEvent(string name, string value) {
-//				#if UNITY_IPHONE && !UNITY_EDITOR
-//					growthPushTrackEvent(name, value);
-//				#endif
-//		}
-//
-//		public static void SetTag(string name, string value) {
-//				#if UNITY_IPHONE && !UNITY_EDITOR
-//					growthPushSetTag(name, value);
-//				#endif
-//		}
-//
-//		public static void SetDeviceTags() {
-//				#if UNITY_IPHONE && !UNITY_EDITOR
-//					growthPushSetDeviceTags();
-//				#endif
-//		}
-//
-//		public static void ClearBadge() {
-//				#if UNITY_IPHONE && !UNITY_EDITOR
-//					growthPushClearBadge();
-//				#endif
-//		}
+	public static void SerDeviceToken (string deviceToken) {
+		#if UNITY_IPHONE && !UNITY_EDITOR
+		growthPushSetDeviceToken(deviceToken);
+		#endif
+	}
+
+	public static void ClearBadge () {
+		#if UNITY_IPHONE && !UNITY_EDITOR
+		growthPushClearBadge();
+		#endif
+	}
 
 };

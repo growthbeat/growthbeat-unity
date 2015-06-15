@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <Growthbeat/GrowthPush.h>
 
-extern "C" void growthPushInitializeWithApplicationId (const char* applicationId, const char* credentialId, int environment, bool debug) {
+extern "C" void growthPushInitializeWithApplicationId (const char* applicationId, const char* credentialId, int environment) {
 	GPEnvironment gpEnvironment = GPEnvironmentUnknown;
     switch (environment) {
         case GPEnvironmentDevelopment:
@@ -28,20 +28,14 @@ extern "C" void growthPushInitializeWithApplicationId (const char* applicationId
     											 environment:gpEnvironment];
 }
 
-//extern "C" void growthPushTrackEvent(const char* name, const char* value) {
-//    [EasyGrowthPush trackEvent:[NSString stringWithCString:name encoding:NSUTF8StringEncoding]
-//    					 value:[NSString stringWithCString:value encoding:NSUTF8StringEncoding]];
-//}
-//
-//extern "C" void growthPushSetTag(const char* name, const char* value) {
-//    [EasyGrowthPush setTag:[NSString stringWithCString:name encoding:NSUTF8StringEncoding]
-//    				 value:[NSString stringWithCString:value encoding:NSUTF8StringEncoding]];
-//}
-//
-//extern "C" void growthPushSetDeviceTags() {
-//    [EasyGrowthPush setDeviceTags];
-//}
-//
-//extern "C" void growthPushClearBadge() {
-//    [EasyGrowthPush clearBadge];
-//}
+extern "C" void growthPushRequestDeviceToken () {
+	[[GrowthPush sharedInstance] requestDeviceToken];
+}
+
+extern "C" void growthPushSetDeviceToken (const char* deviceToken) {
+	[[GrowthPush sharedInstance] setDeviceToken:[NSData dataWithBytes:(const void *)deviceToken length:(sizeof(unsigned char) * strlen(deviceToken))]];
+}
+
+extern "C" void growthPushClearBadge () {
+	[[GrowthPush sharedInstance] clearBadge];
+}
