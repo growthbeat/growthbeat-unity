@@ -46,7 +46,7 @@ public class GrowthPush {
 	public void Initialize (string applicationId, string credentialId, Environment environment, bool debug, string senderId)
 	{
 		#if UNITY_ANDROID	
-		GrowthPushAndroid.Initialize(applicationId, secret, environment, debug, senderId);
+//		GrowthPushAndroid.Initialize(applicationId, secret, environment, debug, senderId);
 		#elif UNITY_IPHONE && !UNITY_EDITOR
 		Initialize(applicationId, credentialId, environment);
 		#endif
@@ -55,7 +55,7 @@ public class GrowthPush {
 	public void RequestDeviceToken ()
 	{
 		#if UNITY_ANDROID
-		GrowthPushAndroid.RequestDeviceToken();
+//		GrowthPushAndroid.RequestDeviceToken();
 		#elif UNITY_IPHONE && !UNITY_EDITOR
 		growthPushRequestDeviceToken();
 		#endif
@@ -64,7 +64,7 @@ public class GrowthPush {
 	public void SetDeviceToken (string deviceToken)
 	{
 		#if UNITY_ANDROID
-		GrowthPushAndroid.SerDeviceToken(deviceToken);
+//		GrowthPushAndroid.SerDeviceToken(deviceToken);
 		#elif UNITY_IPHONE && !UNITY_EDITOR
 		growthPushSetDeviceToken(deviceToken);
 		#endif

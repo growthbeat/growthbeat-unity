@@ -30,7 +30,7 @@ public class GrowthMessage
 	public void Initialize (string applicationId, string credentialId)
 	{
 		#if UNITY_ANDROID	
-		GrowthMessageAndroid.Initialize(applicationId, credentialId);
+//		GrowthMessageAndroid.Initialize(applicationId, credentialId);
 		#elif UNITY_IPHONE && !UNITY_EDITOR
 		growthMessageInitializeWithApplicationId(applicationId, credentialId);
 		#endif

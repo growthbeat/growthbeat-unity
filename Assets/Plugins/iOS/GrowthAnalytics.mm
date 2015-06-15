@@ -19,26 +19,12 @@ extern "C" void growthAnalyticsInitializeWithApplicationId(const char* applicati
     [[GrowthAnalytics sharedInstance] initializeWithApplicationId:NSStringFromCharString(applicationId) credentialId:NSStringFromCharString(credentialId)];
 }
 
-extern "C" void growthAnalyticsTrack(const char* eventId) {
-    [[GrowthAnalytics sharedInstance] track:NSStringFromCharString(eventId)];
+extern "C" void growthAnalyticsTrack(const char* eventId, const char* properties, int option) {
+    NSData* data = [NSStringFromCharString(properties) dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary* dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+    
+    [[GrowthAnalytics sharedInstance] track:NSStringFromCharString(eventId) properties:dictionary option:(GATrackOption)option];
 }
-
-/*
-- (void)track:(NSString *)eventId properties:(NSDictionary *)properties;
-extern "C" void track(const char* eventId, ) {
-    [[GrowthAnalytics sharedInstance] track];
-}*/
-
-/*
-- (void)track:(NSString *)eventId option:(GATrackOption)option;
-extern "C" void track() {
-    [[GrowthAnalytics sharedInstance] track];
-}
-
-- (void)track:(NSString *)eventId properties:(NSDictionary *)properties option:(GATrackOption)option;
-extern "C" void track() {
-    [[GrowthAnalytics sharedInstance] track];
-}*/
 
 extern "C" void growthAnalyticsTag(const char* tagId, const char* value) {
     [[GrowthAnalytics sharedInstance] tag:NSStringFromCharString(tagId) value:NSStringFromCharString(value)];
@@ -68,21 +54,17 @@ extern "C" void growthAnalyticsSetAge(int age) {
     [[GrowthAnalytics sharedInstance] setAge:age];
 }
 
-/*
-- (void)setGender:(GAGender)gender;
-extern "C" void setGender() {
-    [[GrowthAnalytics sharedInstance] ];
-}*/
+extern "C" void growthAnalyticsSetGender(int gender) {
+    [[GrowthAnalytics sharedInstance] setGender:(GAGender)gender];
+}
 
 extern "C" void growthAnalyticsSetLevel(int level) {
     [[GrowthAnalytics sharedInstance] setLevel:level];
 }
 
-/*
-- (void)setDevelopment:(BOOL)development;
-extern "C" void setDevelopment() {
-    [[GrowthAnalytics sharedInstance] ];
-}*/
+extern "C" void growthAnalyticsSetDevelopment(bool development) {
+    [[GrowthAnalytics sharedInstance] setDevelopment:development];
+}
 
 extern "C" void growthAnalyticsSetDeviceModel() {
     [[GrowthAnalytics sharedInstance] setDeviceModel];
@@ -113,21 +95,9 @@ extern "C" void growthAnalyticsSetRandom() {
 }
 
 extern "C" void growthAnalyticsSetAdvertisingId(const char* idfa) {
-    //[[GrowthAnalytics sharedInstance] setAdvertisingId:NSStringFromCharString(idfa)];
+    [[GrowthAnalytics sharedInstance] setAdvertisingId];
 }
 
 extern "C" void growthAnalyticsSetBasicTags() {
     [[GrowthAnalytics sharedInstance] setBasicTags];
 }
-
-/*typedef NS_ENUM (NSInteger, GATrackOption) {
-    GATrackOptionDefault = 0,
-    GATrackOptionOnce,
-    GATrackOptionCounter
-};
-
-typedef NS_ENUM (NSInteger, GAGender) {
-    GAGenderNone = 0,
-    GAGenderMale,
-    GAGenderFemale
-};*/
