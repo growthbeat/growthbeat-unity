@@ -94,7 +94,7 @@ extern "C" void growthAnalyticsSetRandom() {
     [[GrowthAnalytics sharedInstance] setRandom];
 }
 
-extern "C" void growthAnalyticsSetAdvertisingId(const char* idfa) {
+extern "C" void growthAnalyticsSetAdvertisingId() {
     [[GrowthAnalytics sharedInstance] setAdvertisingId];
 }
 
