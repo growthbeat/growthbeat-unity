@@ -46,7 +46,7 @@ public class GrowthAnalyticsAndroid {
 		#if UNITY_ANDROID
 		if (growthAnalytics == null)
 			return;
-		growthAnalytics.Call("tag",tagId, value);
+		growthAnalytics.Call("tag", tagId, value);
 		#endif
 	}
 	

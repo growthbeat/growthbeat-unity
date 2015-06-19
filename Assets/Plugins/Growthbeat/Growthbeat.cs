@@ -27,15 +27,27 @@ public class Growthbeat
 	{
 		return Growthbeat.instance;
 	}
+
+	#if UNITY_ANDROID
+	private static AndroidJavaObject growthbeat;
+	#endif
 	
-	public void Initialize (string applicationId, string credentialId)
-	{
+	private Growthbeat() {
 		#if UNITY_ANDROID
 		using(AndroidJavaClass gbcclass = new AndroidJavaClass( "com.growthbeat.Growthbeat" )) {
-			AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"); 
-			AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity"); 
-			gbcclass.CallStatic<AndroidJavaObject>("getInstance").Call("initialize", activity, applicationId, credentialId);
+			growthbeat = gbcclass.CallStatic<AndroidJavaObject>("getInstance"); 
 		}
+		#endif
+	}
+	
+	public void Initialize (string applicationId, string credentialId, string senderId, bool debug)
+	{
+		#if UNITY_ANDROID
+		if (growthbeat == null)
+			return;
+		AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"); 
+		AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity"); 
+		growthbeat.Call("initialize", activity, applicationId, credentialId, senderId, debug);
 		#elif UNITY_IPHONE && !UNITY_EDITOR
 		growthbeatInitializeWithApplicationId(applicationId, credentialId);
 		#endif
@@ -45,6 +57,9 @@ public class Growthbeat
 	public void Start ()
 	{
 		#if UNITY_ANDROID
+		if (growthbeat == null)
+			return;
+		growthbeat.Call("start");
 		#elif UNITY_IPHONE && !UNITY_EDITOR
 		growthbeatStart();
 		#endif
@@ -53,6 +68,9 @@ public class Growthbeat
 	public void Stop ()
 	{
 		#if UNITY_ANDROID
+		if (growthbeat == null)
+			return;
+		growthbeat.Call("stop");
 		#elif UNITY_IPHONE && !UNITY_EDITOR
 		growthbeatStop();
 		#endif
@@ -61,6 +79,9 @@ public class Growthbeat
 	public void SetLoggerSilent (bool silent)
 	{
 		#if UNITY_ANDROID
+		if (growthbeat == null)
+			return;
+		growthbeat.Call("setLoggerSilent", silent);
 		#elif UNITY_IPHONE && !UNITY_EDITOR
 		growthbeatSetLoggerSilent(silent);
 		#endif
