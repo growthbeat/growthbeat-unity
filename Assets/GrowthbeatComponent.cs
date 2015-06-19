@@ -9,7 +9,8 @@
 using UnityEngine;
 using System.Collections;
 
-public class GrowthbeatComponent : MonoBehaviour {
+public class GrowthbeatComponent : MonoBehaviour
+{
 	
 	void Awake ()
 	{

@@ -15,7 +15,6 @@ extern "C" void growthPushInitializeWithApplicationId (const char* applicationId
         case GPEnvironmentDevelopment:
             gpEnvironment = GPEnvironmentDevelopment;
             break;
-            
         case GPEnvironmentProduction:
             gpEnvironment = GPEnvironmentProduction;
             break;

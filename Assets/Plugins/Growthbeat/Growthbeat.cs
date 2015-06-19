@@ -1,5 +1,5 @@
 ﻿//
-//  Growthbeat.h
+//  Growthbeat.cs
 //  Growthbeat-unity
 //
 //  Created by Baekwoo Chung on 2015/06/15.
@@ -51,7 +51,6 @@ public class Growthbeat
 		#elif UNITY_IPHONE && !UNITY_EDITOR
 		growthbeatInitializeWithApplicationId(applicationId, credentialId);
 		#endif
-		
 	}
 
 	public void Start ()

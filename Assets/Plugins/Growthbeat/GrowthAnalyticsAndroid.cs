@@ -11,7 +11,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class GrowthAnalyticsAndroid {
+public class GrowthAnalyticsAndroid
+{
 	
 	private static GrowthAnalyticsAndroid instance = new GrowthAnalyticsAndroid ();
 	
@@ -24,15 +25,18 @@ public class GrowthAnalyticsAndroid {
 	private static AndroidJavaObject growthAnalytics;
 	#endif
 	
-	private GrowthAnalyticsAndroid() {
+	private GrowthAnalyticsAndroid()
+	{
 		#if UNITY_ANDROID
-		using(AndroidJavaClass gbcclass = new AndroidJavaClass( "com.growthbeat.analytics.GrowthAnalytics" )) {
+		using(AndroidJavaClass gbcclass = new AndroidJavaClass( "com.growthbeat.analytics.GrowthAnalytics" ))
+		{
 			growthAnalytics = gbcclass.CallStatic<AndroidJavaObject>("getInstance"); 
 		}
 		#endif
 	}
 	
-	public void Initialize (string applicationId, string credentialId) {
+	public void Initialize (string applicationId, string credentialId)
+	{
 		#if UNITY_ANDROID
 		if (growthAnalytics == null)
 			return;
@@ -42,7 +46,8 @@ public class GrowthAnalyticsAndroid {
 		#endif
 	}
 	
-	public void Tag (string tagId, string value) {
+	public void Tag (string tagId, string value)
+	{
 		#if UNITY_ANDROID
 		if (growthAnalytics == null)
 			return;
@@ -50,18 +55,23 @@ public class GrowthAnalyticsAndroid {
 		#endif
 	}
 	
-	public void Track(string eventId, Dictionary<string, string> properties,GrowthAnalytics.TrackOption option) {
+	public void Track(string eventId, Dictionary<string, string> properties,GrowthAnalytics.TrackOption option)
+	{
 		#if UNITY_ANDROID
 		if (growthAnalytics == null)
 			return;
 		
-		using (AndroidJavaObject obj_HashMap = new AndroidJavaObject("java.util.HashMap")) {
+		using (AndroidJavaObject obj_HashMap = new AndroidJavaObject("java.util.HashMap"))
+		{
 			System.IntPtr method_Put = AndroidJNIHelper.GetMethodID (obj_HashMap.GetRawClass (), "put",
 			                                                         "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
 			object[] args = new object[2];
-			foreach (KeyValuePair<string, string> kvp in properties) {
-				using (AndroidJavaObject k = new AndroidJavaObject("java.lang.String", kvp.Key)) {
-					using (AndroidJavaObject v = new AndroidJavaObject("java.lang.String", kvp.Value)) {
+			foreach (KeyValuePair<string, string> kvp in properties)
+			{
+				using (AndroidJavaObject k = new AndroidJavaObject("java.lang.String", kvp.Key))
+				{
+					using (AndroidJavaObject v = new AndroidJavaObject("java.lang.String", kvp.Value))
+					{
 						args [0] = k;
 						args [1] = v;
 						AndroidJNI.CallObjectMethod (obj_HashMap.GetRawObject (),
@@ -76,7 +86,8 @@ public class GrowthAnalyticsAndroid {
 		#endif
 	}
 	
-	public void Open() {
+	public void Open()
+	{
 		#if UNITY_ANDROID
 		if (growthAnalytics == null)
 			return;
@@ -84,7 +95,8 @@ public class GrowthAnalyticsAndroid {
 		#endif
 	}
 	
-	public void Close() {
+	public void Close()
+	{
 		#if UNITY_ANDROID
 		if (growthAnalytics == null)
 			return;
@@ -92,40 +104,45 @@ public class GrowthAnalyticsAndroid {
 		#endif
 	}
 	
-	public void Purchase(int price, string category, string product) {
+	public void Purchase(int price, string category, string product)
+	{
 		#if UNITY_ANDROID
 		if (growthAnalytics == null)
 			return;
-		growthAnalytics.Call("purchase",price, category, product);
+		growthAnalytics.Call("purchase", price, category, product);
 		#endif
 	}
 	
-	public void SetUserId(string userId) {
+	public void SetUserId(string userId)
+	{
 		#if UNITY_ANDROID
 		if (growthAnalytics == null)
 			return;
-		growthAnalytics.Call("setUserId",userId);
+		growthAnalytics.Call("setUserId", userId);
 		#endif
 	}
 	
-	public void SetName(string name) {
+	public void SetName(string name)
+	{
 		#if UNITY_ANDROID
 		if (growthAnalytics == null)
 			return;
-		growthAnalytics.Call("setName",name);
+		growthAnalytics.Call("setName", name);
 		#endif
 	}
 	
-	public void SetAge(int age) {
+	public void SetAge(int age)
+	{
 		#if UNITY_ANDROID
 		if (growthAnalytics == null)
 			return;
-		growthAnalytics.Call("setAge",age);
+		growthAnalytics.Call("setAge", age);
 		#endif
 	}
 	
 	
-	public void SetGender(GrowthAnalytics.Gender gender) {
+	public void SetGender(GrowthAnalytics.Gender gender)
+	{
 		#if UNITY_ANDROID
 		if (growthAnalytics == null)
 			return;
@@ -135,7 +152,8 @@ public class GrowthAnalyticsAndroid {
 		#endif
 	}
 	
-	public void SetLevel(int level) {
+	public void SetLevel(int level)
+	{
 		#if UNITY_ANDROID
 		if (growthAnalytics == null)
 			return;
@@ -143,7 +161,8 @@ public class GrowthAnalyticsAndroid {
 		#endif
 	}
 	
-	public void SetDevelopment(bool development) {
+	public void SetDevelopment(bool development)
+	{
 		#if UNITY_ANDROID
 		if (growthAnalytics == null)
 			return;
@@ -151,7 +170,8 @@ public class GrowthAnalyticsAndroid {
 		#endif
 	}
 	
-	public void SetDeviceModel() {
+	public void SetDeviceModel()
+	{
 		#if UNITY_ANDROID
 		if (growthAnalytics == null)
 			return;
@@ -159,7 +179,8 @@ public class GrowthAnalyticsAndroid {
 		#endif
 	}
 	
-	public void SetOS() {
+	public void SetOS()
+	{
 		#if UNITY_ANDROID
 		if (growthAnalytics == null)
 			return;
@@ -167,7 +188,8 @@ public class GrowthAnalyticsAndroid {
 		#endif
 	}
 	
-	public void SetLanguage() {
+	public void SetLanguage()
+	{
 		#if UNITY_ANDROID
 		if (growthAnalytics == null)
 			return;
@@ -175,7 +197,8 @@ public class GrowthAnalyticsAndroid {
 		#endif
 	}
 	
-	public void SetTimeZone() {
+	public void SetTimeZone()
+	{
 		#if UNITY_ANDROID
 		if (growthAnalytics == null)
 			return;
@@ -183,7 +206,8 @@ public class GrowthAnalyticsAndroid {
 		#endif
 	}
 	
-	public void SetTimeZoneOffset() {
+	public void SetTimeZoneOffset()
+	{
 		#if UNITY_ANDROID
 		if (growthAnalytics == null)
 			return;
@@ -199,7 +223,8 @@ public class GrowthAnalyticsAndroid {
 		#endif
 	}
 	
-	public void SetRandom() {
+	public void SetRandom()
+	{
 		#if UNITY_ANDROID
 		if (growthAnalytics == null)
 			return;
@@ -207,7 +232,8 @@ public class GrowthAnalyticsAndroid {
 		#endif
 	}
 	
-	public void SetAdvertisingId() {
+	public void SetAdvertisingId()
+	{
 		#if UNITY_ANDROID
 		if (growthAnalytics == null)
 			return;
@@ -215,7 +241,8 @@ public class GrowthAnalyticsAndroid {
 		#endif
 	}
 	
-	public void SetBasicTags() {
+	public void SetBasicTags()
+	{
 		#if UNITY_ANDROID
 		if (growthAnalytics == null)
 			return;
