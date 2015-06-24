@@ -23,9 +23,10 @@ public class GrowthAnalyticsIOS {
 	}
 	
 	#if UNITY_IPHONE
-	[DllImport("__Internal")] static extern void growthAnalyticsInitializeWithApplicationId(string applicationID, string credentialId);
-	[DllImport("__Internal")] static extern void growthAnalyticsTrack(string eventId, string properties, int option);
-	[DllImport("__Internal")] static extern void growthAnalyticsTag(string tagId, string value); 
+	[DllImport("__Internal")] static extern void growthAnalyticsTrack(string name, string properties, int option);
+	[DllImport("__Internal")] static extern void growthAnalyticsTrack(string _namespace, string name, string properties, int option);
+	[DllImport("__Internal")] static extern void growthAnalyticsTag(string name, string value); 
+	[DllImport("__Internal")] static extern void growthAnalyticsTag(string _namespace, string name, string value);
 	[DllImport("__Internal")] static extern void growthAnalyticsOpen();
 	[DllImport("__Internal")] static extern void growthAnalyticsClose();
 	[DllImport("__Internal")] static extern void growthAnalyticsPurchase(int price, string category, string product);
@@ -46,28 +47,37 @@ public class GrowthAnalyticsIOS {
 	[DllImport("__Internal")] static extern void growthAnalyticsSetBasicTags();
 	#endif
 	
-	public void Initialize (string applicationId, string credentialId)
+	public void Tag (string name, string value)
 	{
 		#if UNITY_IPHONE && !UNITY_EDITOR
-		growthAnalyticsInitializeWithApplicationId(applicationId, credentialId);
+		growthAnalyticsTag(name, value); 
+		#endif
+	}
+
+
+	public void Tag (string _namespace, string name, string value)
+	{
+		#if UNITY_IPHONE && !UNITY_EDITOR
+		growthAnalyticsTag(_namespace, name, value); 
 		#endif
 	}
 	
-	public void Tag (string tagId, string value)
+	public void Track (string name, Dictionary<string, string> properties, int option)
 	{
 		#if UNITY_IPHONE && !UNITY_EDITOR
-		growthAnalyticsTag(tagId, value); 
+		growthAnalyticsTrack(name, GetLine(properties), option);
+		#endif
+	}
+
+
+	public void Track (string _namespace, string name, Dictionary<string, string> properties, int option)
+	{
+		#if UNITY_IPHONE && !UNITY_EDITOR
+		growthAnalyticsTrack(_namespace, name, GetLine(properties), option);
 		#endif
 	}
 	
-	public void Track (string eventId, Dictionary<string, string> properties, int option)
-	{
-		#if UNITY_IPHONE && !UNITY_EDITOR
-		growthAnalyticsTrack(eventId, GetLine(properties), option);
-		#endif
-	}
-	
-	public string GetLine (Dictionary<string, string> dictionary)
+	private string GetLine (Dictionary<string, string> dictionary)
 	{
 		StringBuilder builder = new StringBuilder();
 		foreach (KeyValuePair<string, string> pair in dictionary)
