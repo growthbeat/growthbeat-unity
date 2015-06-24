@@ -15,26 +15,26 @@ NSString* NSStringFromCharString(const char* charString) {
     return [NSString stringWithCString:charString encoding:NSUTF8StringEncoding];
 }
 
-extern "C" void growthAnalyticsTrack(const char* _namespace, const char* name, const char* properties, int option) {
+extern "C" void growthAnalyticsTrackWithNamespace(const char* _namespace, const char* name, const char* properties, int option) {
     NSData* data = [NSStringFromCharString(properties) dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary* dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
     
-    [[GrowthAnalytics sharedInstance] track:NSStringFromCharString(eventId) properties:dictionary option:(GATrackOption)option];
+    [[GrowthAnalytics sharedInstance] track:NSStringFromCharString(_namespace) name:NSStringFromCharString(name) properties:dictionary option:(GATrackOption)option completion:nil];
 }
 
-extern "C" void growthAnalyticsTrack(const char* eventId, const char* properties, int option) {
+extern "C" void growthAnalyticsTrack(const char* name, const char* properties, int option) {
     NSData* data = [NSStringFromCharString(properties) dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary* dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
     
-    [[GrowthAnalytics sharedInstance] track:NSStringFromCharString(_namespace) name:NSStringFromCharString(name) properties:dictionary option:nil];
+    [[GrowthAnalytics sharedInstance] track:NSStringFromCharString(name) properties:dictionary option:(GATrackOption)option];
 }
 
-extern "C" vpod growthAnalyticsTag(const char* _namespace, const char* name, const char* value, int option) {
+extern "C" void growthAnalyticsTagWithNamespace(const char* _namespace, const char* name, const char* value, int option) {
     [[GrowthAnalytics sharedInstance] tag:NSStringFromCharString(_namespace) name:NSStringFromCharString(name) value:NSStringFromCharString(value) completion:nil];
 }
 
-extern "C" void growthAnalyticsTag(const char* tagId, const char* value) {
-    [[GrowthAnalytics sharedInstance] tag:NSStringFromCharString(tagId) value:NSStringFromCharString(value)];
+extern "C" void growthAnalyticsTag(const char* name, const char* value) {
+    [[GrowthAnalytics sharedInstance] tag:NSStringFromCharString(name) value:NSStringFromCharString(value)];
 }
 
 extern "C" void growthAnalyticsOpen() {
