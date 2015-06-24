@@ -34,50 +34,59 @@ public class GrowthAnalytics
 		TrackOptionCounter = 2
 	}
 	
-	public void Initialize (string applicationId, string credentialId)
+	public void Tag (string name)
+	{
+		Tag (name, null);
+	}
+	
+	public void Tag (string name, string value)
 	{
 		#if UNITY_ANDROID
-		GrowthAnalyticsAndroid.GetInstance().Initialize(applicationId, credentialId);
+		GrowthAnalyticsAndroid.GetInstance().Tag(name, value);
 		#elif UNITY_IPHONE && !UNITY_EDITOR
-		GrowthAnalyticsIOS.GetInstance().Initialize(applicationId, credentialId);
+		GrowthAnalyticsIOS.GetInstance().Tag(name, value); 
+		#endif
+	}
+
+	public void Tag (string _namespace, string name, string value)
+	{
+		#if UNITY_ANDROID
+		GrowthAnalyticsAndroid.GetInstance().Tag(_namespace, name, value);
+		#elif UNITY_IPHONE && !UNITY_EDITOR
+		GrowthAnalyticsIOS.GetInstance().Tag(_namespace, name, value); 
 		#endif
 	}
 	
-	public void Tag (string tagId)
+	public void Track (string name)
 	{
-		Tag (tagId, null);
+		Track (name, new Dictionary<string, string>(), 0);
 	}
 	
-	public void Tag (string tagId, string value)
+	public void Track (string name, Dictionary<string, string> properties)
+	{
+		Track (name, properties, 0);
+	}
+	
+	public void Track (string name, TrackOption option)
+	{
+		Track (name, new Dictionary<string, string>(), option);
+	}
+	
+	public void Track (string name, Dictionary<string, string> properties, TrackOption option)
 	{
 		#if UNITY_ANDROID
-		GrowthAnalyticsAndroid.GetInstance().Tag(tagId, value);
+		GrowthAnalyticsAndroid.GetInstance().Track(name, properties, option);
 		#elif UNITY_IPHONE && !UNITY_EDITOR
-		GrowthAnalyticsIOS.GetInstance().Tag(tagId, value); 
+		GrowthAnalyticsIOS.GetInstance().Track(name, properties, (int)option);
 		#endif
 	}
-	
-	public void Track (string eventId)
-	{
-		Track (eventId, new Dictionary<string, string>(), 0);
-	}
-	
-	public void Track (string eventId, Dictionary<string, string> properties)
-	{
-		Track (eventId, properties, 0);
-	}
-	
-	public void Track (string eventId, TrackOption option)
-	{
-		Track (eventId, new Dictionary<string, string>(), option);
-	}
-	
-	public void Track (string eventId, Dictionary<string, string> properties, TrackOption option)
+
+	public void Track (string _namespace, string name, Dictionary<string, string> properties, TrackOption option)
 	{
 		#if UNITY_ANDROID
-		GrowthAnalyticsAndroid.GetInstance().Track(eventId, properties, option);
+		GrowthAnalyticsAndroid.GetInstance().Track(_namespace, name, properties, option);
 		#elif UNITY_IPHONE && !UNITY_EDITOR
-		GrowthAnalyticsIOS.GetInstance().Track(eventId, properties, (int)option);
+		GrowthAnalyticsIOS.GetInstance().Track(_namespace, name, properties, (int)option);
 		#endif
 	}
 	

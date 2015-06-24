@@ -22,7 +22,7 @@ public class GrowthAnalyticsAndroid
 	}
 	
 	#if UNITY_ANDROID
-	private static AndroidJavaObject growthAnalytics;
+	private AndroidJavaObject growthAnalytics;
 	#endif
 	
 	private GrowthAnalyticsAndroid()
@@ -35,25 +35,25 @@ public class GrowthAnalyticsAndroid
 		#endif
 	}
 	
-	public void Tag (string tagId, string value)
+	public void Tag (string name, string value)
 	{
 		#if UNITY_ANDROID
 		if (growthAnalytics == null)
 			return;
-		growthAnalytics.Call("tag", tagId, value);
+		growthAnalytics.Call("tag", name, value);
 		#endif
 	}
 
-	public void Tag (string _namespace, string tagId, string value)
+	public void Tag (string _namespace, string name, string value)
 	{
 		#if UNITY_ANDROID
 		if (growthAnalytics == null)
 			return;
-		growthAnalytics.Call("tag", _namespace, tagId, value, null);
+		growthAnalytics.Call("tag", _namespace, name, value, null);
 		#endif
 	}
 	
-	public void Track(string eventId, Dictionary<string, string> properties,GrowthAnalytics.TrackOption option)
+	public void Track(string name, Dictionary<string, string> properties,GrowthAnalytics.TrackOption option)
 	{
 		#if UNITY_ANDROID
 		if (growthAnalytics == null)
@@ -64,7 +64,7 @@ public class GrowthAnalyticsAndroid
 			putMap(hashMap, properties);
 			AndroidJavaClass growthAnalyticsClass = new AndroidJavaClass( "com.growthbeat.analytics.GrowthAnalytics$TrackOption" );
 			AndroidJavaObject optionObject = growthAnalyticsClass.GetStatic<AndroidJavaObject>(option == GrowthAnalytics.TrackOption.TrackOptionOnce ? "ONCE" : "COUNTER");
-			growthAnalytics.Call("track",eventId, hashMap, optionObject);
+			growthAnalytics.Call("track",name, hashMap, optionObject);
 		}
 		#endif
 	}
@@ -79,7 +79,7 @@ public class GrowthAnalyticsAndroid
 			putMap(hashMap, properties);
 			AndroidJavaClass growthAnalyticsClass = new AndroidJavaClass( "com.growthbeat.analytics.GrowthAnalytics$TrackOption" );
 			AndroidJavaObject optionObject = growthAnalyticsClass.GetStatic<AndroidJavaObject>(option == GrowthAnalytics.TrackOption.TrackOptionOnce ? "ONCE" : "COUNTER");
-			growthAnalytics.Call("track", _namespace, name, hashMap, optionObject);
+			growthAnalytics.Call("track", _namespace, name, hashMap, optionObject, null);
 		}
 		#endif
 	}
