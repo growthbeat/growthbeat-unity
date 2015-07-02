@@ -1,1 +1,3 @@
-../../../source/Assets/Editor/PostprocessBuildPlayerSampleForGrowthbeat
+#!/bin/sh
+
+./Assets/Editor/PostprocessBuildPlayerForGrowthbeat $@
