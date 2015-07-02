@@ -84,7 +84,7 @@ public class GrowthPush {
 	public void setDeviceTags ()
 	{
 		#if UNITY_ANDROID
-		GrowthPushAndroid.SetDeviceTags;
+		GrowthPushAndroid.SetDeviceTags();
 		#elif UNITY_IPHONE && !UNITY_EDITOR
 		growthPushSetDeviceTags();
 		#endif

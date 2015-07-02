@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <Growthbeat/GrowthPush.h>
 
-NSString* NSStringFromCharString(const char* charString) {
+NSString* GPNSStringFromCharString(const char* charString) {
     if(charString == NULL)
         return nil;
     return [NSString stringWithCString:charString encoding:NSUTF8StringEncoding];
@@ -28,11 +28,11 @@ extern "C" void growthPushClearBadge () {
 }
 
 extern "C" void growthPushSetTag (const char* name, const char* value) {
-    [[GrowthPush sharedInstance] setTag:NSStringFromCharString(name) value:NSStringFromCharString(value)];
+    [[GrowthPush sharedInstance] setTag:GPNSStringFromCharString(name) value:GPNSStringFromCharString(value)];
 }
 
 extern "C" void growthPushTrackEvent (const char* name, const char* value) {
-    [[GrowthPush sharedInstance] trackEvent:NSStringFromCharString(name) value:NSStringFromCharString(value)];
+    [[GrowthPush sharedInstance] trackEvent:GPNSStringFromCharString(name) value:GPNSStringFromCharString(value)];
 }
 
 extern "C" void growthPushSetDeviceTags () {

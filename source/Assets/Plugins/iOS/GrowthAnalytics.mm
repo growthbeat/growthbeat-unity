@@ -9,32 +9,32 @@
 #import <UIKit/UIKit.h>
 #import <Growthbeat/GrowthAnalytics.h>
 
-NSString* NSStringFromCharString(const char* charString) {
+NSString* GANSStringFromCharString(const char* charString) {
 	if(charString == NULL)
 		return nil;
     return [NSString stringWithCString:charString encoding:NSUTF8StringEncoding];
 }
 
 extern "C" void growthAnalyticsTrackWithNamespace(const char* _namespace, const char* name, const char* properties, int option) {
-    NSData* data = [NSStringFromCharString(properties) dataUsingEncoding:NSUTF8StringEncoding];
+    NSData* data = [GANSStringFromCharString(properties) dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary* dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
     
-    [[GrowthAnalytics sharedInstance] track:NSStringFromCharString(_namespace) name:NSStringFromCharString(name) properties:dictionary option:(GATrackOption)option completion:nil];
+    [[GrowthAnalytics sharedInstance] track:GANSStringFromCharString(_namespace) name:GANSStringFromCharString(name) properties:dictionary option:(GATrackOption)option completion:nil];
 }
 
 extern "C" void growthAnalyticsTrack(const char* name, const char* properties, int option) {
-    NSData* data = [NSStringFromCharString(properties) dataUsingEncoding:NSUTF8StringEncoding];
+    NSData* data = [GANSStringFromCharString(properties) dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary* dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
     
-    [[GrowthAnalytics sharedInstance] track:NSStringFromCharString(name) properties:dictionary option:(GATrackOption)option];
+    [[GrowthAnalytics sharedInstance] track:GANSStringFromCharString(name) properties:dictionary option:(GATrackOption)option];
 }
 
 extern "C" void growthAnalyticsTagWithNamespace(const char* _namespace, const char* name, const char* value, int option) {
-    [[GrowthAnalytics sharedInstance] tag:NSStringFromCharString(_namespace) name:NSStringFromCharString(name) value:NSStringFromCharString(value) completion:nil];
+    [[GrowthAnalytics sharedInstance] tag:GANSStringFromCharString(_namespace) name:GANSStringFromCharString(name) value:GANSStringFromCharString(value) completion:nil];
 }
 
 extern "C" void growthAnalyticsTag(const char* name, const char* value) {
-    [[GrowthAnalytics sharedInstance] tag:NSStringFromCharString(name) value:NSStringFromCharString(value)];
+    [[GrowthAnalytics sharedInstance] tag:GANSStringFromCharString(name) value:GANSStringFromCharString(value)];
 }
 
 extern "C" void growthAnalyticsOpen() {
@@ -46,15 +46,15 @@ extern "C" void growthAnalyticsClose() {
 }
 
 extern "C" void growthAnalyticsPurchase(int price, const char* category, const char* product) {
-    [[GrowthAnalytics sharedInstance] purchase:price setCategory:NSStringFromCharString(category) setProduct:NSStringFromCharString(product)];
+    [[GrowthAnalytics sharedInstance] purchase:price setCategory:GANSStringFromCharString(category) setProduct:GANSStringFromCharString(product)];
 }
 
 extern "C" void growthAnalyticsSetUserId(const char* userId) {
-    [[GrowthAnalytics sharedInstance] setUserId:NSStringFromCharString(userId)];
+    [[GrowthAnalytics sharedInstance] setUserId:GANSStringFromCharString(userId)];
 }
 
 extern "C" void growthAnalyticsSetName(const char* name) {
-    [[GrowthAnalytics sharedInstance] setName:NSStringFromCharString(name)];
+    [[GrowthAnalytics sharedInstance] setName:GANSStringFromCharString(name)];
 }
 
 extern "C" void growthAnalyticsSetAge(int age) {
