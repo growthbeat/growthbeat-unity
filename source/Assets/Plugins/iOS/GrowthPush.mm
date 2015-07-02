@@ -34,3 +34,7 @@ extern "C" void growthPushSetTag (const char* name, const char* value) {
 extern "C" void growthPushTrackEvent (const char* name, const char* value) {
     [[GrowthPush sharedInstance] trackEvent:NSStringFromCharString(name) value:NSStringFromCharString(value)];
 }
+
+extern "C" void growthPushSetDeviceTags () {
+    [[GrowthPush sharedInstance] setDeviceTags];
+}

@@ -22,6 +22,7 @@ public class GrowthPush {
 	[DllImport("__Internal")] private static extern void growthPushClearBadge();
 	[DllImport("__Internal")] private static extern void growthPushSetTag(string name, string value);
 	[DllImport("__Internal")] private static extern void growthPushTrackEvent(string name, string value);
+	[DllImport("__Internal")] private static extern void growthPushSetDeviceTags();
 	#endif
 
 	public static GrowthPush GetInstance ()
@@ -80,5 +81,13 @@ public class GrowthPush {
 		#endif 
 	}
 
+	public void setDeviceTags ()
+	{
+		#if UNITY_ANDROID
+		GrowthPushAndroid.SetDeviceTags;
+		#elif UNITY_IPHONE && !UNITY_EDITOR
+		growthPushSetDeviceTags();
+		#endif
+	}
 		
 }

@@ -55,4 +55,15 @@ public class GrowthPushAndroid
 		#endif
 	}
 
+	public void setDeviceTags ()
+	{
+		#if UNITY_ANDROID && !UNITY_EDITOR
+		if(growthPush == null)
+			return null;
+		
+		growthPush.Call("setDeviceTags");
+		#endif
+	}
+
+
 }
