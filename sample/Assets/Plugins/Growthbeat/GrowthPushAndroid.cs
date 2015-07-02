@@ -34,4 +34,25 @@ public class GrowthPushAndroid
 		#endif
 	}
 
+	public void SetTag(string name, string value) 
+	{
+		#if UNITY_ANDROID && !UNITY_EDITOR
+		if(growthPush == null)
+			return null;
+
+		growthPush.Call("setTag", name, value);
+		#endif
+
+	}
+
+	public void TrackEvent(string name, string value) 
+	{
+		#if UNITY_ANDROID && !UNITY_EDITOR
+		if(growthPush == null)
+			return null;
+
+		growthPush.Call("trackEvent", name, value);
+		#endif
+	}
+
 }
