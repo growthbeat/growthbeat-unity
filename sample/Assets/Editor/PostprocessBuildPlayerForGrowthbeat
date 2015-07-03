@@ -1,1 +1,21 @@
-../../../source/Assets/Editor/PostprocessBuildPlayerForGrowthbeat
+#!/bin/sh
+
+for SCRIPT in "$HOME/.bash_profile" "$HOME/.zshrc" ; do
+	gem list | grep xcodeproj > /dev/null
+	if [ $? -eq 0 ]; then
+		break
+	fi
+	if [ -f "$SCRIPT" ] ; then
+		source "$SCRIPT"
+	fi
+done
+
+gem list | grep xcodeproj > /dev/null
+if [ $? -ne 0 ]; then
+	gem install xcodeproj
+	if [ $? -ne 0 ]; then
+		sudo gem install xcodeproj
+	fi
+fi
+
+ruby ./Assets/Editor/install.rb -y -o -l ./Assets/Plugins/iOS/Growthbeat.framework -p $1

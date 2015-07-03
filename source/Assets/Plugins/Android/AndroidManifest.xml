@@ -19,6 +19,10 @@
         android:icon="@drawable/app_icon"
         android:label="@string/app_name">
 
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
         <activity
             android:name="com.unity3d.player.UnityPlayerProxyActivity"
             android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|uiMode|touchscreen" >
