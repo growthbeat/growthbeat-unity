@@ -40,14 +40,14 @@ public class Growthbeat
 		#endif
 	}
 	
-	public void Initialize (string applicationId, string credentialId, string senderId, bool debug)
+	public void Initialize (string applicationId, string credentialId, bool debug)
 	{
 		#if UNITY_ANDROID
 		if (growthbeat == null)
 			return;
 		AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"); 
 		AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity"); 
-		growthbeat.Call("initialize", activity, applicationId, credentialId, senderId, debug);
+		growthbeat.Call("initialize", activity, applicationId, credentialId, debug);
 		#elif UNITY_IPHONE && !UNITY_EDITOR
 		growthbeatInitializeWithApplicationId(applicationId, credentialId);
 		#endif

@@ -36,7 +36,7 @@ public class GrowthPushAndroid
 
 	public void RequestRegistrationId (string senderId)
 	{
-		#if UNITY_ANDROID
+		#if UNITY_ANDROID && !UNITY_EDITOR
 		if (growthPush == null)
 			return;
 
@@ -65,7 +65,7 @@ public class GrowthPushAndroid
 		#endif
 	}
 
-	public void setDeviceTags ()
+	public void SetDeviceTags ()
 	{
 		#if UNITY_ANDROID && !UNITY_EDITOR
 		if(growthPush == null)

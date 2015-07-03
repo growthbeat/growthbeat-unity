@@ -8,7 +8,9 @@
 
 using UnityEngine;
 using System.Collections;
+#if UNITY_IPHONE
 using NotificationServices = UnityEngine.iOS.NotificationServices;
+#endif
 
 public class GrowthbeatComponent : MonoBehaviour
 {
@@ -16,16 +18,17 @@ public class GrowthbeatComponent : MonoBehaviour
 
 	void Awake ()
 	{
-		Growthbeat.GetInstance ().Initialize ("OrXmgFYkGQkqDBtT", "saWAVZs5f531VXk3ZVgJZwK1vQUzPg23", "955057365401", true);
-		GrowthPush.GetInstance ().RequestDeviceToken ();  
-	}
+		Growthbeat.GetInstance ().Initialize ("OrXmgFYkGQkqDBtT", "saWAVZs5f531VXk3ZVgJZwK1vQUzPg23", true);
+		GrowthPush.GetInstance ().RequestDeviceToken ();
+		GrowthPush.GetInstance ().RequestRegistrationId ("955057365401");
+	} 
 	
 	void Start ()
 	{
 		//GrowthBeat
 		Growthbeat.GetInstance ().Start ();
-		Growthbeat.GetInstance ().Stop (); 
-
+		Growthbeat.GetInstance ().Stop ();   
+		  
 		//GrowthAnalytics
 		GrowthAnalytics.GetInstance ().Open ();
 		GrowthAnalytics.GetInstance ().SetBasicTags ();
@@ -47,7 +50,7 @@ public class GrowthbeatComponent : MonoBehaviour
 		GrowthPush.GetInstance ().SetTag ("userId", "123");
 		GrowthPush.GetInstance ().TrackEvent ("Launch");
 		GrowthPush.GetInstance ().TrackEvent ("Purchace", "100");
-		GrowthPush.GetInstance ().setDeviceTags ();
+		GrowthPush.GetInstance ().SetDeviceTags ();
  
 	}
 	
@@ -58,6 +61,7 @@ public class GrowthbeatComponent : MonoBehaviour
 			byte[] token = NotificationServices.deviceToken;
 			if (token != null) {
 				GrowthPush.GetInstance ().SetDeviceToken(System.BitConverter.ToString(token));
+				tokenSent = true;
 			}
 		}
 	#endif
