@@ -34,11 +34,21 @@ public class GrowthPushAndroid
 		#endif
 	}
 
+	public void RequestRegistrationId (string senderId)
+	{
+		#if UNITY_ANDROID
+		if (growthPush == null)
+			return;
+
+		growthPush.Call("requestRegistrationId", senderId);
+		#endif
+	}
+
 	public void SetTag(string name, string value) 
 	{
 		#if UNITY_ANDROID && !UNITY_EDITOR
 		if(growthPush == null)
-			return null;
+			return;
 		
 		growthPush.Call("setTag", name, value);
 		#endif
@@ -49,8 +59,8 @@ public class GrowthPushAndroid
 	{
 		#if UNITY_ANDROID && !UNITY_EDITOR
 		if(growthPush == null)
-			return null;
-		
+			return;
+
 		growthPush.Call("trackEvent", name, value);
 		#endif
 	}
@@ -59,7 +69,7 @@ public class GrowthPushAndroid
 	{
 		#if UNITY_ANDROID && !UNITY_EDITOR
 		if(growthPush == null)
-			return null;
+			return;
 		
 		growthPush.Call("setDeviceTags");
 		#endif
