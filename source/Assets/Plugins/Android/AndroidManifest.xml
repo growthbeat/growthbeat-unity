@@ -10,10 +10,10 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <permission
-        android:name="sample.permission.C2D_MESSAGE"
+        android:name="com.growthbeat.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="sample.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.growthbeat.permission.C2D_MESSAGE" />
 
     <application
         android:icon="@drawable/app_icon"
@@ -47,21 +47,24 @@
             android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|uiMode|touchscreen" >
         </activity>
 
-        <!-- Don't remove AlertActivity, BroadcastReceiverBridge and meta-data -->
         <activity
-            android:name="com.growthbeat.view.AlertActivity"
+            android:name="com.growthbeat.message.view.MessageActivity"
+            android:theme="@android:style/Theme.Translucent" />
+        
+        <activity
+            android:name="com.growthpush.view.AlertActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleInstance"
             android:theme="@android:style/Theme.Translucent" />
 
         <receiver
-            android:name="com.growthbeat.BroadcastReceiver"
+            android:name="com.growthpush.BroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 
-                <category android:name="sample" />
+                <category android:name="com.growthbeat" />
             </intent-filter>
         </receiver>
 
