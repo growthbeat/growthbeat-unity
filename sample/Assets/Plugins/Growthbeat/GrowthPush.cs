@@ -1,4 +1,4 @@
-  //
+//
 //  GrowthPush.cs
 //  Growthbeat-unity
 //
@@ -43,7 +43,7 @@ public class GrowthPush {
 		#if UNITY_ANDROID
 		#elif UNITY_IPHONE && !UNITY_EDITOR
 		growthPushSetDeviceToken(deviceToken);
-		#endif 
+		#endif
 	}
 
 	public void ClearBadge ()
@@ -57,21 +57,21 @@ public class GrowthPush {
 	{
 		SetTag (name, null);
 	}
-
+	
 	public void SetTag (string name, string value)
 	{
 		#if UNITY_ANDROID
 		GrowthPushAndroid.SetTag(name, value);l
-		#elif UNITY_IPHONE && !UNITY_EDITOR
-		growthPushSetTag(name, value);
+			#elif UNITY_IPHONE && !UNITY_EDITOR
+			growthPushSetTag(name, value);
 		#endif
 	}
-
+	
 	public void TrackEvent(string name)
 	{
 		TrackEvent (name, null);
 	}
-
+	
 	public void TrackEvent (string name, string value)
 	{
 		#if UNITY_ANDROID
@@ -80,7 +80,7 @@ public class GrowthPush {
 		growthPushTrackEvent(name, value);
 		#endif 
 	}
-
+	
 	public void setDeviceTags ()
 	{
 		#if UNITY_ANDROID
@@ -89,5 +89,5 @@ public class GrowthPush {
 		growthPushSetDeviceTags();
 		#endif
 	}
-		
+
 }

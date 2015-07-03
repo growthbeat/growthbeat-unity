@@ -16,7 +16,7 @@ public class GrowthbeatComponent : MonoBehaviour
 
 	void Awake ()
 	{
-		Growthbeat.GetInstance ().Initialize ("OrUq6yu3KsZ1MjJ7", "saWAVZs5f531VXk3ZVgJZwK1vQUzPg23", "955057365401", true);
+		Growthbeat.GetInstance ().Initialize ("OrXmgFYkGQkqDBtT", "saWAVZs5f531VXk3ZVgJZwK1vQUzPg23", "955057365401", true);
 		GrowthPush.GetInstance ().RequestDeviceToken ();  
 	}
 	
@@ -48,7 +48,7 @@ public class GrowthbeatComponent : MonoBehaviour
 		GrowthPush.GetInstance ().TrackEvent ("Launch");
 		GrowthPush.GetInstance ().TrackEvent ("Purchace", "100");
 		GrowthPush.GetInstance ().setDeviceTags ();
-
+ 
 	}
 	
 	void Update ()
