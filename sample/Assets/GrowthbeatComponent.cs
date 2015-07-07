@@ -14,7 +14,7 @@ using NotificationServices = UnityEngine.iOS.NotificationServices;
 
 public class GrowthbeatComponent : MonoBehaviour
 {
-	bool tokenSent = false;
+  	bool tokenSent = false;
 
 	void Awake ()
 	{
