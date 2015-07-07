@@ -21,37 +21,15 @@ public class GrowthbeatComponent : MonoBehaviour
 		Growthbeat.GetInstance ().Initialize ("OrXmgFYkGQkqDBtT", "saWAVZs5f531VXk3ZVgJZwK1vQUzPg23", true);
 		GrowthPush.GetInstance ().RequestDeviceToken ();
 		GrowthPush.GetInstance ().RequestRegistrationId ("955057365401");
-	} 
+
+		Growthbeat.GetInstance ().Start ();
+		GrowthAnalytics.GetInstance ().SetBasicTags ();
+		GrowthPush.GetInstance ().ClearBadge ();
+
+	}   
 	
 	void Start ()
 	{
-		//GrowthBeat
-		Growthbeat.GetInstance ().Start ();
-		Growthbeat.GetInstance ().Stop ();   
-		  
-		//GrowthAnalytics
-		GrowthAnalytics.GetInstance ().Open ();
-		GrowthAnalytics.GetInstance ().SetBasicTags ();
-		GrowthAnalytics.GetInstance ().Tag ("TagTest");
-		GrowthAnalytics.GetInstance ().Tag ("TagTest_Number", "1234");
-		GrowthAnalytics.GetInstance ().Track ("TrackEvent");
-		GrowthAnalytics.GetInstance ().Purchase (1234, "Category", "product");
-		GrowthAnalytics.GetInstance (). SetUserId ("UserId");
-		GrowthAnalytics.GetInstance ().SetName ("Name");
-		GrowthAnalytics.GetInstance ().SetAge (1234);
-		GrowthAnalytics.GetInstance ().SetGender (GrowthAnalytics.Gender.GenderFemale);
-		GrowthAnalytics.GetInstance ().SetLevel (1234);
-		GrowthAnalytics.GetInstance ().SetDevelopment (true);
-		GrowthAnalytics.GetInstance ().Close ();
-
-		//GrowthPush
-		GrowthPush.GetInstance ().ClearBadge ();
-		GrowthPush.GetInstance ().SetTag ("TagTest");
-		GrowthPush.GetInstance ().SetTag ("userId", "123");
-		GrowthPush.GetInstance ().TrackEvent ("Launch");
-		GrowthPush.GetInstance ().TrackEvent ("Purchace", "100");
-		GrowthPush.GetInstance ().SetDeviceTags ();
- 
 	}
 	
 	void Update ()
@@ -66,5 +44,11 @@ public class GrowthbeatComponent : MonoBehaviour
 		}
 	#endif
 	}
+
+	void OnDisable ()
+	{
+		Growthbeat.GetInstance ().Stop ();
+	}
+
 }
   
