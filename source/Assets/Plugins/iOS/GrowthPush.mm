@@ -15,8 +15,8 @@ NSString* GPNSStringFromCharString(const char* charString) {
     return [NSString stringWithCString:charString encoding:NSUTF8StringEncoding];
 }
 
-extern "C" void growthPushRequestDeviceToken () {
-	[[GrowthPush sharedInstance] requestDeviceTokenWithEnvironment:kGrowthPushEnvironment];
+extern "C" void growthPushRequestDeviceToken (int environment) {
+	[[GrowthPush sharedInstance] requestDeviceTokenWithEnvironment:(GPEnvironment)environment];
 }
 
 extern "C" void growthPushSetDeviceToken (const char* deviceToken) {
