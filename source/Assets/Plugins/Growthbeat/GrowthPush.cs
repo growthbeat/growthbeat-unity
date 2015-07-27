@@ -16,8 +16,14 @@ public class GrowthPush {
 
 	private static GrowthPush instance = new GrowthPush ();
 
+	public enum Environment {
+		Unknown = 0,
+		Development = 1,
+		Production = 2
+	}
+
 	#if UNITY_IPHONE
-	[DllImport("__Internal")] private static extern void growthPushRequestDeviceToken();
+	[DllImport("__Internal")] private static extern void growthPushRequestDeviceToken(int environment);
 	[DllImport("__Internal")] private static extern void growthPushSetDeviceToken(string deviceToken);
 	[DllImport("__Internal")] private static extern void growthPushClearBadge();
 	[DllImport("__Internal")] private static extern void growthPushSetTag(string name, string value);
@@ -30,11 +36,11 @@ public class GrowthPush {
 		return GrowthPush.instance;
 	}
 
-	public void RequestDeviceToken ()
+	public void RequestDeviceToken (Environment environment)
 	{
 		#if UNITY_ANDROID
 		#elif UNITY_IPHONE && !UNITY_EDITOR
-		growthPushRequestDeviceToken();
+		growthPushRequestDeviceToken((int)environment);
 		#endif
 	}
 

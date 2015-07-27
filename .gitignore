@@ -20,3 +20,7 @@
 
 # Unity3D Generated File On Crash Reports
 sysinfo.tx
+
+# Sample Project
+sample/Assets/Editor
+sample/Assets/Plugins
