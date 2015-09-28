@@ -18,14 +18,14 @@ NSString* GANSStringFromCharString(const char* charString) {
 extern "C" void growthAnalyticsTrackWithNamespace(const char* _namespace, const char* name, const char* properties, int option) {
     NSData* data = [GANSStringFromCharString(properties) dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary* dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-    
+
     [[GrowthAnalytics sharedInstance] track:GANSStringFromCharString(_namespace) name:GANSStringFromCharString(name) properties:dictionary option:(GATrackOption)option completion:nil];
 }
 
 extern "C" void growthAnalyticsTrack(const char* name, const char* properties, int option) {
     NSData* data = [GANSStringFromCharString(properties) dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary* dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-    
+
     [[GrowthAnalytics sharedInstance] track:GANSStringFromCharString(name) properties:dictionary option:(GATrackOption)option];
 }
 
@@ -103,6 +103,10 @@ extern "C" void growthAnalyticsSetRandom() {
 
 extern "C" void growthAnalyticsSetAdvertisingId() {
     [[GrowthAnalytics sharedInstance] setAdvertisingId];
+}
+
+extern "C" void growthAnalyticsSetTrackingEnabled() {
+    [[GrowthAnalytics sharedInstance] setTrackingEnabled];
 }
 
 extern "C" void growthAnalyticsSetBasicTags() {
