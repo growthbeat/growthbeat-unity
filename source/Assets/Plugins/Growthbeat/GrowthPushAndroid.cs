@@ -29,33 +29,35 @@ public class GrowthPushAndroid
 		#if UNITY_ANDROID && !UNITY_EDITOR
 		using(AndroidJavaClass gpclass = new AndroidJavaClass( "com.growthpush.GrowthPush" ))
 		{
-			growthPush = gpclass.CallStatic<AndroidJavaObject>("getInstance"); 
+			growthPush = gpclass.CallStatic<AndroidJavaObject>("getInstance");
 		}
 		#endif
 	}
 
-	public void RequestRegistrationId (string senderId)
+	public void RequestRegistrationId (string senderId, Environment environment)
 	{
 		#if UNITY_ANDROID && !UNITY_EDITOR
 		if (growthPush == null)
 			return;
 
-		growthPush.Call("requestRegistrationId", senderId);
+		AndroidJavaClass growthAnalyticsClass = new AndroidJavaClass( "com.growthpush.model.Environment" );
+		AndroidJavaObject environmentObject = growthAnalyticsClass.GetStatic<AndroidJavaObject>(environment == GrowthPush.Environment.Production ? "Production" : "Development");
+		growthPush.Call("requestRegistrationId", senderId, environmentObject);
 		#endif
 	}
 
-	public void SetTag(string name, string value) 
+	public void SetTag(string name, string value)
 	{
 		#if UNITY_ANDROID && !UNITY_EDITOR
 		if(growthPush == null)
 			return;
-		
+
 		growthPush.Call("setTag", name, value);
 		#endif
-		
+
 	}
-	
-	public void TrackEvent(string name, string value) 
+
+	public void TrackEvent(string name, string value)
 	{
 		#if UNITY_ANDROID && !UNITY_EDITOR
 		if(growthPush == null)
@@ -70,7 +72,7 @@ public class GrowthPushAndroid
 		#if UNITY_ANDROID && !UNITY_EDITOR
 		if(growthPush == null)
 			return;
-		
+
 		growthPush.Call("setDeviceTags");
 		#endif
 	}

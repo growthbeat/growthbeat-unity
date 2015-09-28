@@ -15,26 +15,26 @@ NSString* GPNSStringFromCharString(const char* charString) {
     return [NSString stringWithCString:charString encoding:NSUTF8StringEncoding];
 }
 
-extern "C" void growthPushRequestDeviceToken (int environment) {
+extern "C" void requestDeviceToken (int environment) {
 	[[GrowthPush sharedInstance] requestDeviceTokenWithEnvironment:(GPEnvironment)environment];
 }
 
-extern "C" void growthPushSetDeviceToken (const char* deviceToken) {
+extern "C" void setDeviceToken (const char* deviceToken) {
 	[[GrowthPush sharedInstance] setDeviceToken:[NSData dataWithBytes:(const void *)deviceToken length:(sizeof(unsigned char) * strlen(deviceToken))]];
 }
 
-extern "C" void growthPushClearBadge () {
+extern "C" void clearBadge () {
 	[[GrowthPush sharedInstance] clearBadge];
 }
 
-extern "C" void growthPushSetTag (const char* name, const char* value) {
+extern "C" void setTag (const char* name, const char* value) {
     [[GrowthPush sharedInstance] setTag:GPNSStringFromCharString(name) value:GPNSStringFromCharString(value)];
 }
 
-extern "C" void growthPushTrackEvent (const char* name, const char* value) {
+extern "C" void trackEvent (const char* name, const char* value) {
     [[GrowthPush sharedInstance] trackEvent:GPNSStringFromCharString(name) value:GPNSStringFromCharString(value)];
 }
 
-extern "C" void growthPushSetDeviceTags () {
+extern "C" void setDeviceTags () {
     [[GrowthPush sharedInstance] setDeviceTags];
 }
