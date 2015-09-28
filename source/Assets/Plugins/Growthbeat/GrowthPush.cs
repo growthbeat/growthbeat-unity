@@ -53,6 +53,14 @@ public class GrowthPush {
 		#endif
 	}
 
+	public void SetDeviceToken (string deviceToken)
+	{
+		#if UNITY_ANDROID
+		#elif UNITY_IPHONE && !UNITY_EDITOR
+		setDeviceToken((deviceToken);
+		#endif
+	}
+
 	public void ClearBadge ()
 	{
 		#if UNITY_IPHONE && !UNITY_EDITOR
