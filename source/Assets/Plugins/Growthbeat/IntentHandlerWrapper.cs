@@ -7,27 +7,13 @@ using System.Runtime.InteropServices;
 
 public class IntentHandlerWrapper 
 {
-	private delegate bool HogeCallback(string argstring);
 	#if UNITY_IPHONE
 	[DllImport("__Internal")] static extern void _initializeIntentHandlers();
 	[DllImport("__Internal")] static extern void _addNoopIntentHandler();
 	[DllImport("__Internal")] static extern void _addUrlIntentHandler();
 	[DllImport("__Internal")] static extern void _addCustomIntentHandler();
-
-	
-	[DllImport("__Internal")]
-	private static extern int hogeNative(HogeCallback callback);
-	
-
 	#endif
 
-	public void Hoge() {
-		hogeNative(HogeCallback);
-	}
-	
-	[AOT.MonoPInvokeCallbackAttribute(typeof(HogeCallback))]
-	static bool HogeCallback(string argstring) {
-	}
 
 	public static void initializeIntentHandlers()  {
 		#if UNITY_ANDROID
