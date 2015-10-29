@@ -24,3 +24,8 @@ sysinfo.tx
 # Sample Project
 sample/Assets/Editor
 sample/Assets/Plugins
+
+# Intellij project files
+.idea
+*.iml
+
