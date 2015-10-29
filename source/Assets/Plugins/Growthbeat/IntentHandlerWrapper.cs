@@ -8,10 +8,10 @@ using System.Runtime.InteropServices;
 public class IntentHandlerWrapper 
 {
 	#if UNITY_IPHONE
-	[DllImport("__Internal")] static extern void _initializeIntentHandlers();
-	[DllImport("__Internal")] static extern void _addNoopIntentHandler();
-	[DllImport("__Internal")] static extern void _addUrlIntentHandler();
-	[DllImport("__Internal")] static extern void _addCustomIntentHandler();
+	[DllImport("__Internal")] static extern void initializeIntentHandlers();
+	[DllImport("__Internal")] static extern void addNoopIntentHandler();
+	[DllImport("__Internal")] static extern void addUrlIntentHandler();
+	[DllImport("__Internal")] static extern void addCustomIntentHandler(string gameObjectName);
 	#endif
 
 	public static void InitializeIntentHandlers()  {
@@ -45,13 +45,13 @@ public class IntentHandlerWrapper
 		#endif
 	}
 
-	public static void AddCustomIntentHandler()  {
+	public static void AddCustomIntentHandler(string gameObjectName)  {
 		#if UNITY_ANDROID
 		RunBlockOnThread(() => {
-			IntentHandlerWrapper.javaObject.CallStatic("addCustomIntentHandler");
+			IntentHandlerWrapper.javaObject.CallStatic("addCustomIntentHandler", gameObjectName);
 		});
 		#elif UNITY_IPHONE && !UNITY_EDITOR
-		_addCustomIntentHandler();
+		_addCustomIntentHandler(gameObjectName);
 		#endif
 	}
 	
@@ -69,7 +69,7 @@ public class IntentHandlerWrapper
 			var activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
 			activity.Call("runOnUiThread", new AndroidJavaRunnable(runBlock));	
 		}
-		
+
 	}
 
 	#endif

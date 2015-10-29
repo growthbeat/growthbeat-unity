@@ -22,8 +22,7 @@ public class IntentReceiveActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        // バックキーで何もしない
-        // super.onBackPressed();
+        // nothing to do when button pressed.
     }
 
 }

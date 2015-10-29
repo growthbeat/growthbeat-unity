@@ -36,7 +36,7 @@ public class IntentHandlerWrapper {
         intentHandlers.add(new UrlIntentHandler(GrowthbeatCore.getInstance().getContext()));
     }
 
-    public static void addCustomIntentHandler() {
+    public static void addCustomIntentHandler(final String gameObject) {
         if (intentHandlers == null)
             throw new IllegalStateException("not initialized.");
         intentHandlers.add(new IntentHandler() {
@@ -53,7 +53,7 @@ public class IntentHandlerWrapper {
                         e.printStackTrace();
                     }
                 }
-                UnityPlayer.UnitySendMessage("Main Camera", "handleCustomIntent", json.toString());
+                UnityPlayer.UnitySendMessage(gameObject, "handleCustomIntent", json.toString());
                 return true;
             }
         });
