@@ -25,7 +25,7 @@ public class GrowthPush {
 	#if UNITY_IPHONE
 	[DllImport("__Internal")] private static extern void requestDeviceToken(int environment);
 	[DllImport("__Internal")] private static extern void setDeviceToken(string deviceToken);
-	[DllImport("__Internal")] private static extern void cearBadge();
+	[DllImport("__Internal")] private static extern void clearBadge();
 	[DllImport("__Internal")] private static extern void setTag(string name, string value);
 	[DllImport("__Internal")] private static extern void trackEvent(string name, string value);
 	[DllImport("__Internal")] private static extern void setDeviceTags();
@@ -49,7 +49,7 @@ public class GrowthPush {
 	{
 		#if UNITY_ANDROID
 		#elif UNITY_IPHONE && !UNITY_EDITOR
-		RequestDeviceToken((null, environment);
+		RequestDeviceToken(null, environment);
 		#endif
 	}
 
@@ -57,14 +57,14 @@ public class GrowthPush {
 	{
 		#if UNITY_ANDROID
 		#elif UNITY_IPHONE && !UNITY_EDITOR
-		setDeviceToken((deviceToken);
+		setDeviceToken(deviceToken);
 		#endif
 	}
 
 	public void ClearBadge ()
 	{
 		#if UNITY_IPHONE && !UNITY_EDITOR
-		growthPushClearBadge();
+		clearBadge();
 		#endif
 	}
 

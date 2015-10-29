@@ -14,11 +14,10 @@ public class IntentHandlerWrapper
 	[DllImport("__Internal")] static extern void _addCustomIntentHandler();
 	#endif
 
-
-	public static void initializeIntentHandlers()  {
+	public static void InitializeIntentHandlers()  {
 		#if UNITY_ANDROID
-		_runBlockOnThread(() => {
-			_getAndroidJavaClass().CallStatic("initializeIntentHandlers");
+		RunBlockOnThread(() => {
+			IntentHandlerWrapper.javaObject.CallStatic("initializeIntentHandlers");
 		});
 		#elif UNITY_IPHONE && !UNITY_EDITOR
 		_initializeIntentHandlers();
@@ -26,30 +25,30 @@ public class IntentHandlerWrapper
 
 	}
 
-	public static void addNoopIntentHandler()  {
+	public static void AddNoopIntentHandler()  {
 		#if UNITY_ANDROID
-		_runBlockOnThread(() => {
-			_getAndroidJavaClass().CallStatic("addNoopIntentHandler");
+		RunBlockOnThread(() => {
+			IntentHandlerWrapper.javaObject.CallStatic("addNoopIntentHandler");
 		});
 		#elif UNITY_IPHONE && !UNITY_EDITOR
 		_addNoopIntentHandler();
 		#endif
 	}
 
-	public static void addUrlIntentHandler()  {
+	public static void AddUrlIntentHandler()  {
 		#if UNITY_ANDROID
-		_runBlockOnThread(() => {
-			_getAndroidJavaClass().CallStatic("addUrlIntentHandler");
+		RunBlockOnThread(() => {
+			IntentHandlerWrapper.javaObject.CallStatic("addUrlIntentHandler");
 		});
 		#elif UNITY_IPHONE && !UNITY_EDITOR
 		_addUrlIntentHandler();
 		#endif
 	}
 
-	public static void addCustomIntentHandler()  {
+	public static void AddCustomIntentHandler()  {
 		#if UNITY_ANDROID
-		_runBlockOnThread(() => {
-			_getAndroidJavaClass().CallStatic("addCustomIntentHandler");
+		RunBlockOnThread(() => {
+			IntentHandlerWrapper.javaObject.CallStatic("addCustomIntentHandler");
 		});
 		#elif UNITY_IPHONE && !UNITY_EDITOR
 		_addCustomIntentHandler();
@@ -58,19 +57,20 @@ public class IntentHandlerWrapper
 	
 
 	#if UNITY_ANDROID
-	public static AndroidJavaClass _getAndroidJavaClass() {
-		if (_androidJavaClass == null) {
-			_androidJavaClass = new AndroidJavaClass("com.growthbeat.unity.IntentHandlerWrapper");
+	private static AndroidJavaObject javaObject;
+
+	private Growthbeat() {
+		IntentHandlerWrapper.javaObject = new AndroidJavaClass("com.growthbeat.unity.IntentHandlerWrapper");
+	}
+
+	private static void RunBlockOnThread(Action runBlock) {
+		
+		using(AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer")){
+			var activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+			activity.Call("runOnUiThread", new AndroidJavaRunnable(runBlock));	
 		}
-		return _androidJavaClass;
+		
 	}
 
-	private static void _runBlockOnThread(Action runBlock) {
-		var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-		var activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-		activity.Call("runOnUiThread", new AndroidJavaRunnable(runBlock));
-	}
-
-	private static AndroidJavaClass _androidJavaClass;
 	#endif
 }
