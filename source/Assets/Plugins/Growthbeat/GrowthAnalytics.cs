@@ -258,5 +258,14 @@ public class GrowthAnalytics
 		GrowthAnalyticsIOS.GetInstance().SetBasicTags(); 
 		#endif
 	}
+
+	public void SetBaseUrl(string baseUrl)
+	{
+		#if UNITY_ANDROID
+		GrowthAnalyticsAndroid.GetInstance().SetBaseUrl(baseUrl);
+		#elif UNITY_IPHONE && !UNITY_EDITOR
+		GrowthAnalyticsIOS.GetInstance().SetBaseUrl(baseUrl);
+		#endif	
+	}
 	
 }

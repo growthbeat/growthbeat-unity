@@ -112,3 +112,7 @@ extern "C" void growthAnalyticsSetTrackingEnabled() {
 extern "C" void growthAnalyticsSetBasicTags() {
     [[GrowthAnalytics sharedInstance] setBasicTags];
 }
+
+extern "C" void growthAnalyticsSetBaseUrl(const char* baseUrl) {
+    [[[GrowthAnalytics sharedInstance] httpClient] setBaseUrl:[NSURL URLWithString:[NSString stringWithCString:baseUrl encoding:NSUTF8StringEncoding]];
+}

@@ -75,4 +75,14 @@ public class GrowthPushAndroid
 		#endif
 	}
 
+	public void SetBaseUrl(string baseUrl)
+	{
+		#if UNITY_ANDROID && !UNITY_EDITOR
+		if(growthPush == null)
+			return;
+		AndroidJavaObject httpClient = growthpush.Call<AndroidJavaObject>("getHttpClient");
+		httpClient.Call("setBaseUrl", baseUrl);
+		#endif	
+	}
+
 }
