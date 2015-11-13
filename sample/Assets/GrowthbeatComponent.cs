@@ -18,10 +18,8 @@ public class GrowthbeatComponent : MonoBehaviour
 
 	void Awake ()
 	{
-		Growthbeat.GetInstance ().Initialize ("PIaD6TaVt7wvKwao", "FD2w93wXcWlb68ILOObsKz5P3af9oVMo", true);
-		GrowthPush.GetInstance ().RequestDeviceToken (GrowthPush.Environment.Development);
-		GrowthPush.GetInstance ().RequestRegistrationId ("955057365401");
-
+		Growthbeat.GetInstance ().Initialize ("PIaD6TaVt7wvKwao", "FD2w93wXcWlb68ILOObsKz5P3af9oVMo");
+		GrowthPush.GetInstance ().RequestDeviceToken ("1000565500410", GrowthPush.Environment.Development);
 		Growthbeat.GetInstance ().Start ();
 		GrowthAnalytics.GetInstance ().SetBasicTags ();
 		GrowthPush.GetInstance ().ClearBadge ();

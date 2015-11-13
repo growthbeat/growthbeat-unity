@@ -34,13 +34,17 @@ public class GrowthPushAndroid
 		#endif
 	}
 
-	public void RequestRegistrationId (string senderId)
+	public void RequestRegistrationId (string senderId, GrowthPush.Environment environment)
 	{
 		#if UNITY_ANDROID && !UNITY_EDITOR
 		if (growthPush == null)
 			return;
 
-		growthPush.Call("requestRegistrationId", senderId);
+		using(AndroidJavaClass environmentClass = new AndroidJavaClass( "com.growthpush.model.Environment" ))
+		{
+			AndroidJavaObject environmentObject = environmentClass.GetStatic<AndroidJavaObject>(environment == GrowthPush.Environment.Production ? "production" : "development");
+			growthPush.Call("requestRegistrationId", senderId, environmentObject);
+		}
 		#endif
 	}
 
@@ -73,6 +77,16 @@ public class GrowthPushAndroid
 		
 		growthPush.Call("setDeviceTags");
 		#endif
+	}
+
+	public void SetBaseUrl(string baseUrl)
+	{
+		#if UNITY_ANDROID && !UNITY_EDITOR
+		if(growthPush == null)
+			return;
+		AndroidJavaObject httpClient = growthPush.Call<AndroidJavaObject>("getHttpClient");
+		httpClient.Call("setBaseUrl", baseUrl);
+		#endif	
 	}
 
 }

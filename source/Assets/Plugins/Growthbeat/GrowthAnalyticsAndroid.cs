@@ -13,28 +13,28 @@ using System.Collections.Generic;
 
 public class GrowthAnalyticsAndroid
 {
-	
+
 	private static GrowthAnalyticsAndroid instance = new GrowthAnalyticsAndroid ();
-	
+
 	public static GrowthAnalyticsAndroid GetInstance ()
 	{
 		return GrowthAnalyticsAndroid.instance;
 	}
-	
+
 	#if UNITY_ANDROID
 	private AndroidJavaObject growthAnalytics;
 	#endif
-	
+
 	private GrowthAnalyticsAndroid()
 	{
 		#if UNITY_ANDROID
 		using(AndroidJavaClass gbcclass = new AndroidJavaClass( "com.growthbeat.analytics.GrowthAnalytics" ))
 		{
-			growthAnalytics = gbcclass.CallStatic<AndroidJavaObject>("getInstance"); 
+			growthAnalytics = gbcclass.CallStatic<AndroidJavaObject>("getInstance");
 		}
 		#endif
 	}
-	
+
 	public void Tag (string name, string value)
 	{
 		#if UNITY_ANDROID
@@ -52,13 +52,13 @@ public class GrowthAnalyticsAndroid
 		growthAnalytics.Call("tag", _namespace, name, value, null);
 		#endif
 	}
-	
+
 	public void Track(string name, Dictionary<string, string> properties,GrowthAnalytics.TrackOption option)
 	{
 		#if UNITY_ANDROID
 		if (growthAnalytics == null)
 			return;
-		
+
 		using (AndroidJavaObject hashMap = new AndroidJavaObject("java.util.HashMap"))
 		{
 			System.IntPtr method_Put = AndroidJNIHelper.GetMethodID (hashMap.GetRawClass (), "put",
@@ -88,7 +88,7 @@ public class GrowthAnalyticsAndroid
 		#if UNITY_ANDROID
 		if (growthAnalytics == null)
 			return;
-		
+
 		using (AndroidJavaObject hashMap = new AndroidJavaObject("java.util.HashMap"))
 		{
 			System.IntPtr method_Put = AndroidJNIHelper.GetMethodID (hashMap.GetRawClass (), "put",
@@ -122,7 +122,7 @@ public class GrowthAnalyticsAndroid
 		growthAnalytics.Call("open");
 		#endif
 	}
-	
+
 	public void Close()
 	{
 		#if UNITY_ANDROID
@@ -131,7 +131,7 @@ public class GrowthAnalyticsAndroid
 		growthAnalytics.Call("close");
 		#endif
 	}
-	
+
 	public void Purchase(int price, string category, string product)
 	{
 		#if UNITY_ANDROID
@@ -140,7 +140,7 @@ public class GrowthAnalyticsAndroid
 		growthAnalytics.Call("purchase", price, category, product);
 		#endif
 	}
-	
+
 	public void SetUserId(string userId)
 	{
 		#if UNITY_ANDROID
@@ -149,7 +149,7 @@ public class GrowthAnalyticsAndroid
 		growthAnalytics.Call("setUserId", userId);
 		#endif
 	}
-	
+
 	public void SetName(string name)
 	{
 		#if UNITY_ANDROID
@@ -158,7 +158,7 @@ public class GrowthAnalyticsAndroid
 		growthAnalytics.Call("setName", name);
 		#endif
 	}
-	
+
 	public void SetAge(int age)
 	{
 		#if UNITY_ANDROID
@@ -167,8 +167,8 @@ public class GrowthAnalyticsAndroid
 		growthAnalytics.Call("setAge", age);
 		#endif
 	}
-	
-	
+
+
 	public void SetGender(GrowthAnalytics.Gender gender)
 	{
 		#if UNITY_ANDROID
@@ -179,7 +179,7 @@ public class GrowthAnalyticsAndroid
 		growthAnalytics.Call("setGender",genderObject);
 		#endif
 	}
-	
+
 	public void SetLevel(int level)
 	{
 		#if UNITY_ANDROID
@@ -188,7 +188,7 @@ public class GrowthAnalyticsAndroid
 		growthAnalytics.Call("setLevel",level);
 		#endif
 	}
-	
+
 	public void SetDevelopment(bool development)
 	{
 		#if UNITY_ANDROID
@@ -197,7 +197,7 @@ public class GrowthAnalyticsAndroid
 		growthAnalytics.Call("setDevelopment",development);
 		#endif
 	}
-	
+
 	public void SetDeviceModel()
 	{
 		#if UNITY_ANDROID
@@ -206,7 +206,7 @@ public class GrowthAnalyticsAndroid
 		growthAnalytics.Call("setDeviceModel");
 		#endif
 	}
-	
+
 	public void SetOS()
 	{
 		#if UNITY_ANDROID
@@ -215,7 +215,7 @@ public class GrowthAnalyticsAndroid
 		growthAnalytics.Call("setOS");
 		#endif
 	}
-	
+
 	public void SetLanguage()
 	{
 		#if UNITY_ANDROID
@@ -224,7 +224,7 @@ public class GrowthAnalyticsAndroid
 		growthAnalytics.Call("setLanguage");
 		#endif
 	}
-	
+
 	public void SetTimeZone()
 	{
 		#if UNITY_ANDROID
@@ -233,7 +233,7 @@ public class GrowthAnalyticsAndroid
 		growthAnalytics.Call("setTimeZone");
 		#endif
 	}
-	
+
 	public void SetTimeZoneOffset()
 	{
 		#if UNITY_ANDROID
@@ -242,7 +242,7 @@ public class GrowthAnalyticsAndroid
 		growthAnalytics.Call("setTimeZoneOffset");
 		#endif
 	}
-	
+
 	public void SetAppVersion() {
 		#if UNITY_ANDROID
 		if (growthAnalytics == null)
@@ -250,7 +250,7 @@ public class GrowthAnalyticsAndroid
 		growthAnalytics.Call("setAppVersion");
 		#endif
 	}
-	
+
 	public void SetRandom()
 	{
 		#if UNITY_ANDROID
@@ -259,7 +259,7 @@ public class GrowthAnalyticsAndroid
 		growthAnalytics.Call("setRandom");
 		#endif
 	}
-	
+
 	public void SetAdvertisingId()
 	{
 		#if UNITY_ANDROID
@@ -268,7 +268,16 @@ public class GrowthAnalyticsAndroid
 		growthAnalytics.Call("setAdvertisingId");
 		#endif
 	}
-	
+
+	public void SetTrackingEnabled() 
+	{
+		#if UNITY_ANDROID
+		if (growthAnalytics == null)
+			return;
+		growthAnalytics.Call("setTrackingEnabled");
+		#endif
+	}
+
 	public void SetBasicTags()
 	{
 		#if UNITY_ANDROID
@@ -277,5 +286,15 @@ public class GrowthAnalyticsAndroid
 		growthAnalytics.Call("setBasicTags");
 		#endif
 	}
-	
+
+	public void SetBaseUrl(string baseUrl)
+	{
+		#if UNITY_ANDROID && !UNITY_EDITOR
+		if(growthAnalytics == null)
+			return;
+		AndroidJavaObject httpClient = growthAnalytics.Call<AndroidJavaObject>("getHttpClient");
+		httpClient.Call("setBaseUrl", baseUrl);
+		#endif	
+	}
+
 }
