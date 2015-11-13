@@ -240,6 +240,15 @@ public class GrowthAnalytics
 		GrowthAnalyticsIOS.GetInstance().SetAdvertisingId(); 
 		#endif
 	}
+
+	public void SetTrackingEnable ()
+	{
+		#if UNITY_ANDROID
+		GrowthAnalyticsAndroid.GetInstance().SetTrackingEnabled();
+		#elif UNITY_IPHONE && !UNITY_EDITOR
+		GrowthAnalyticsIOS.GetInstance().SetTrackingEnabled(); 
+		#endif
+	}
 	
 	public void SetBasicTags ()
 	{
