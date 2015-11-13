@@ -42,7 +42,7 @@ public class GrowthPush {
 		#if UNITY_ANDROID
 		GrowthPushAndroid.GetInstance().RequestRegistrationId(senderId, environment);
 		#elif UNITY_IPHONE && !UNITY_EDITOR
-		requestDeviceToken((int)environment);
+		growthPushRequestDeviceToken((int)environment);
 		#endif
 	}
 
@@ -50,7 +50,7 @@ public class GrowthPush {
 	{
 		#if UNITY_ANDROID
 		#elif UNITY_IPHONE && !UNITY_EDITOR
-		RequestDeviceToken(null, environment);
+		growthPushRequestDeviceToken(null, environment);
 		#endif
 	}
 
