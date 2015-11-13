@@ -37,11 +37,20 @@ public class GrowthPush {
 		return GrowthPush.instance;
 	}
 
+	public void RequestDeviceToken (string senderId, Environment environment)
+	{
+		#if UNITY_ANDROID
+		GrowthPushAndroid.GetInstance().RequestRegistrationId(senderId, environment);
+		#elif UNITY_IPHONE && !UNITY_EDITOR
+		requestDeviceToken((int)environment);
+		#endif
+	}
+
 	public void RequestDeviceToken (Environment environment)
 	{
 		#if UNITY_ANDROID
 		#elif UNITY_IPHONE && !UNITY_EDITOR
-		growthPushRequestDeviceToken((int)environment);
+		RequestDeviceToken(null, environment);
 		#endif
 	}
 

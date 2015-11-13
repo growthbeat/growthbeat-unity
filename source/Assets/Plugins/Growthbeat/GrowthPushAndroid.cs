@@ -34,13 +34,15 @@ public class GrowthPushAndroid
 		#endif
 	}
 
-	public void RequestRegistrationId (string senderId)
+	public void RequestRegistrationId (string senderId, Environment environment)
 	{
 		#if UNITY_ANDROID && !UNITY_EDITOR
 		if (growthPush == null)
 			return;
 
-		growthPush.Call("requestRegistrationId", senderId);
+		AndroidJavaClass growthAnalyticsClass = new AndroidJavaClass( "com.growthpush.model.Environment" );
+		AndroidJavaObject environmentObject = growthAnalyticsClass.GetStatic<AndroidJavaObject>(environment == GrowthPush.Environment.Production ? "Production" : "Development");
+		growthPush.Call("requestRegistrationId", senderId, environmentObject);
 		#endif
 	}
 
