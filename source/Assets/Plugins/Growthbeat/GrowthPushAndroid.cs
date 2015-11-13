@@ -40,9 +40,11 @@ public class GrowthPushAndroid
 		if (growthPush == null)
 			return;
 
-		AndroidJavaClass growthAnalyticsClass = new AndroidJavaClass( "com.growthpush.model.Environment" );
-		AndroidJavaObject environmentObject = growthAnalyticsClass.GetStatic<AndroidJavaObject>(environment == GrowthPush.Environment.Production ? "Production" : "Development");
-		growthPush.Call("requestRegistrationId", senderId, environmentObject);
+		using(AndroidJavaClass environmentClass = new AndroidJavaClass( "com.growthpush.model.Environment" ))
+		{
+			AndroidJavaObject environmentObject = environmentClass.GetStatic<AndroidJavaObject>(environment == GrowthPush.Environment.Production ? "production" : "development");
+			growthPush.Call("requestRegistrationId", senderId, environmentObject);
+		}
 		#endif
 	}
 
@@ -82,7 +84,7 @@ public class GrowthPushAndroid
 		#if UNITY_ANDROID && !UNITY_EDITOR
 		if(growthPush == null)
 			return;
-		AndroidJavaObject httpClient = growthpush.Call<AndroidJavaObject>("getHttpClient");
+		AndroidJavaObject httpClient = growthPush.Call<AndroidJavaObject>("getHttpClient");
 		httpClient.Call("setBaseUrl", baseUrl);
 		#endif	
 	}

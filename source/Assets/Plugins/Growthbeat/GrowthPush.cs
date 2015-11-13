@@ -50,7 +50,7 @@ public class GrowthPush {
 	{
 		#if UNITY_ANDROID
 		#elif UNITY_IPHONE && !UNITY_EDITOR
-		growthPushRequestDeviceToken(null, environment);
+		RequestDeviceToken(null, environment);
 		#endif
 	}
 

@@ -114,5 +114,5 @@ extern "C" void growthAnalyticsSetBasicTags() {
 }
 
 extern "C" void growthAnalyticsSetBaseUrl(const char* baseUrl) {
-    [[[GrowthAnalytics sharedInstance] httpClient] setBaseUrl:[NSURL URLWithString:[NSString stringWithCString:baseUrl encoding:NSUTF8StringEncoding]];
+    [[[GrowthAnalytics sharedInstance] httpClient] setBaseUrl:[NSURL URLWithString:[NSString stringWithCString:baseUrl encoding:NSUTF8StringEncoding]]];
 }

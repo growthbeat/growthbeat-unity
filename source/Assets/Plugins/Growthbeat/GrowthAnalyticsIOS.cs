@@ -44,7 +44,7 @@ public class GrowthAnalyticsIOS {
 	[DllImport("__Internal")] static extern void growthAnalyticsSetAppVersion();
 	[DllImport("__Internal")] static extern void growthAnalyticsSetRandom();
 	[DllImport("__Internal")] static extern void growthAnalyticsSetAdvertisingId();
-	[DllImport("__Internal")] static extern void growthAnalyticsSeTrackingEnabled();
+	[DllImport("__Internal")] static extern void growthAnalyticsSetTrackingEnabled();
 	[DllImport("__Internal")] static extern void growthAnalyticsSetBasicTags();
 	[DllImport("__Internal")] static extern void growthAnalyticsSetBaseUrl(string baseUrl);
 	#endif
@@ -211,7 +211,7 @@ public class GrowthAnalyticsIOS {
 	public void SetTrackingEnabled()
 	{
 		#if UNITY_IPHONE && !UNITY_EDITOR
-		growthAnalyticsSeTrackingEnabled();
+		growthAnalyticsSetTrackingEnabled();
 		#endif
 	}
 

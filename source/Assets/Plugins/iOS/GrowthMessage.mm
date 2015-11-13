@@ -15,5 +15,5 @@ extern "C" void growthMessageInitializeWithApplicationId (const char* applicatio
 }
 
 extern "C" void growthMessageSetBaseUrl(const char* baseUrl) {
-    [[[GrowthMessage sharedInstance] httpClient] setBaseUrl:[NSURL URLWithString:[NSString stringWithCString:baseUrl encoding:NSUTF8StringEncoding]];
+    [[[GrowthMessage sharedInstance] httpClient] setBaseUrl:[NSURL URLWithString:[NSString stringWithCString:baseUrl encoding:NSUTF8StringEncoding]]];
 }
