@@ -92,7 +92,7 @@ public class Growthbeat
 	{
 		#if UNITY_ANDROID
 		using(AndroidJavaClass gbcclass = new AndroidJavaClass( "com.growthbeat.GrowthbeatCore" )) {
-			growthbeatCore = gbcclass.CallStatic<AndroidJavaObject>("getInstance"); 
+			AndroidJavaObject growthbeatCore = gbcclass.CallStatic<AndroidJavaObject>("getInstance"); 
 			AndroidJavaObject httpClient = growthbeatCore.Call<AndroidJavaObject>("getHttpClient");
 			httpClient.Call("setBaseUrl", baseUrl);
 		}

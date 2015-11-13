@@ -34,7 +34,7 @@ public class GrowthPushAndroid
 		#endif
 	}
 
-	public void RequestRegistrationId (string senderId, Environment environment)
+	public void RequestRegistrationId (string senderId, GrowthPush.Environment environment)
 	{
 		#if UNITY_ANDROID && !UNITY_EDITOR
 		if (growthPush == null)

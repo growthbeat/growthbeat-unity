@@ -62,13 +62,6 @@ public class GrowthPush {
 		#endif
 	}
 
-	public void RequestRegistrationId (string senderId)
-	{
-		#if UNITY_ANDROID
-		GrowthPushAndroid.GetInstance().RequestRegistrationId(senderId); 
-		#endif
-	}
-
 	public void ClearBadge ()
 	{
 		#if UNITY_IPHONE && !UNITY_EDITOR
