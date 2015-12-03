@@ -19,7 +19,7 @@ public class GrowthbeatComponent : MonoBehaviour
 	void Awake ()
 	{
 		Growthbeat.GetInstance ().Initialize ("PIaD6TaVt7wvKwao", "FD2w93wXcWlb68ILOObsKz5P3af9oVMo");
-		GrowthPush.GetInstance ().RequestDeviceToken ("1000565500410", GrowthPush.Environment.Development);
+		GrowthPush.GetInstance ().RequestDeviceToken ("1000565500410", GrowthPush.Environment.Production);
 		Growthbeat.GetInstance ().Start ();
 		GrowthAnalytics.GetInstance ().SetBasicTags ();
 		GrowthPush.GetInstance ().ClearBadge ();
@@ -36,7 +36,7 @@ public class GrowthbeatComponent : MonoBehaviour
 		if (!tokenSent) {
 			byte[] token = NotificationServices.deviceToken;
 			if (token != null) {
-				GrowthPush.GetInstance ().SetDeviceToken(System.BitConverter.ToString(token));
+				GrowthPush.GetInstance ().SetDeviceToken(System.BitConverter.ToString(token).Replace("-", "").ToLower());
 				tokenSent = true;
 			}
 		}
