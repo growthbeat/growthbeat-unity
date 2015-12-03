@@ -29,6 +29,7 @@ public class GrowthPush {
 	[DllImport("__Internal")] private static extern void setTag(string name, string value);
 	[DllImport("__Internal")] private static extern void trackEvent(string name, string value);
 	[DllImport("__Internal")] private static extern void setDeviceTags();
+	[DllImport("__Internal")] private static extern void growthPushSetBaseUrl(string baseUrl);
 	#endif
 
 	public static GrowthPush GetInstance ()
@@ -103,6 +104,15 @@ public class GrowthPush {
 		#elif UNITY_IPHONE && !UNITY_EDITOR
 		setDeviceTags();
 		#endif
+	}
+
+	public void SetBaseUrl(string baseUrl)
+	{
+		#if UNITY_ANDROID
+		GrowthPushAndroid.GetInstance().SetBaseUrl(baseUrl);
+		#elif UNITY_IPHONE && !UNITY_EDITOR
+		growthPushSetBaseUrl(baseUrl);
+		#endif	
 	}
 
 }

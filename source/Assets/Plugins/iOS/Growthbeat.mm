@@ -25,3 +25,7 @@ extern "C" void stop() {
 extern "C" void setLoggerSilent(bool silent) {
 	[[Growthbeat sharedInstance] setLoggerSilent:silent];
 }
+
+extern "C" void growthbeatSetBaseUrl(const char* baseUrl) {
+	[[[GrowthbeatCore sharedInstance] httpClient] setBaseUrl:[NSURL URLWithString:[NSString stringWithCString:baseUrl encoding:NSUTF8StringEncoding]]];
+}

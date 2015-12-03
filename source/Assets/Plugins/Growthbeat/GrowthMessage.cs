@@ -14,6 +14,11 @@ using System.Runtime.InteropServices;
 
 public class GrowthMessage
 {
+
+	#if UNITY_IPHONE
+	[DllImport("__Internal")] static extern void growthMessageSetBaseUrl(string baseUrl);
+	#endif
+
 	
 	private static GrowthMessage instance = new GrowthMessage ();
 
@@ -34,6 +39,18 @@ public class GrowthMessage
 			growthMessage = gbcclass.CallStatic<AndroidJavaObject>("getInstance"); 
 		}
 		#endif
+	}
+
+	public void SetBaseUrl(string baseUrl)
+	{
+		#if UNITY_ANDROID
+		if(growthMessage == null)
+			return;
+		AndroidJavaObject httpClient = growthMessage.Call<AndroidJavaObject>("getHttpClient");
+		httpClient.Call("setBaseUrl", baseUrl);
+		#elif UNITY_IPHONE && !UNITY_EDITOR
+		growthMessageSetBaseUrl(baseUrl);
+		#endif	
 	}
 	
 }

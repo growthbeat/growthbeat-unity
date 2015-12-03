@@ -10,8 +10,8 @@
 #import <Growthbeat/GrowthAnalytics.h>
 
 NSString* GANSStringFromCharString(const char* charString) {
-	if(charString == NULL)
-		return nil;
+    if(charString == NULL)
+        return nil;
     return [NSString stringWithCString:charString encoding:NSUTF8StringEncoding];
 }
 
@@ -111,4 +111,8 @@ extern "C" void growthAnalyticsSetTrackingEnabled() {
 
 extern "C" void growthAnalyticsSetBasicTags() {
     [[GrowthAnalytics sharedInstance] setBasicTags];
+}
+
+extern "C" void growthAnalyticsSetBaseUrl(const char* baseUrl) {
+    [[[GrowthAnalytics sharedInstance] httpClient] setBaseUrl:[NSURL URLWithString:[NSString stringWithCString:baseUrl encoding:NSUTF8StringEncoding]]];
 }

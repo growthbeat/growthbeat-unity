@@ -8,7 +8,7 @@
 
 
 extern "C" void initializeIntentHandlers() {
-   [GrowthbeatCore sharedInstance].intentHandlers = [NSMutableArray array];
+    [GrowthbeatCore sharedInstance].intentHandlers = [NSMutableArray array];
 }
 
 extern "C" void addNoopIntentHandler() {
@@ -18,24 +18,28 @@ extern "C" void addNoopIntentHandler() {
 }
 
 extern "C" void addUrlIntentHandler() {
-	NSMutableArray *mutableArray = [[GrowthbeatCore sharedInstance].intentHandlers mutableCopy];
+    NSMutableArray *mutableArray = [[GrowthbeatCore sharedInstance].intentHandlers mutableCopy];
     [mutableArray addObject:[[GBUrlIntentHandler alloc] init]];
     [GrowthbeatCore sharedInstance].intentHandlers = mutableArray;
 }
 
 extern "C" void addCustomIntentHandler(const char* gameObject) {
-
+    NSLog("addCustomIntentHandler");
+    
     if(gameObject == NULL)
-        return nil;
+        return;
+    NSLog("addCustomIntentHandler ok");
 
-	NSMutableArray *mutableArray = [[GrowthbeatCore sharedInstance].intentHandlers mutableCopy];
+    NSMutableArray *mutableArray = [[GrowthbeatCore sharedInstance].intentHandlers mutableCopy];
     [mutableArray addObject:[[GBCustomIntentHandler alloc] initWithBlock:^BOOL (GBCustomIntent *customIntent){
+         NSLog("mutableArray")
         NSDictionary *dict = customIntent.extra;
         NSError *err;
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&err];
         NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-        UnitySendMessage([NSString stringWithCString:gameObject encoding:NSUTF8StringEncoding], "HandleCustomIntent", (char *)[jsonString UTF8String]);
-    }];
+        UnitySendMessage([[NSString stringWithCString:gameObject encoding:NSUTF8StringEncoding] UTF8String], "HandleCustomIntent", (char *)[jsonString UTF8String]);
+        return YES;
+    }]];
     [GrowthbeatCore sharedInstance].intentHandlers = mutableArray;
     
 }

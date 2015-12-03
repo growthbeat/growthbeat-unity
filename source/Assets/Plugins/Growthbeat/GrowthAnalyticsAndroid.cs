@@ -286,5 +286,15 @@ public class GrowthAnalyticsAndroid
 		growthAnalytics.Call("setBasicTags");
 		#endif
 	}
-
+	
+	public void SetBaseUrl(string baseUrl)
+	{
+		#if UNITY_ANDROID && !UNITY_EDITOR
+		if(growthAnalytics == null)
+			return;
+		AndroidJavaObject httpClient = growthAnalytics.Call<AndroidJavaObject>("getHttpClient");
+		httpClient.Call("setBaseUrl", baseUrl);
+		#endif	
+	}
+	
 }

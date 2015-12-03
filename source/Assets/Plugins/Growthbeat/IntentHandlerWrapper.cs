@@ -16,11 +16,12 @@ public class IntentHandlerWrapper
 
 	public static void InitializeIntentHandlers()  {
 		#if UNITY_ANDROID
+		IntentHandlerWrapper.javaObject = new AndroidJavaClass("com.growthbeat.unity.IntentHandlerWrapper");
 		RunBlockOnThread(() => {
 			IntentHandlerWrapper.javaObject.CallStatic("initializeIntentHandlers");
 		});
 		#elif UNITY_IPHONE && !UNITY_EDITOR
-		_initializeIntentHandlers();
+		initializeIntentHandlers();
 		#endif
 
 	}
@@ -31,7 +32,7 @@ public class IntentHandlerWrapper
 			IntentHandlerWrapper.javaObject.CallStatic("addNoopIntentHandler");
 		});
 		#elif UNITY_IPHONE && !UNITY_EDITOR
-		_addNoopIntentHandler();
+		addNoopIntentHandler();
 		#endif
 	}
 
@@ -41,7 +42,7 @@ public class IntentHandlerWrapper
 			IntentHandlerWrapper.javaObject.CallStatic("addUrlIntentHandler");
 		});
 		#elif UNITY_IPHONE && !UNITY_EDITOR
-		_addUrlIntentHandler();
+		addUrlIntentHandler();
 		#endif
 	}
 
@@ -51,17 +52,13 @@ public class IntentHandlerWrapper
 			IntentHandlerWrapper.javaObject.CallStatic("addCustomIntentHandler", gameObjectName);
 		});
 		#elif UNITY_IPHONE && !UNITY_EDITOR
-		_addCustomIntentHandler(gameObjectName);
+		addCustomIntentHandler(gameObjectName);
 		#endif
 	}
 	
 
 	#if UNITY_ANDROID
-	private static AndroidJavaObject javaObject;
-
-	private Growthbeat() {
-		IntentHandlerWrapper.javaObject = new AndroidJavaClass("com.growthbeat.unity.IntentHandlerWrapper");
-	}
+	public static AndroidJavaObject javaObject;
 
 	private static void RunBlockOnThread(Action runBlock) {
 		

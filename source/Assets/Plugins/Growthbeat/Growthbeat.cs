@@ -21,6 +21,7 @@ public class Growthbeat
 	[DllImport("__Internal")] static extern void start();
 	[DllImport("__Internal")] static extern void stop();
 	[DllImport("__Internal")] static extern void setLoggerSilent(bool silent);
+	[DllImport("__Internal")] static extern void growthbeatSetBaseUrl(string url);
 	#endif
 
 	public static Growthbeat GetInstance ()
@@ -40,13 +41,13 @@ public class Growthbeat
 		#endif
 	}
 
-	public void Initialize (string applicationId, string credentialId, bool debug)
+	public void Initialize (string applicationId, string credentialId)
 	{
 		#if UNITY_ANDROID
 		if (growthbeat == null)
 			return;
-		AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-		AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+		AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"); 
+		AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity"); 
 		growthbeat.Call("initialize", activity, applicationId, credentialId);
 		#elif UNITY_IPHONE && !UNITY_EDITOR
 		initializeWithApplicationId(applicationId, credentialId);
@@ -83,6 +84,20 @@ public class Growthbeat
 		growthbeat.Call("setLoggerSilent", silent);
 		#elif UNITY_IPHONE && !UNITY_EDITOR
 		setLoggerSilent(silent);
+		#endif
+	}
+	
+
+	public void setBaseUrl (string baseUrl)
+	{
+		#if UNITY_ANDROID
+		using(AndroidJavaClass gbcclass = new AndroidJavaClass( "com.growthbeat.GrowthbeatCore" )) {
+			AndroidJavaObject growthbeatCore = gbcclass.CallStatic<AndroidJavaObject>("getInstance"); 
+			AndroidJavaObject httpClient = growthbeatCore.Call<AndroidJavaObject>("getHttpClient");
+			httpClient.Call("setBaseUrl", baseUrl);
+		}
+		#elif UNITY_IPHONE && !UNITY_EDITOR
+		growthbeatSetBaseUrl(baseUrl);
 		#endif
 	}
 

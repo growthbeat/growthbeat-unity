@@ -38,3 +38,7 @@ extern "C" void trackEvent (const char* name, const char* value) {
 extern "C" void setDeviceTags () {
     [[GrowthPush sharedInstance] setDeviceTags];
 }
+
+extern "C" void growthPushSetBaseUrl(const char* baseUrl) {
+	[[[GrowthPush sharedInstance] httpClient] setBaseUrl:[NSURL URLWithString:[NSString stringWithCString:baseUrl encoding:NSUTF8StringEncoding]]];
+}
