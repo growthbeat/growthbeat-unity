@@ -1,4 +1,4 @@
-package com.growthbeat.unity;
+package com.growthbeat.intenthandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,14 +8,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.growthbeat.GrowthbeatCore;
-import com.growthbeat.intenthandler.IntentHandler;
-import com.growthbeat.intenthandler.NoopIntentHandler;
-import com.growthbeat.intenthandler.UrlIntentHandler;
 import com.growthbeat.model.CustomIntent;
 import com.unity3d.player.UnityPlayer;
-
-import android.content.Intent;
-import android.util.Log;
 
 public class IntentHandlerWrapper {
 
@@ -44,7 +38,7 @@ public class IntentHandlerWrapper {
         intentHandlers.add(new UrlIntentHandler(GrowthbeatCore.getInstance().getContext()));
     }
 
-    public void addCustomIntentHandler(final String gameObject) {
+    public void addCustomIntentHandler(final String gameObject, final String methodName) {
         intentHandlers.add(new IntentHandler() {
             public boolean handle(com.growthbeat.model.Intent intent) {
                 if (intent.getType() != com.growthbeat.model.Intent.Type.custom)
@@ -58,7 +52,7 @@ public class IntentHandlerWrapper {
                         e.printStackTrace();
                     }
                 }
-                UnityPlayer.UnitySendMessage(gameObject, "handleCustomIntent", json.toString());
+                UnityPlayer.UnitySendMessage(gameObject, methodName, json.toString());
                 return true;
             }
         });
