@@ -40,7 +40,7 @@ public class Growthbeat
 		}
 		#endif
 	}
-
+	
 	public void Initialize (string applicationId, string credentialId)
 	{
 		#if UNITY_ANDROID
@@ -84,6 +84,20 @@ public class Growthbeat
 		growthbeat.Call("setLoggerSilent", silent);
 		#elif UNITY_IPHONE && !UNITY_EDITOR
 		setLoggerSilent(silent);
+		#endif
+	}
+
+
+	public void setBaseUrl (string baseUrl)
+	{
+		#if UNITY_ANDROID
+		using(AndroidJavaClass gbcclass = new AndroidJavaClass( "com.growthbeat.GrowthbeatCore" )) {
+			AndroidJavaObject growthbeatCore = gbcclass.CallStatic<AndroidJavaObject>("getInstance"); 
+			AndroidJavaObject httpClient = growthbeatCore.Call<AndroidJavaObject>("getHttpClient");
+			httpClient.Call("setBaseUrl", baseUrl);
+		}
+		#elif UNITY_IPHONE && !UNITY_EDITOR
+		growthbeatSetBaseUrl(baseUrl);
 		#endif
 	}
 	

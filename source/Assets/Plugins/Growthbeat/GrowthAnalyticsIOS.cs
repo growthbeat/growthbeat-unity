@@ -221,7 +221,7 @@ public class GrowthAnalyticsIOS {
 		growthAnalyticsSetBasicTags();
 		#endif
 	}
-	
+
 	public void SetBaseUrl(string baseUrl)
 	{
 		#if UNITY_IPHONE && !UNITY_EDITOR

@@ -286,7 +286,7 @@ public class GrowthAnalyticsAndroid
 		growthAnalytics.Call("setBasicTags");
 		#endif
 	}
-	
+
 	public void SetBaseUrl(string baseUrl)
 	{
 		#if UNITY_ANDROID && !UNITY_EDITOR
@@ -296,5 +296,5 @@ public class GrowthAnalyticsAndroid
 		httpClient.Call("setBaseUrl", baseUrl);
 		#endif	
 	}
-	
+
 }

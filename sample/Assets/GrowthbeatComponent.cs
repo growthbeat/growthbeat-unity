@@ -24,8 +24,7 @@ public class GrowthbeatComponent : MonoBehaviour
 		IntentHandlerWrapper.AddUrlIntentHandler ();
 		IntentHandlerWrapper.AddCustomIntentHandler ();
 		GrowthLink.GetInstance().Initialize ("PIaD6TaVt7wvKwao", "FD2w93wXcWlb68ILOObsKz5P3af9oVMo");
-		GrowthPush.GetInstance ().RequestDeviceToken ("955057365401", GrowthPush.Environment.Development);
-
+		GrowthPush.GetInstance ().RequestDeviceToken ("1000565500410", GrowthPush.Environment.Development);
 		Growthbeat.GetInstance ().Start ();
 		GrowthAnalytics.GetInstance ().SetBasicTags ();
 		GrowthPush.GetInstance ().ClearBadge ();

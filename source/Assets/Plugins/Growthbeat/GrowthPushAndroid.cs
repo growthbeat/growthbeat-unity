@@ -34,12 +34,12 @@ public class GrowthPushAndroid
 		#endif
 	}
 
-	
 	public void RequestRegistrationId (string senderId, GrowthPush.Environment environment)
 	{
 		#if UNITY_ANDROID && !UNITY_EDITOR
 		if (growthPush == null)
 			return;
+
 		using(AndroidJavaClass environmentClass = new AndroidJavaClass( "com.growthpush.model.Environment" ))
 		{
 			AndroidJavaObject environmentObject = environmentClass.GetStatic<AndroidJavaObject>(environment == GrowthPush.Environment.Production ? "production" : "development");
