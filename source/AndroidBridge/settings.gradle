@@ -1,1 +1,1 @@
-include ':AndroidUnityBridge'
+include ':android-unitybridge'
