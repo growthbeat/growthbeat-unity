@@ -20,7 +20,7 @@ extern "C" void requestDeviceToken (int environment) {
 }
 
 extern "C" void setDeviceToken (const char* deviceToken) {
-	[[GrowthPush sharedInstance] setDeviceToken:[NSData dataWithBytes:(const void *)deviceToken length:(sizeof(unsigned char) * strlen(deviceToken))]];
+	[[GrowthPush sharedInstance] setDeviceToken:GPNSStringFromCharString(deviceToken)];;
 }
 
 extern "C" void clearBadge () {

@@ -41,7 +41,7 @@ public class GrowthbeatComponent : MonoBehaviour
 		if (!tokenSent) {
 			byte[] token = NotificationServices.deviceToken;
 			if (token != null) {
-				GrowthPush.GetInstance ().SetDeviceToken(System.BitConverter.ToString(token));
+				GrowthPush.GetInstance ().SetDeviceToken(System.BitConverter.ToString(token).Replace("-", "").ToLower());
 				tokenSent = true;
 			}
 		}
