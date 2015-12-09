@@ -15,104 +15,109 @@ NSString* GANSStringFromCharString(const char* charString) {
     return [NSString stringWithCString:charString encoding:NSUTF8StringEncoding];
 }
 
-extern "C" void growthAnalyticsTrackWithNamespace(const char* _namespace, const char* name, const char* properties, int option) {
-    NSData* data = [GANSStringFromCharString(properties) dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary* dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+extern "C" {
 
-    [[GrowthAnalytics sharedInstance] track:GANSStringFromCharString(_namespace) name:GANSStringFromCharString(name) properties:dictionary option:(GATrackOption)option completion:nil];
-}
+    void ga_trackWithNamespace(const char* _namespace, const char* name, const char* properties, int option) {
+        NSData* data = [GANSStringFromCharString(properties) dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary* dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
 
-extern "C" void growthAnalyticsTrack(const char* name, const char* properties, int option) {
-    NSData* data = [GANSStringFromCharString(properties) dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary* dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+        [[GrowthAnalytics sharedInstance] track:GANSStringFromCharString(_namespace) name:GANSStringFromCharString(name) properties:dictionary option:(GATrackOption)option completion:nil];
+    }
 
-    [[GrowthAnalytics sharedInstance] track:GANSStringFromCharString(name) properties:dictionary option:(GATrackOption)option];
-}
+    void ga_track(const char* name, const char* properties, int option) {
+        NSData* data = [GANSStringFromCharString(properties) dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary* dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
 
-extern "C" void growthAnalyticsTagWithNamespace(const char* _namespace, const char* name, const char* value, int option) {
-    [[GrowthAnalytics sharedInstance] tag:GANSStringFromCharString(_namespace) name:GANSStringFromCharString(name) value:GANSStringFromCharString(value) completion:nil];
-}
+        [[GrowthAnalytics sharedInstance] track:GANSStringFromCharString(name) properties:dictionary option:(GATrackOption)option];
+    }
 
-extern "C" void growthAnalyticsTag(const char* name, const char* value) {
-    [[GrowthAnalytics sharedInstance] tag:GANSStringFromCharString(name) value:GANSStringFromCharString(value)];
-}
+    void ga_tagWithNamespace(const char* _namespace, const char* name, const char* value, int option) {
+        [[GrowthAnalytics sharedInstance] tag:GANSStringFromCharString(_namespace) name:GANSStringFromCharString(name) value:GANSStringFromCharString(value) completion:nil];
+    }
 
-extern "C" void growthAnalyticsOpen() {
-    [[GrowthAnalytics sharedInstance] open];
-}
+    void ga_tag(const char* name, const char* value) {
+        [[GrowthAnalytics sharedInstance] tag:GANSStringFromCharString(name) value:GANSStringFromCharString(value)];
+    }
 
-extern "C" void growthAnalyticsClose() {
-    [[GrowthAnalytics sharedInstance] close];
-}
+    void ga_open() {
+        [[GrowthAnalytics sharedInstance] open];
+    }
 
-extern "C" void growthAnalyticsPurchase(int price, const char* category, const char* product) {
-    [[GrowthAnalytics sharedInstance] purchase:price setCategory:GANSStringFromCharString(category) setProduct:GANSStringFromCharString(product)];
-}
+    void ga_close() {
+        [[GrowthAnalytics sharedInstance] close];
+    }
 
-extern "C" void growthAnalyticsSetUserId(const char* userId) {
-    [[GrowthAnalytics sharedInstance] setUserId:GANSStringFromCharString(userId)];
-}
+    void ga_purchase(int price, const char* category, const char* product) {
+        [[GrowthAnalytics sharedInstance] purchase:price setCategory:GANSStringFromCharString(category) setProduct:GANSStringFromCharString(product)];
+    }
 
-extern "C" void growthAnalyticsSetName(const char* name) {
-    [[GrowthAnalytics sharedInstance] setName:GANSStringFromCharString(name)];
-}
+    void ga_setUserId(const char* userId) {
+        [[GrowthAnalytics sharedInstance] setUserId:GANSStringFromCharString(userId)];
+    }
 
-extern "C" void growthAnalyticsSetAge(int age) {
-    [[GrowthAnalytics sharedInstance] setAge:age];
-}
+    void ga_setName(const char* name) {
+        [[GrowthAnalytics sharedInstance] setName:GANSStringFromCharString(name)];
+    }
 
-extern "C" void growthAnalyticsSetGender(int gender) {
-    [[GrowthAnalytics sharedInstance] setGender:(GAGender)gender];
-}
+    void ga_setAge(int age) {
+        [[GrowthAnalytics sharedInstance] setAge:age];
+    }
 
-extern "C" void growthAnalyticsSetLevel(int level) {
-    [[GrowthAnalytics sharedInstance] setLevel:level];
-}
+    void ga_setGender(int gender) {
+        [[GrowthAnalytics sharedInstance] setGender:(GAGender)gender];
+    }
 
-extern "C" void growthAnalyticsSetDevelopment(bool development) {
-    [[GrowthAnalytics sharedInstance] setDevelopment:development];
-}
+    void ga_setLevel(int level) {
+        [[GrowthAnalytics sharedInstance] setLevel:level];
+    }
 
-extern "C" void growthAnalyticsSetDeviceModel() {
-    [[GrowthAnalytics sharedInstance] setDeviceModel];
-}
+    void ga_setDevelopment(bool development) {
+        [[GrowthAnalytics sharedInstance] setDevelopment:development];
+    }
 
-extern "C" void growthAnalyticsSetOS() {
-    [[GrowthAnalytics sharedInstance] setOS];
-}
+    void ga_setDeviceModel() {
+        [[GrowthAnalytics sharedInstance] setDeviceModel];
+    }
 
-extern "C" void growthAnalyticsSetLanguage() {
-    [[GrowthAnalytics sharedInstance] setLanguage];
-}
+    void ga_setOS() {
+        [[GrowthAnalytics sharedInstance] setOS];
+    }
 
-extern "C" void growthAnalyticsSetTimeZone() {
-    [[GrowthAnalytics sharedInstance] setTimeZone];
-}
+    void ga_setLanguage() {
+        [[GrowthAnalytics sharedInstance] setLanguage];
+    }
 
-extern "C" void growthAnalyticsSetTimeZoneOffset() {
-    [[GrowthAnalytics sharedInstance] setTimeZoneOffset];
-}
+    void ga_setTimeZone() {
+        [[GrowthAnalytics sharedInstance] setTimeZone];
+    }
 
-extern "C" void growthAnalyticsSetAppVersion() {
-    [[GrowthAnalytics sharedInstance] setAppVersion];
-}
+    void ga_setTimeZoneOffset() {
+        [[GrowthAnalytics sharedInstance] setTimeZoneOffset];
+    }
 
-extern "C" void growthAnalyticsSetRandom() {
-    [[GrowthAnalytics sharedInstance] setRandom];
-}
+    void ga_setAppVersion() {
+        [[GrowthAnalytics sharedInstance] setAppVersion];
+    }
 
-extern "C" void growthAnalyticsSetAdvertisingId() {
-    [[GrowthAnalytics sharedInstance] setAdvertisingId];
-}
+    void ga_setRandom() {
+        [[GrowthAnalytics sharedInstance] setRandom];
+    }
 
-extern "C" void growthAnalyticsSetTrackingEnabled() {
-    [[GrowthAnalytics sharedInstance] setTrackingEnabled];
-}
+    void ga_setAdvertisingId() {
+        [[GrowthAnalytics sharedInstance] setAdvertisingId];
+    }
 
-extern "C" void growthAnalyticsSetBasicTags() {
-    [[GrowthAnalytics sharedInstance] setBasicTags];
-}
+    void ga_setTrackingEnabled() {
+        [[GrowthAnalytics sharedInstance] setTrackingEnabled];
+    }
 
-extern "C" void growthAnalyticsSetBaseUrl(const char* baseUrl) {
-    [[[GrowthAnalytics sharedInstance] httpClient] setBaseUrl:[NSURL URLWithString:[NSString stringWithCString:baseUrl encoding:NSUTF8StringEncoding]]];
+    void ga_setBasicTags() {
+        [[GrowthAnalytics sharedInstance] setBasicTags];
+    }
+
+    void ga_setBaseUrl(const char* baseUrl) {
+        [[[GrowthAnalytics sharedInstance] httpClient] setBaseUrl:[NSURL URLWithString:[NSString stringWithCString:baseUrl encoding:NSUTF8StringEncoding]]];
+    }
+
+
 }

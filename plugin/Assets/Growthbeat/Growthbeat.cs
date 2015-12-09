@@ -54,6 +54,7 @@ namespace Growthbeat
 			#elif UNITY_IPHONE && !UNITY_EDITOR
 			gb_initializeWithApplicationId(applicationId, credentialId);
 			#endif
+
 		}
 
 		public void Start ()

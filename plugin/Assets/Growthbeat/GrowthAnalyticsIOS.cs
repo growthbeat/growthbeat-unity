@@ -5,228 +5,176 @@
 //  Created by Baekwoo Chung on 2015/06/15.
 //  Copyright (c) 2015年 SIROK, Inc. All rights reserved.
 //
+#if UNITY_IPHONE
+namespace Growthbeat.Analytics {
 
-using UnityEngine;
-using System;
-using System.Text;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
+	using UnityEngine;
+	using System;
+	using System.Text;
+	using System.Collections;
+	using System.Collections.Generic;
+	using System.Runtime.InteropServices;
+	using Growthbeat;
 
-public class GrowthAnalyticsIOS {
+	internal class GrowthAnalyticsIOS : IGrowthAnalytics {
 
-	private static GrowthAnalyticsIOS instance = new GrowthAnalyticsIOS ();
+		[DllImport("__Internal")] static extern void ga_track(string name, string properties, int option);
+		[DllImport("__Internal")] static extern void ga_trackWithNamespace(string _namespace, string name, string properties, int option);
+		[DllImport("__Internal")] static extern void ga_tag(string name, string value);
+		[DllImport("__Internal")] static extern void ga_tagWithNamespace(string _namespace, string name, string value);
+		[DllImport("__Internal")] static extern void ga_open();
+		[DllImport("__Internal")] static extern void ga_close();
+		[DllImport("__Internal")] static extern void ga_purchase(int price, string category, string product);
+		[DllImport("__Internal")] static extern void ga_setUserId(string userId);
+		[DllImport("__Internal")] static extern void ga_setName(string name);
+		[DllImport("__Internal")] static extern void ga_setAge(int age);
+		[DllImport("__Internal")] static extern void ga_setGender(int gender);
+		[DllImport("__Internal")] static extern void ga_setLevel(int level);
+		[DllImport("__Internal")] static extern void ga_setDevelopment(bool development);
+		[DllImport("__Internal")] static extern void ga_setDeviceModel();
+		[DllImport("__Internal")] static extern void ga_setOS();
+		[DllImport("__Internal")] static extern void ga_setLanguage();
+		[DllImport("__Internal")] static extern void ga_setTimeZone();
+		[DllImport("__Internal")] static extern void ga_setTimeZoneOffset();
+		[DllImport("__Internal")] static extern void ga_setAppVersion();
+		[DllImport("__Internal")] static extern void ga_setRandom();
+		[DllImport("__Internal")] static extern void ga_setAdvertisingId();
+		[DllImport("__Internal")] static extern void ga_setTrackingEnabled();
+		[DllImport("__Internal")] static extern void ga_setBasicTags();
+		[DllImport("__Internal")] static extern void ga_setBaseUrl(string baseUrl);
 
-	public static GrowthAnalyticsIOS GetInstance ()
-	{
-		return GrowthAnalyticsIOS.instance;
-	}
-
-	#if UNITY_IPHONE
-	[DllImport("__Internal")] static extern void growthAnalyticsTrack(string name, string properties, int option);
-	[DllImport("__Internal")] static extern void growthAnalyticsTrackWithNamespace(string _namespace, string name, string properties, int option);
-	[DllImport("__Internal")] static extern void growthAnalyticsTag(string name, string value);
-	[DllImport("__Internal")] static extern void growthAnalyticsTagWithNamespace(string _namespace, string name, string value);
-	[DllImport("__Internal")] static extern void growthAnalyticsOpen();
-	[DllImport("__Internal")] static extern void growthAnalyticsClose();
-	[DllImport("__Internal")] static extern void growthAnalyticsPurchase(int price, string category, string product);
-	[DllImport("__Internal")] static extern void growthAnalyticsSetUserId(string userId);
-	[DllImport("__Internal")] static extern void growthAnalyticsSetName(string name);
-	[DllImport("__Internal")] static extern void growthAnalyticsSetAge(int age);
-	[DllImport("__Internal")] static extern void growthAnalyticsSetGender(int gender);
-	[DllImport("__Internal")] static extern void growthAnalyticsSetLevel(int level);
-	[DllImport("__Internal")] static extern void growthAnalyticsSetDevelopment(bool development);
-	[DllImport("__Internal")] static extern void growthAnalyticsSetDeviceModel();
-	[DllImport("__Internal")] static extern void growthAnalyticsSetOS();
-	[DllImport("__Internal")] static extern void growthAnalyticsSetLanguage();
-	[DllImport("__Internal")] static extern void growthAnalyticsSetTimeZone();
-	[DllImport("__Internal")] static extern void growthAnalyticsSetTimeZoneOffset();
-	[DllImport("__Internal")] static extern void growthAnalyticsSetAppVersion();
-	[DllImport("__Internal")] static extern void growthAnalyticsSetRandom();
-	[DllImport("__Internal")] static extern void growthAnalyticsSetAdvertisingId();
-	[DllImport("__Internal")] static extern void growthAnalyticsSetTrackingEnabled();
-	[DllImport("__Internal")] static extern void growthAnalyticsSetBasicTags();
-	[DllImport("__Internal")] static extern void growthAnalyticsSetBaseUrl(string baseUrl);
-	#endif
-
-	public void Tag (string name, string value)
-	{
-		#if UNITY_IPHONE && !UNITY_EDITOR
-		growthAnalyticsTag(name, value);
-		#endif
-	}
-
-
-	public void Tag (string _namespace, string name, string value)
-	{
-		#if UNITY_IPHONE && !UNITY_EDITOR
-		growthAnalyticsTagWithNamespace(_namespace, name, value);
-		#endif
-	}
-
-	public void Track (string name, Dictionary<string, string> properties, int option)
-	{
-		#if UNITY_IPHONE && !UNITY_EDITOR
-		growthAnalyticsTrack(name, GetLine(properties), option);
-		#endif
-	}
-
-
-	public void Track (string _namespace, string name, Dictionary<string, string> properties, int option)
-	{
-		#if UNITY_IPHONE && !UNITY_EDITOR
-		growthAnalyticsTrackWithNamespace(_namespace, name, GetLine(properties), option);
-		#endif
-	}
-
-	private string GetLine (Dictionary<string, string> dictionary)
-	{
-		StringBuilder builder = new StringBuilder();
-		foreach (KeyValuePair<string, string> pair in dictionary)
+		public void Tag (string name, string value)
 		{
-			builder.Append("{").Append(pair.Key).Append(":").Append(pair.Value).Append("},");
+			ga_tag(name, value);
 		}
-		string result = builder.ToString();
-		result = result.TrimEnd(',');
-		return result;
-	}
 
-	public void Open ()
-	{
-		#if UNITY_IPHONE && !UNITY_EDITOR
-		growthAnalyticsOpen();
-		#endif
-	}
 
-	public void Close ()
-	{
-		#if UNITY_IPHONE && !UNITY_EDITOR
-		growthAnalyticsClose();
-		#endif
-	}
+		public void Tag (string _namespace, string name, string value)
+		{
+			ga_tagWithNamespace(_namespace, name, value);
+		}
 
-	public void Purchase (int price, string category, string product)
-	{
-		#if UNITY_IPHONE && !UNITY_EDITOR
-		growthAnalyticsPurchase(price, category, product);
-		#endif
-	}
+		public void Track (string name, Dictionary<string, string> properties, int option)
+		{
+			ga_track(name, GetLine(properties), option);
+		}
 
-	public void SetUserId (string userId)
-	{
-		#if UNITY_IPHONE && !UNITY_EDITOR
-		growthAnalyticsSetUserId(userId);
-		#endif
-	}
 
-	public void SetName (string name)
-	{
-		#if UNITY_IPHONE && !UNITY_EDITOR
-		growthAnalyticsSetName(name);
-		#endif
-	}
+		public void Track (string _namespace, string name, Dictionary<string, string> properties, int option)
+		{
+			ga_trackWithNamespace(_namespace, name, GetLine(properties), option);
+		}
 
-	public void SetAge (int age)
-	{
-		#if UNITY_IPHONE && !UNITY_EDITOR
-		growthAnalyticsSetAge(age);
-		#endif
-	}
+		private string GetLine (Dictionary<string, string> dictionary)
+		{
+			StringBuilder builder = new StringBuilder();
+			foreach (KeyValuePair<string, string> pair in dictionary)
+			{
+				builder.Append("{").Append(pair.Key).Append(":").Append(pair.Value).Append("},");
+			}
+			string result = builder.ToString();
+			result = result.TrimEnd(',');
+			return result;
+		}
 
-	public void SetGender(int gender) {
-		#if UNITY_IPHONE && !UNITY_EDITOR
-		growthAnalyticsSetGender(gender);
-		#endif
-	}
+		public void Open ()
+		{
+			ga_open();
+		}
 
-	public void SetLevel (int level)
-	{
-		#if UNITY_IPHONE && !UNITY_EDITOR
-		growthAnalyticsSetLevel(level);
-		#endif
-	}
+		public void Close ()
+		{
+			ga_close();
+		}
 
-	public void SetDevelopment (bool development) {
-		#if UNITY_IPHONE && !UNITY_EDITOR
-		growthAnalyticsSetDevelopment(development);
-		#endif
-	}
+		public void Purchase (int price, string category, string product)
+		{
+			ga_purchase(price, category, product);
+		}
 
-	public void SetDeviceModel ()
-	{
-		#if UNITY_IPHONE && !UNITY_EDITOR
-		growthAnalyticsSetDeviceModel();
-		#endif
-	}
+		public void SetUserId (string userId)
+		{
+			ga_setUserId(userId);
+		}
 
-	public void SetOS ()
-	{
-		#if UNITY_IPHONE && !UNITY_EDITOR
-		growthAnalyticsSetOS();
-		#endif
-	}
+		public void SetName (string name)
+		{
+			ga_setName(name);
+		}
 
-	public void SetLanguage ()
-	{
-		#if UNITY_IPHONE && !UNITY_EDITOR
-		growthAnalyticsSetLanguage();
-		#endif
-	}
+		public void SetAge (int age)
+		{
+			ga_setAge(age);
+		}
 
-	public void SetTimeZone ()
-	{
-		#if UNITY_IPHONE && !UNITY_EDITOR
-		growthAnalyticsSetTimeZone();
-		#endif
-	}
+		public void SetGender(int gender) {
+			ga_setGender(gender);
+		}
 
-	public void SetTimeZoneOffset ()
-	{
-		#if UNITY_IPHONE && !UNITY_EDITOR
-		growthAnalyticsSetTimeZoneOffset();
-		#endif
-	}
+		public void SetLevel (int level)
+		{
+			ga_setLevel(level);
+		}
 
-	public void SetAppVersion ()
-	{
-		#if UNITY_IPHONE && !UNITY_EDITOR
-		growthAnalyticsSetAppVersion();
-		#endif
-	}
+		public void SetDevelopment (bool development) {
+			ga_setDevelopment(development);
+		}
 
-	public void SetRandom ()
-	{
-		#if UNITY_IPHONE && !UNITY_EDITOR
-		growthAnalyticsSetRandom();
-		#endif
-	}
+		public void SetDeviceModel ()
+		{
+			ga_setDeviceModel();
+		}
 
-	public void SetAdvertisingId ()
-	{
-		#if UNITY_IPHONE && !UNITY_EDITOR
-		growthAnalyticsSetAdvertisingId();
-		#endif
-	}
+		public void SetOS ()
+		{
+			ga_setOS();
+		}
 
-	public void SetTrackingEnabled()
-	{
-		#if UNITY_IPHONE && !UNITY_EDITOR
-		growthAnalyticsSetTrackingEnabled();
-		#endif
-	}
+		public void SetLanguage ()
+		{
+			ga_setLanguage();
+		}
 
-	public void SetBasicTags ()
-	{
-		#if UNITY_IPHONE && !UNITY_EDITOR
-		growthAnalyticsSetBasicTags();
-		#endif
-	}
+		public void SetTimeZone ()
+		{
+			ga_setTimeZone();
+		}
 
-	public void SetBaseUrl(string baseUrl)
-	{
-		#if UNITY_IPHONE && !UNITY_EDITOR
-		growthAnalyticsSetBaseUrl(baseUrl);
-		#endif	
-	}
+		public void SetTimeZoneOffset ()
+		{
+			ga_setTimeZoneOffset();
+		}
 
+		public void SetAppVersion ()
+		{
+			ga_setAppVersion();
+		}
+
+		public void SetRandom ()
+		{
+			ga_setRandom();
+		}
+
+		public void SetAdvertisingId ()
+		{
+			ga_setAdvertisingId();
+		}
+
+		public void SetTrackingEnabled()
+		{
+			ga_setTrackingEnabled();
+		}
+
+		public void SetBasicTags ()
+		{
+			ga_setBasicTags();
+		}
+
+		public void SetBaseUrl(string baseUrl)
+		{
+			ga_setBaseUrl(baseUrl);	
+		}
+
+	}
 }
+#endif

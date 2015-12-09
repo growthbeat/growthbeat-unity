@@ -5,296 +5,267 @@
 //  Created by Baekwoo Chung on 2015/06/15.
 //  Copyright (c) 2015年 SIROK, Inc. All rights reserved.
 //
-
-using UnityEngine;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-
-public class GrowthAnalyticsAndroid
+#if UNITY_ANDROID
+namespace Growthbeat.Analytics
 {
 
-	private static GrowthAnalyticsAndroid instance = new GrowthAnalyticsAndroid ();
+	using UnityEngine;
+	using System;
+	using System.Text;
+	using System.Collections;
+	using System.Collections.Generic;
+	using System.Runtime.InteropServices;
+	using Growthbeat;
 
-	public static GrowthAnalyticsAndroid GetInstance ()
+	internal class GrowthAnalyticsAndroid : IGrowthAnalytics
 	{
-		return GrowthAnalyticsAndroid.instance;
-	}
 
-	#if UNITY_ANDROID
-	private AndroidJavaObject growthAnalytics;
-	#endif
-
-	private GrowthAnalyticsAndroid()
-	{
-		#if UNITY_ANDROID
-		using(AndroidJavaClass gbcclass = new AndroidJavaClass( "com.growthbeat.analytics.GrowthAnalytics" ))
+		private AndroidJavaObject growthAnalytics;
+		private GrowthAnalyticsAndroid()
 		{
-			growthAnalytics = gbcclass.CallStatic<AndroidJavaObject>("getInstance");
-		}
-		#endif
-	}
-
-	public void Tag (string name, string value)
-	{
-		#if UNITY_ANDROID
-		if (growthAnalytics == null)
-			return;
-		growthAnalytics.Call("tag", name, value);
-		#endif
-	}
-
-	public void Tag (string _namespace, string name, string value)
-	{
-		#if UNITY_ANDROID
-		if (growthAnalytics == null)
-			return;
-		growthAnalytics.Call("tag", _namespace, name, value, null);
-		#endif
-	}
-
-	public void Track(string name, Dictionary<string, string> properties,GrowthAnalytics.TrackOption option)
-	{
-		#if UNITY_ANDROID
-		if (growthAnalytics == null)
-			return;
-
-		using (AndroidJavaObject hashMap = new AndroidJavaObject("java.util.HashMap"))
-		{
-			System.IntPtr method_Put = AndroidJNIHelper.GetMethodID (hashMap.GetRawClass (), "put",
-			                                                         "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
-			object[] args = new object[2];
-			foreach (KeyValuePair<string, string> kvp in properties)
+			using(AndroidJavaClass gbcclass = new AndroidJavaClass( "com.growthbeat.analytics.GrowthAnalytics" ))
 			{
-				using (AndroidJavaObject k = new AndroidJavaObject("java.lang.String", kvp.Key))
+				growthAnalytics = gbcclass.CallStatic<AndroidJavaObject>("getInstance");
+			}
+		}
+
+		public void Tag (string name, string value)
+		{
+			if (growthAnalytics == null)
+				return;
+			growthAnalytics.Call("tag", name, value);
+		}
+
+		public void Tag (string _namespace, string name, string value)
+		{
+			
+			if (growthAnalytics == null)
+				return;
+			growthAnalytics.Call("tag", _namespace, name, value, null);
+		}
+
+		public void Track(string name, Dictionary<string, string> properties,GrowthAnalytics.TrackOption option)
+		{
+			
+			if (growthAnalytics == null)
+				return;
+
+			using (AndroidJavaObject hashMap = new AndroidJavaObject("java.util.HashMap"))
+			{
+				System.IntPtr method_Put = AndroidJNIHelper.GetMethodID (hashMap.GetRawClass (), "put",
+				                                                         "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
+				object[] args = new object[2];
+				foreach (KeyValuePair<string, string> kvp in properties)
 				{
-					using (AndroidJavaObject v = new AndroidJavaObject("java.lang.String", kvp.Value))
+					using (AndroidJavaObject k = new AndroidJavaObject("java.lang.String", kvp.Key))
 					{
-						args [0] = k;
-						args [1] = v;
-						AndroidJNI.CallObjectMethod (hashMap.GetRawObject (),
-						                             method_Put, AndroidJNIHelper.CreateJNIArgArray (args));
+						using (AndroidJavaObject v = new AndroidJavaObject("java.lang.String", kvp.Value))
+						{
+							args [0] = k;
+							args [1] = v;
+							AndroidJNI.CallObjectMethod (hashMap.GetRawObject (),
+							                             method_Put, AndroidJNIHelper.CreateJNIArgArray (args));
+						}
 					}
 				}
+				AndroidJavaClass growthAnalyticsClass = new AndroidJavaClass( "com.growthbeat.analytics.GrowthAnalytics$TrackOption" );
+				AndroidJavaObject optionObject = growthAnalyticsClass.GetStatic<AndroidJavaObject>(option == GrowthAnalytics.TrackOption.TrackOptionOnce ? "ONCE" : "COUNTER");
+				growthAnalytics.Call("track",name, hashMap, optionObject);
 			}
-			AndroidJavaClass growthAnalyticsClass = new AndroidJavaClass( "com.growthbeat.analytics.GrowthAnalytics$TrackOption" );
-			AndroidJavaObject optionObject = growthAnalyticsClass.GetStatic<AndroidJavaObject>(option == GrowthAnalytics.TrackOption.TrackOptionOnce ? "ONCE" : "COUNTER");
-			growthAnalytics.Call("track",name, hashMap, optionObject);
 		}
-		#endif
-	}
 
-	public void Track(string _namespace, string name, Dictionary<string, string> properties, GrowthAnalytics.TrackOption option) {
-		#if UNITY_ANDROID
-		if (growthAnalytics == null)
-			return;
+		public void Track(string _namespace, string name, Dictionary<string, string> properties, GrowthAnalytics.TrackOption option) {
+			
+			if (growthAnalytics == null)
+				return;
 
-		using (AndroidJavaObject hashMap = new AndroidJavaObject("java.util.HashMap"))
-		{
-			System.IntPtr method_Put = AndroidJNIHelper.GetMethodID (hashMap.GetRawClass (), "put",
-			                                                         "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
-			object[] args = new object[2];
-			foreach (KeyValuePair<string, string> kvp in properties)
+			using (AndroidJavaObject hashMap = new AndroidJavaObject("java.util.HashMap"))
 			{
-				using (AndroidJavaObject k = new AndroidJavaObject("java.lang.String", kvp.Key))
+				System.IntPtr method_Put = AndroidJNIHelper.GetMethodID (hashMap.GetRawClass (), "put",
+				                                                         "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
+				object[] args = new object[2];
+				foreach (KeyValuePair<string, string> kvp in properties)
 				{
-					using (AndroidJavaObject v = new AndroidJavaObject("java.lang.String", kvp.Value))
+					using (AndroidJavaObject k = new AndroidJavaObject("java.lang.String", kvp.Key))
 					{
-						args [0] = k;
-						args [1] = v;
-						AndroidJNI.CallObjectMethod (hashMap.GetRawObject (),
-						                             method_Put, AndroidJNIHelper.CreateJNIArgArray (args));
+						using (AndroidJavaObject v = new AndroidJavaObject("java.lang.String", kvp.Value))
+						{
+							args [0] = k;
+							args [1] = v;
+							AndroidJNI.CallObjectMethod (hashMap.GetRawObject (),
+							                             method_Put, AndroidJNIHelper.CreateJNIArgArray (args));
+						}
 					}
 				}
+				AndroidJavaClass growthAnalyticsClass = new AndroidJavaClass( "com.growthbeat.analytics.GrowthAnalytics$TrackOption" );
+				AndroidJavaObject optionObject = growthAnalyticsClass.GetStatic<AndroidJavaObject>(option == GrowthAnalytics.TrackOption.TrackOptionOnce ? "ONCE" : "COUNTER");
+				growthAnalytics.Call("track", _namespace, name, hashMap, optionObject, null);
 			}
-			AndroidJavaClass growthAnalyticsClass = new AndroidJavaClass( "com.growthbeat.analytics.GrowthAnalytics$TrackOption" );
-			AndroidJavaObject optionObject = growthAnalyticsClass.GetStatic<AndroidJavaObject>(option == GrowthAnalytics.TrackOption.TrackOptionOnce ? "ONCE" : "COUNTER");
-			growthAnalytics.Call("track", _namespace, name, hashMap, optionObject, null);
 		}
-		#endif
+
+		public void Open()
+		{
+			
+			if (growthAnalytics == null)
+				return;
+			growthAnalytics.Call("open");
+		}
+
+		public void Close()
+		{
+			
+			if (growthAnalytics == null)
+				return;
+			growthAnalytics.Call("close");
+		}
+
+		public void Purchase(int price, string category, string product)
+		{
+			
+			if (growthAnalytics == null)
+				return;
+			growthAnalytics.Call("purchase", price, category, product);
+		}
+
+		public void SetUserId(string userId)
+		{
+			
+			if (growthAnalytics == null)
+				return;
+			growthAnalytics.Call("setUserId", userId);
+		}
+
+		public void SetName(string name)
+		{
+			
+			if (growthAnalytics == null)
+				return;
+			growthAnalytics.Call("setName", name);
+		}
+
+		public void SetAge(int age)
+		{
+			
+			if (growthAnalytics == null)
+				return;
+			growthAnalytics.Call("setAge", age);
+		}
+
+
+		public void SetGender(GrowthAnalytics.Gender gender)
+		{
+			
+			if (growthAnalytics == null)
+				return;
+			AndroidJavaClass growthAnalyticsClass = new AndroidJavaClass( "com.growthbeat.analytics.GrowthAnalytics$Gender" );
+			AndroidJavaObject genderObject = growthAnalyticsClass.GetStatic<AndroidJavaObject>(gender == GrowthAnalytics.Gender.GenderMale ? "MALE" : "FEMALE");
+			growthAnalytics.Call("setGender",genderObject);
+		}
+
+		public void SetLevel(int level)
+		{
+			
+			if (growthAnalytics == null)
+				return;
+			growthAnalytics.Call("setLevel",level);
+		}
+
+		public void SetDevelopment(bool development)
+		{
+			
+			if (growthAnalytics == null)
+				return;
+			growthAnalytics.Call("setDevelopment",development);
+		}
+
+		public void SetDeviceModel()
+		{
+			
+			if (growthAnalytics == null)
+				return;
+			growthAnalytics.Call("setDeviceModel");
+		}
+
+		public void SetOS()
+		{
+			
+			if (growthAnalytics == null)
+				return;
+			growthAnalytics.Call("setOS");
+		}
+
+		public void SetLanguage()
+		{
+			
+			if (growthAnalytics == null)
+				return;
+			growthAnalytics.Call("setLanguage");
+		}
+
+		public void SetTimeZone()
+		{
+			
+			if (growthAnalytics == null)
+				return;
+			growthAnalytics.Call("setTimeZone");
+		}
+
+		public void SetTimeZoneOffset()
+		{
+			
+			if (growthAnalytics == null)
+				return;
+			growthAnalytics.Call("setTimeZoneOffset");
+		}
+
+		public void SetAppVersion() {
+			
+			if (growthAnalytics == null)
+				return;
+			growthAnalytics.Call("setAppVersion");
+		}
+
+		public void SetRandom()
+		{
+			
+			if (growthAnalytics == null)
+				return;
+			growthAnalytics.Call("setRandom");
+		}
+
+		public void SetAdvertisingId()
+		{
+			
+			if (growthAnalytics == null)
+				return;
+			growthAnalytics.Call("setAdvertisingId");
+		}
+
+		public void SetTrackingEnabled() 
+		{
+			
+			if (growthAnalytics == null)
+				return;
+			growthAnalytics.Call("setTrackingEnabled");
+		}
+
+		public void SetBasicTags()
+		{
+			
+			if (growthAnalytics == null)
+				return;
+			growthAnalytics.Call("setBasicTags");
+		}
+
+		public void SetBaseUrl(string baseUrl)
+		{
+			 && !UNITY_EDITOR
+			if(growthAnalytics == null)
+				return;
+			AndroidJavaObject httpClient = growthAnalytics.Call<AndroidJavaObject>("getHttpClient");
+			httpClient.Call("setBaseUrl", baseUrl);
+		}
+
 	}
-
-	public void Open()
-	{
-		#if UNITY_ANDROID
-		if (growthAnalytics == null)
-			return;
-		growthAnalytics.Call("open");
-		#endif
-	}
-
-	public void Close()
-	{
-		#if UNITY_ANDROID
-		if (growthAnalytics == null)
-			return;
-		growthAnalytics.Call("close");
-		#endif
-	}
-
-	public void Purchase(int price, string category, string product)
-	{
-		#if UNITY_ANDROID
-		if (growthAnalytics == null)
-			return;
-		growthAnalytics.Call("purchase", price, category, product);
-		#endif
-	}
-
-	public void SetUserId(string userId)
-	{
-		#if UNITY_ANDROID
-		if (growthAnalytics == null)
-			return;
-		growthAnalytics.Call("setUserId", userId);
-		#endif
-	}
-
-	public void SetName(string name)
-	{
-		#if UNITY_ANDROID
-		if (growthAnalytics == null)
-			return;
-		growthAnalytics.Call("setName", name);
-		#endif
-	}
-
-	public void SetAge(int age)
-	{
-		#if UNITY_ANDROID
-		if (growthAnalytics == null)
-			return;
-		growthAnalytics.Call("setAge", age);
-		#endif
-	}
-
-
-	public void SetGender(GrowthAnalytics.Gender gender)
-	{
-		#if UNITY_ANDROID
-		if (growthAnalytics == null)
-			return;
-		AndroidJavaClass growthAnalyticsClass = new AndroidJavaClass( "com.growthbeat.analytics.GrowthAnalytics$Gender" );
-		AndroidJavaObject genderObject = growthAnalyticsClass.GetStatic<AndroidJavaObject>(gender == GrowthAnalytics.Gender.GenderMale ? "MALE" : "FEMALE");
-		growthAnalytics.Call("setGender",genderObject);
-		#endif
-	}
-
-	public void SetLevel(int level)
-	{
-		#if UNITY_ANDROID
-		if (growthAnalytics == null)
-			return;
-		growthAnalytics.Call("setLevel",level);
-		#endif
-	}
-
-	public void SetDevelopment(bool development)
-	{
-		#if UNITY_ANDROID
-		if (growthAnalytics == null)
-			return;
-		growthAnalytics.Call("setDevelopment",development);
-		#endif
-	}
-
-	public void SetDeviceModel()
-	{
-		#if UNITY_ANDROID
-		if (growthAnalytics == null)
-			return;
-		growthAnalytics.Call("setDeviceModel");
-		#endif
-	}
-
-	public void SetOS()
-	{
-		#if UNITY_ANDROID
-		if (growthAnalytics == null)
-			return;
-		growthAnalytics.Call("setOS");
-		#endif
-	}
-
-	public void SetLanguage()
-	{
-		#if UNITY_ANDROID
-		if (growthAnalytics == null)
-			return;
-		growthAnalytics.Call("setLanguage");
-		#endif
-	}
-
-	public void SetTimeZone()
-	{
-		#if UNITY_ANDROID
-		if (growthAnalytics == null)
-			return;
-		growthAnalytics.Call("setTimeZone");
-		#endif
-	}
-
-	public void SetTimeZoneOffset()
-	{
-		#if UNITY_ANDROID
-		if (growthAnalytics == null)
-			return;
-		growthAnalytics.Call("setTimeZoneOffset");
-		#endif
-	}
-
-	public void SetAppVersion() {
-		#if UNITY_ANDROID
-		if (growthAnalytics == null)
-			return;
-		growthAnalytics.Call("setAppVersion");
-		#endif
-	}
-
-	public void SetRandom()
-	{
-		#if UNITY_ANDROID
-		if (growthAnalytics == null)
-			return;
-		growthAnalytics.Call("setRandom");
-		#endif
-	}
-
-	public void SetAdvertisingId()
-	{
-		#if UNITY_ANDROID
-		if (growthAnalytics == null)
-			return;
-		growthAnalytics.Call("setAdvertisingId");
-		#endif
-	}
-
-	public void SetTrackingEnabled() 
-	{
-		#if UNITY_ANDROID
-		if (growthAnalytics == null)
-			return;
-		growthAnalytics.Call("setTrackingEnabled");
-		#endif
-	}
-
-	public void SetBasicTags()
-	{
-		#if UNITY_ANDROID
-		if (growthAnalytics == null)
-			return;
-		growthAnalytics.Call("setBasicTags");
-		#endif
-	}
-
-	public void SetBaseUrl(string baseUrl)
-	{
-		#if UNITY_ANDROID && !UNITY_EDITOR
-		if(growthAnalytics == null)
-			return;
-		AndroidJavaObject httpClient = growthAnalytics.Call<AndroidJavaObject>("getHttpClient");
-		httpClient.Call("setBaseUrl", baseUrl);
-		#endif	
-	}
-
 }
+#endif
