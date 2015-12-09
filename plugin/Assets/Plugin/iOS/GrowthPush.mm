@@ -15,30 +15,34 @@ NSString* GPNSStringFromCharString(const char* charString) {
     return [NSString stringWithCString:charString encoding:NSUTF8StringEncoding];
 }
 
-extern "C" void requestDeviceToken (int environment) {
-	[[GrowthPush sharedInstance] requestDeviceTokenWithEnvironment:(GPEnvironment)environment];
-}
+extern "C" {
 
-extern "C" void setDeviceToken (const char* deviceToken) {
-	[[GrowthPush sharedInstance] setDeviceToken:GPNSStringFromCharString(deviceToken)];;
-}
+    void gp_requestDeviceToken (int environment) {
+        [[GrowthPush sharedInstance] requestDeviceTokenWithEnvironment:(GPEnvironment)environment];
+    }
 
-extern "C" void clearBadge () {
-	[[GrowthPush sharedInstance] clearBadge];
-}
+    void gp_setDeviceToken (const char* deviceToken) {
+        [[GrowthPush sharedInstance] setDeviceToken:GPNSStringFromCharString(deviceToken)];;
+    }
 
-extern "C" void setTag (const char* name, const char* value) {
-    [[GrowthPush sharedInstance] setTag:GPNSStringFromCharString(name) value:GPNSStringFromCharString(value)];
-}
+    void gp_clearBadge () {
+        [[GrowthPush sharedInstance] clearBadge];
+    }
 
-extern "C" void trackEvent (const char* name, const char* value) {
-    [[GrowthPush sharedInstance] trackEvent:GPNSStringFromCharString(name) value:GPNSStringFromCharString(value)];
-}
+    void gp_setTag (const char* name, const char* value) {
+        [[GrowthPush sharedInstance] setTag:GPNSStringFromCharString(name) value:GPNSStringFromCharString(value)];
+    }
 
-extern "C" void setDeviceTags () {
-    [[GrowthPush sharedInstance] setDeviceTags];
-}
+    void gp_trackEvent (const char* name, const char* value) {
+        [[GrowthPush sharedInstance] trackEvent:GPNSStringFromCharString(name) value:GPNSStringFromCharString(value)];
+    }
 
-extern "C" void growthPushSetBaseUrl(const char* baseUrl) {
-	[[[GrowthPush sharedInstance] httpClient] setBaseUrl:[NSURL URLWithString:[NSString stringWithCString:baseUrl encoding:NSUTF8StringEncoding]]];
+    void gp_setDeviceTags () {
+        [[GrowthPush sharedInstance] setDeviceTags];
+    }
+
+    void gp_setBaseUrl(const char* baseUrl) {
+        [[[GrowthPush sharedInstance] httpClient] setBaseUrl:[NSURL URLWithString:[NSString stringWithCString:baseUrl encoding:NSUTF8StringEncoding]]];
+    }
+
 }

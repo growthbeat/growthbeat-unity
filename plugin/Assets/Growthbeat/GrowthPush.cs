@@ -6,113 +6,135 @@
 //  Copyright (c) 2015年 SIROK, Inc. All rights reserved.
 //
 
-using UnityEngine;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
+namespace Growthbeat {
 
-public class GrowthPush {
+	using UnityEngine;
+	using System;
+	using System.Collections;
+	using System.Collections.Generic;
+	using System.Runtime.InteropServices;
 
-	private static GrowthPush instance = new GrowthPush ();
+	public class GrowthPush {
 
-	public enum Environment {
-		Unknown = 0,
-		Development = 1,
-		Production = 2
-	}
-
-	#if UNITY_IPHONE
-	[DllImport("__Internal")] private static extern void requestDeviceToken(int environment);
-	[DllImport("__Internal")] private static extern void setDeviceToken(string deviceToken);
-	[DllImport("__Internal")] private static extern void clearBadge();
-	[DllImport("__Internal")] private static extern void setTag(string name, string value);
-	[DllImport("__Internal")] private static extern void trackEvent(string name, string value);
-	[DllImport("__Internal")] private static extern void setDeviceTags();
-	[DllImport("__Internal")] private static extern void growthPushSetBaseUrl(string baseUrl);
-	#endif
-
-	public static GrowthPush GetInstance ()
-	{
-		return GrowthPush.instance;
-	}
-
-	public void RequestDeviceToken (string senderId, Environment environment)
-	{
-		#if UNITY_ANDROID
-		GrowthPushAndroid.GetInstance().RequestRegistrationId(senderId, environment);
-		#elif UNITY_IPHONE && !UNITY_EDITOR
-		requestDeviceToken((int)environment);
+		#if UNITY_IPHONE
+		[DllImport("__Internal")] private static extern void gp_requestDeviceToken(int environment);
+		[DllImport("__Internal")] private static extern void gp_setDeviceToken(string deviceToken);
+		[DllImport("__Internal")] private static extern void gp_clearBadge();
+		[DllImport("__Internal")] private static extern void gp_setTag(string name, string value);
+		[DllImport("__Internal")] private static extern void gp_trackEvent(string name, string value);
+		[DllImport("__Internal")] private static extern void gp_setDeviceTags();
+		[DllImport("__Internal")] private static extern void gp_setBaseUrl(string baseUrl);
 		#endif
-	}
 
-	public void RequestDeviceToken (Environment environment)
-	{
-		#if UNITY_ANDROID
-		#elif UNITY_IPHONE && !UNITY_EDITOR
-		RequestDeviceToken(null, environment);
+		#if UNITY_ANDROID && !UNITY_EDITOR
+		private AndroidJavaObject growthPush;
 		#endif
-	}
 
-	public void SetDeviceToken (string deviceToken)
-	{
-		#if UNITY_ANDROID
-		#elif UNITY_IPHONE && !UNITY_EDITOR
-		setDeviceToken(deviceToken);
-		#endif
-	}
+		private GrowthPush()
+		{
+			#if UNITY_ANDROID && !UNITY_EDITOR
+			using(AndroidJavaClass gpclass = new AndroidJavaClass( "com.growthpush.GrowthPush" ))
+			{
+				growthPush = gpclass.CallStatic<AndroidJavaObject>("getInstance");
+			}
+			#endif
+		}
 
-	public void ClearBadge ()
-	{
-		#if UNITY_IPHONE && !UNITY_EDITOR
-		clearBadge();
-		#endif
-	}
+		private static GrowthPush instance = new GrowthPush ();
+		public static GrowthPush GetInstance ()
+		{
+			return GrowthPush.instance;
+		}
 
-	public void SetTag (string name)
-	{
-		SetTag (name, null);
-	}
+		public enum Environment {
+			Unknown = 0,
+			Development = 1,
+			Production = 2
+		}
 
-	public void SetTag (string name, string value)
-	{
-		#if UNITY_ANDROID
-		GrowthPushAndroid.GetInstance().SetTag(name, value);
-		#elif UNITY_IPHONE && !UNITY_EDITOR
-		setTag(name, value);
-		#endif
-	}
+		public void RequestDeviceToken (string senderId, Environment environment)
+		{
+			#if UNITY_ANDROID
+			using(AndroidJavaClass environmentClass = new AndroidJavaClass( "com.growthpush.model.Environment" ))
+			{
+				AndroidJavaObject environmentObject = environmentClass.GetStatic<AndroidJavaObject>(environment == GrowthPush.Environment.Production ? "production" : "development");
+				growthPush.Call("requestRegistrationId", senderId, environmentObject);
+			}
+			#elif UNITY_IPHONE && !UNITY_EDITOR
+			gp_requestDeviceToken((int)environment);
+			#endif
+		}
 
-	public void TrackEvent(string name)
-	{
-		TrackEvent (name, null);
-	}
+		public void RequestDeviceToken (Environment environment)
+		{
+			#if UNITY_ANDROID
+			#elif UNITY_IPHONE && !UNITY_EDITOR
+			RequestDeviceToken(null, environment);
+			#endif
+		}
 
-	public void TrackEvent (string name, string value)
-	{
-		#if UNITY_ANDROID
-		GrowthPushAndroid.GetInstance().TrackEvent(name, value);
-		#elif UNITY_IPHONE && !UNITY_EDITOR
-		trackEvent(name, value);
-		#endif
-	}
+		public void SetDeviceToken (string deviceToken)
+		{
+			#if UNITY_ANDROID
+			#elif UNITY_IPHONE && !UNITY_EDITOR
+			gp_setDeviceToken(deviceToken);
+			#endif
+		}
 
-	public void SetDeviceTags ()
-	{
-		#if UNITY_ANDROID
-		GrowthPushAndroid.GetInstance().SetDeviceTags();
-		#elif UNITY_IPHONE && !UNITY_EDITOR
-		setDeviceTags();
-		#endif
-	}
+		public void ClearBadge ()
+		{
+			#if UNITY_IPHONE && !UNITY_EDITOR
+			gp_clearBadge();
+			#endif
+		}
 
-	public void SetBaseUrl(string baseUrl)
-	{
-		#if UNITY_ANDROID
-		GrowthPushAndroid.GetInstance().SetBaseUrl(baseUrl);
-		#elif UNITY_IPHONE && !UNITY_EDITOR
-		growthPushSetBaseUrl(baseUrl);
-		#endif	
+		public void SetTag (string name)
+		{
+			SetTag (name, null);
+		}
+
+		public void SetTag (string name, string value)
+		{
+			#if UNITY_ANDROID
+			growthPush.Call("setTag", name, value);
+			#elif UNITY_IPHONE && !UNITY_EDITOR
+			gp_setTag(name, value);
+			#endif
+		}
+
+		public void TrackEvent(string name)
+		{
+			TrackEvent (name, null);
+		}
+
+		public void TrackEvent (string name, string value)
+		{
+			#if UNITY_ANDROID
+			growthPush.Call("trackEvent", name, value);
+			#elif UNITY_IPHONE && !UNITY_EDITOR
+			gp_trackEvent(name, value);
+			#endif
+		}
+
+		public void SetDeviceTags ()
+		{
+			#if UNITY_ANDROID
+			growthPush.Call("setDeviceTags");
+			#elif UNITY_IPHONE && !UNITY_EDITOR
+			gp_setDeviceTags();
+			#endif
+		}
+
+		public void SetBaseUrl(string baseUrl)
+		{
+			#if UNITY_ANDROID
+			AndroidJavaObject httpClient = growthPush.Call<AndroidJavaObject>("getHttpClient");
+			httpClient.Call("setBaseUrl", baseUrl);
+			#elif UNITY_IPHONE && !UNITY_EDITOR
+			gp_setBaseUrl(baseUrl);
+			#endif	
+		}
+
 	}
 
 }
