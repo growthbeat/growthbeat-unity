@@ -12,6 +12,7 @@ namespace Growthbeat {
 
 		#if UNITY_IPHONE
 		[DllImport("__Internal")] static extern void gb_initializeIntentHandlers();
+		[DllImport("__Internal")] static extern void gb_clearIntentHandlers();
 		[DllImport("__Internal")] static extern void gb_addNoopIntentHandler();
 		[DllImport("__Internal")] static extern void gb_addUrlIntentHandler();
 		[DllImport("__Internal")] static extern void gb_addCustomIntentHandler(string gameObjectName, string methodName);

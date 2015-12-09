@@ -15,12 +15,17 @@ NSString* GLNSStringFromCharString(const char* charString) {
     return [NSString stringWithCString:charString encoding:NSUTF8StringEncoding];
 }
 
-extern "C" void growthLinkInitializeWithApplicationId(const char* applicationId, const char* credentialId) {
-    [[GrowthLink sharedInstance] initializeWithApplicationId:[NSString stringWithCString:applicationId encoding:NSUTF8StringEncoding]
-    											credentialId:[NSString stringWithCString:credentialId encoding:NSUTF8StringEncoding]];
-}
+extern "C" {
+	
+	void gl_initializeWithApplicationId(const char* applicationId, const char* credentialId) {
+	    [[GrowthLink sharedInstance] initializeWithApplicationId:[NSString stringWithCString:applicationId encoding:NSUTF8StringEncoding]
+	    											credentialId:[NSString stringWithCString:credentialId encoding:NSUTF8StringEncoding]];
+	}
 
-extern "C" void growthLinkHandleOpenUrl(const char* url) {
-	NSString *urlString = GLNSStringFromCharString(url);
-	[[GrowthLink sharedInstance] handleOpenUrl:[NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];	
+
+	void gl_handleOpenUrl(const char* url) {
+		NSString *urlString = GLNSStringFromCharString(url);
+		[[GrowthLink sharedInstance] handleOpenUrl:[NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];	
+	}
+
 }
