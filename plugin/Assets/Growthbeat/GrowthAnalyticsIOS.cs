@@ -6,7 +6,8 @@
 //  Copyright (c) 2015年 SIROK, Inc. All rights reserved.
 //
 #if UNITY_IPHONE
-namespace Growthbeat.Analytics {
+namespace Growthbeat.Analytics
+{
 
 	using UnityEngine;
 	using System;
@@ -16,7 +17,8 @@ namespace Growthbeat.Analytics {
 	using System.Runtime.InteropServices;
 	using Growthbeat;
 
-	internal class GrowthAnalyticsIOS : IGrowthAnalytics {
+	internal class GrowthAnalyticsiOS : IGrowthAnalytics
+	{
 
 		[DllImport("__Internal")] static extern void ga_track(string name, string properties, int option);
 		[DllImport("__Internal")] static extern void ga_trackWithNamespace(string _namespace, string name, string properties, int option);
@@ -43,26 +45,45 @@ namespace Growthbeat.Analytics {
 		[DllImport("__Internal")] static extern void ga_setBasicTags();
 		[DllImport("__Internal")] static extern void ga_setBaseUrl(string baseUrl);
 
+		public void Tag (string name)
+		{
+			Tag (name, null);
+		}
+
 		public void Tag (string name, string value)
 		{
 			ga_tag(name, value);
 		}
-
 
 		public void Tag (string _namespace, string name, string value)
 		{
 			ga_tagWithNamespace(_namespace, name, value);
 		}
 
-		public void Track (string name, Dictionary<string, string> properties, int option)
+		public void Track (string name)
 		{
-			ga_track(name, GetLine(properties), option);
+			Track (name, new Dictionary<string, string>(), GrowthAnalytics.TrackOption.TrackOptionDefault);
+		}
+		
+		public void Track (string name, Dictionary<string, string> properties)
+		{
+			Track (name, properties, GrowthAnalytics.TrackOption.TrackOptionDefault);
+		}
+		
+		public void Track (string name, GrowthAnalytics.TrackOption option)
+		{
+			Track (name, new Dictionary<string, string>(), option);
 		}
 
 
-		public void Track (string _namespace, string name, Dictionary<string, string> properties, int option)
+		public void Track (string name, Dictionary<string, string> properties, GrowthAnalytics.TrackOption option)
 		{
-			ga_trackWithNamespace(_namespace, name, GetLine(properties), option);
+			ga_track(name, GetLine(properties), (int)option);
+		}
+
+		public void Track (string _namespace, string name, Dictionary<string, string> properties, GrowthAnalytics.TrackOption option)
+		{
+			ga_trackWithNamespace(_namespace, name, GetLine(properties), (int)option);
 		}
 
 		private string GetLine (Dictionary<string, string> dictionary)
@@ -107,8 +128,8 @@ namespace Growthbeat.Analytics {
 			ga_setAge(age);
 		}
 
-		public void SetGender(int gender) {
-			ga_setGender(gender);
+		public void SetGender(GrowthAnalytics.Gender gender) {
+			ga_setGender((int)gender);
 		}
 
 		public void SetLevel (int level)

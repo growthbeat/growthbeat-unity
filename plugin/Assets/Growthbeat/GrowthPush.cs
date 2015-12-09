@@ -54,7 +54,7 @@ namespace Growthbeat {
 
 		public void RequestDeviceToken (string senderId, Environment environment)
 		{
-			#if UNITY_ANDROID
+			#if UNITY_ANDROID && !UNITY_EDITOR
 			using(AndroidJavaClass environmentClass = new AndroidJavaClass( "com.growthpush.model.Environment" ))
 			{
 				AndroidJavaObject environmentObject = environmentClass.GetStatic<AndroidJavaObject>(environment == GrowthPush.Environment.Production ? "production" : "development");
@@ -67,7 +67,7 @@ namespace Growthbeat {
 
 		public void RequestDeviceToken (Environment environment)
 		{
-			#if UNITY_ANDROID
+			#if UNITY_ANDROID && !UNITY_EDITOR
 			#elif UNITY_IPHONE && !UNITY_EDITOR
 			RequestDeviceToken(null, environment);
 			#endif
@@ -75,7 +75,7 @@ namespace Growthbeat {
 
 		public void SetDeviceToken (string deviceToken)
 		{
-			#if UNITY_ANDROID
+			#if UNITY_ANDROID && !UNITY_EDITOR
 			#elif UNITY_IPHONE && !UNITY_EDITOR
 			gp_setDeviceToken(deviceToken);
 			#endif
@@ -95,7 +95,7 @@ namespace Growthbeat {
 
 		public void SetTag (string name, string value)
 		{
-			#if UNITY_ANDROID
+			#if UNITY_ANDROID && !UNITY_EDITOR
 			growthPush.Call("setTag", name, value);
 			#elif UNITY_IPHONE && !UNITY_EDITOR
 			gp_setTag(name, value);
@@ -109,7 +109,7 @@ namespace Growthbeat {
 
 		public void TrackEvent (string name, string value)
 		{
-			#if UNITY_ANDROID
+			#if UNITY_ANDROID && !UNITY_EDITOR
 			growthPush.Call("trackEvent", name, value);
 			#elif UNITY_IPHONE && !UNITY_EDITOR
 			gp_trackEvent(name, value);
@@ -118,7 +118,7 @@ namespace Growthbeat {
 
 		public void SetDeviceTags ()
 		{
-			#if UNITY_ANDROID
+			#if UNITY_ANDROID && !UNITY_EDITOR
 			growthPush.Call("setDeviceTags");
 			#elif UNITY_IPHONE && !UNITY_EDITOR
 			gp_setDeviceTags();
@@ -127,7 +127,7 @@ namespace Growthbeat {
 
 		public void SetBaseUrl(string baseUrl)
 		{
-			#if UNITY_ANDROID
+			#if UNITY_ANDROID && !UNITY_EDITOR
 			AndroidJavaObject httpClient = growthPush.Call<AndroidJavaObject>("getHttpClient");
 			httpClient.Call("setBaseUrl", baseUrl);
 			#elif UNITY_IPHONE && !UNITY_EDITOR

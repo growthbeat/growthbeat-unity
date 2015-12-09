@@ -51,7 +51,7 @@ namespace Growthbeat {
 		}
 
 		public void ClearIntentHandlers()  {
-			#if UNITY_ANDROID
+			#if UNITY_ANDROID && !UNITY_EDITOR
 			RunBlockOnThread(() => {
 				intentHandler.Call("clearIntentHandlers");
 			});
@@ -62,7 +62,7 @@ namespace Growthbeat {
 		}
 
 		public void AddNoopIntentHandler()  {
-			#if UNITY_ANDROID
+			#if UNITY_ANDROID && !UNITY_EDITOR
 			RunBlockOnThread(() => {
 				intentHandler.Call("addNoopIntentHandler");
 			});
@@ -72,7 +72,7 @@ namespace Growthbeat {
 		}
 
 		public void AddUrlIntentHandler()  {
-			#if UNITY_ANDROID
+			#if UNITY_ANDROID && !UNITY_EDITOR
 			RunBlockOnThread(() => {
 				intentHandler.Call("addUrlIntentHandler");
 			});
@@ -82,7 +82,7 @@ namespace Growthbeat {
 		}
 
 		public void AddCustomIntentHandler(string gameObjectName, string methodName)  {
-			#if UNITY_ANDROID
+			#if UNITY_ANDROID && !UNITY_EDITOR
 			RunBlockOnThread(() => {
 				intentHandler.Call("addCustomIntentHandler", gameObjectName, methodName);
 			});

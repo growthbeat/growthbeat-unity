@@ -36,9 +36,9 @@ namespace Growthbeat {
 			if(GrowthAnalytics.instance != null) {
 
 				#if UNITY_IPHONE
-				instance = new GrowthAnalyticsiOS ();
+				GrowthAnalytics.instance = new GrowthAnalyticsiOS ();
 				#elif UNITY_ANDROID
-				instance = new GrowthAnalyticsAndroid ();
+				GrowthAnalytics.instance = new GrowthAnalyticsAndroid ();
 				#endif
 			}
 

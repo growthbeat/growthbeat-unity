@@ -66,7 +66,7 @@ namespace Growthbeat.Analytics {
 		
 		void SetAdvertisingId ();
 
-		void SetTrackingEnable ();
+		void SetTrackingEnabled ();
 		
 		void SetBasicTags ();
 

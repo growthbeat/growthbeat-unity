@@ -21,12 +21,17 @@ namespace Growthbeat.Analytics
 	{
 
 		private AndroidJavaObject growthAnalytics;
-		private GrowthAnalyticsAndroid()
+		public GrowthAnalyticsAndroid()
 		{
 			using(AndroidJavaClass gbcclass = new AndroidJavaClass( "com.growthbeat.analytics.GrowthAnalytics" ))
 			{
 				growthAnalytics = gbcclass.CallStatic<AndroidJavaObject>("getInstance");
 			}
+		}
+
+		public void Tag (string name)
+		{
+			Tag (name, null);
 		}
 
 		public void Tag (string name, string value)
@@ -37,6 +42,21 @@ namespace Growthbeat.Analytics
 		public void Tag (string _namespace, string name, string value)
 		{
 			growthAnalytics.Call("tag", _namespace, name, value, null);
+		}
+
+		public void Track (string name)
+		{
+			Track (name, new Dictionary<string, string>(), GrowthAnalytics.TrackOption.TrackOptionDefault);
+		}
+		
+		public void Track (string name, Dictionary<string, string> properties)
+		{
+			Track (name, properties, GrowthAnalytics.TrackOption.TrackOptionDefault);
+		}
+		
+		public void Track (string name, GrowthAnalytics.TrackOption option)
+		{
+			Track (name, new Dictionary<string, string>(), option);
 		}
 
 		public void Track(string name, Dictionary<string, string> properties,GrowthAnalytics.TrackOption option)

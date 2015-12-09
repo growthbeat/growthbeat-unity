@@ -14,9 +14,9 @@ namespace Growthbeat
 	using System.Collections.Generic;
 	using System.Runtime.InteropServices;
 
-	public class Core
+	public class GrowthbeatCore
 	{
-		private static Core instance = new Core ();
+		private static GrowthbeatCore instance = new GrowthbeatCore ();
 
 		#if UNITY_IPHONE
 		[DllImport("__Internal")] static extern void gb_initializeWithApplicationId(string applicationId, string credentialId);
@@ -26,16 +26,16 @@ namespace Growthbeat
 		[DllImport("__Internal")] static extern void gb_setBaseUrl(string url);
 		#endif
 
-		public static Core GetInstance ()
+		public static GrowthbeatCore GetInstance ()
 		{
-			return Core.instance;
+			return GrowthbeatCore.instance;
 		}
 
 		#if UNITY_ANDROID
 		private static AndroidJavaObject growthbeat;
 		#endif
 
-		private Core() {
+		private GrowthbeatCore() {
 			#if UNITY_ANDROID
 			using(AndroidJavaClass gbcclass = new AndroidJavaClass( "com.growthbeat.Growthbeat" )) {
 				growthbeat = gbcclass.CallStatic<AndroidJavaObject>("getInstance");
