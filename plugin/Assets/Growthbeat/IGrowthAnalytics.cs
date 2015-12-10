@@ -74,4 +74,19 @@ namespace Growthbeat.Analytics {
 
 	}
 
+	internal class GrowthAnalyticsFactory {
+
+		internal static IGrowthAnalytics GenerateInstance () {
+			
+			#if UNITY_IPHONE
+			return new GrowthAnalyticsiOS ();
+			#elif UNITY_ANDROID
+			return = new GrowthAnalyticsAndroid ();
+			#endif
+
+			return null;
+		}
+
+	}
+
 }

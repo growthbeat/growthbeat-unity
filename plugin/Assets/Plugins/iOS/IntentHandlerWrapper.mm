@@ -7,23 +7,23 @@
 extern "C"  {
 
     void gb_initializeIntentHandlers() {
-        [[GrowthbeatCore sharedInstance] intentHandlers] = [NSMutableArray array];
+        [GrowthbeatCore sharedInstance].intentHandlers = [NSMutableArray array];
     }
 
     void gb_clearIntentHandlers() {
-        [[[GrowthbeatCore sharedInstance] intentHandlers] removeAllObjects];
+        [GrowthbeatCore sharedInstance].intentHandlers = [NSMutableArray array];
     }
 
     void gb_addNoopIntentHandler() {
         NSMutableArray *mutableArray = [[GrowthbeatCore sharedInstance].intentHandlers mutableCopy];
         [mutableArray addObject:[[GBNoopIntentHandler alloc] init]];
-        [[GrowthbeatCore sharedInstance] intentHandlers] = mutableArray;
+        [GrowthbeatCore sharedInstance].intentHandlers = mutableArray;
     }
 
     void gb_addUrlIntentHandler() {
         NSMutableArray *mutableArray = [[GrowthbeatCore sharedInstance].intentHandlers mutableCopy];
         [mutableArray addObject:[[GBUrlIntentHandler alloc] init]];
-        [[GrowthbeatCore sharedInstance] intentHandlers] = mutableArray;
+        [GrowthbeatCore sharedInstance].intentHandlers = mutableArray;
     }
 
     void gb_addCustomIntentHandler(const char* gameObject, const char* methodName) {
@@ -40,7 +40,7 @@ extern "C"  {
             UnitySendMessage([[NSString stringWithCString:gameObject encoding:NSUTF8StringEncoding] UTF8String], methodName, (char *)[jsonString UTF8String]);
             return YES;
         }]];
-        [[GrowthbeatCore sharedInstance] intentHandlers] = mutableArray;
+        [GrowthbeatCore sharedInstance].intentHandlers = mutableArray;
         
     }
 

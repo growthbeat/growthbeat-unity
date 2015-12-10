@@ -31,7 +31,7 @@ namespace Growthbeat {
 		}
 		#endif
 
-		private IntentHandler()
+		public IntentHandler()
 		{
 			#if UNITY_ANDROID && !UNITY_EDITOR
 			using(AndroidJavaClass intentHandlerclass = new AndroidJavaClass( "com.growthbeat.intenthandler.IntentHandlerWrapper" ))

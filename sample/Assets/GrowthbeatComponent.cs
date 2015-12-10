@@ -7,6 +7,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 using Growthbeat;
 #if UNITY_IPHONE
 using NotificationServices = UnityEngine.iOS.NotificationServices;
@@ -61,7 +62,6 @@ public class GrowthbeatComponent : MonoBehaviour
 		
 	}
 
-	#if UNITY_IPHONE && UNITY_ANDROID
 	public void ClickedRandom() {
 		GrowthAnalytics.GetInstance ().SetRandom ();
 	}
@@ -69,7 +69,7 @@ public class GrowthbeatComponent : MonoBehaviour
 	public Toggle developmentToggle;
 
 	public void ClickedDevelopment () {
-		bool development = developmentToggle.isOn;
+		bool development = developmentToggle.isOn ? true : false;
 		GrowthAnalytics.GetInstance ().SetDevelopment (development);
 	}
 
@@ -77,7 +77,7 @@ public class GrowthbeatComponent : MonoBehaviour
 
 	public void EndInputLevel () {
 		string level = levelField.text;
-		GrowthAnalytics.GetInstance ().SetLevel (level);
+		GrowthAnalytics.GetInstance ().SetLevel (int.Parse(level));
 	}
 
 	public InputField itemField;
@@ -86,10 +86,9 @@ public class GrowthbeatComponent : MonoBehaviour
 	public void ClickedPurchase () {
 		string item = itemField.text;
 		string price = priceField.text;
-		GrowthAnalytics.GetInstance ().Purchase (item, null, price);
+		GrowthAnalytics.GetInstance ().Purchase (int.Parse(price), null, item);
 	}
 
-	#endif
 
 }
   
