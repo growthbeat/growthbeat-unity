@@ -16,7 +16,10 @@
 
 # Unity3D generated meta files
 *.pidb.meta
-*.meta
+Assests/Growthbeat/**/*.meta
+Assets/Plugins/**/*.meta
+Assets/Growthbeat.meta
+Assets/Plugins.meta
 
 # Unity3D Generated File On Crash Reports
 sysinfo.tx
