@@ -59,7 +59,8 @@ public class GrowthbeatComponent : MonoBehaviour
 	}
 
 	void HandleCustomIntent(string extra) {
-		
+		Debug.Log("Enter HandleCustomIntent");
+		Debug.Log(extra);
 	}
 
 	public void ClickedRandom() {

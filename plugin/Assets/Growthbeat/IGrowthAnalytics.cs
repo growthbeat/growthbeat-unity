@@ -81,7 +81,7 @@ namespace Growthbeat.Analytics {
 			#if UNITY_IPHONE
 			return new GrowthAnalyticsiOS ();
 			#elif UNITY_ANDROID
-			return = new GrowthAnalyticsAndroid ();
+			return new GrowthAnalyticsAndroid ();
 			#endif
 
 			return null;

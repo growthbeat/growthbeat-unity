@@ -11,10 +11,9 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <permission
-        android:name="com.growthbeat.permission.C2D_MESSAGE"
+        android:name="com.growthbeat.growthbeatsample.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
-
-    <uses-permission android:name="com.growthbeat.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.growthbeat.growthbeatsample.permission.C2D_MESSAGE" />
 
     <application
         android:icon="@drawable/app_icon"
