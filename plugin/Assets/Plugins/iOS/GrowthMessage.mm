@@ -9,6 +9,10 @@
 #import <UIKit/UIKit.h>
 #import <Growthbeat/GrowthMessage.h>
 
-extern "C" void gm_setBaseUrl(const char* baseUrl) {
-    [[[GrowthMessage sharedInstance] httpClient] setBaseUrl:[NSURL URLWithString:[NSString stringWithCString:baseUrl encoding:NSUTF8StringEncoding]]];
+extern "C" {
+
+	void gm_setBaseUrl(const char* baseUrl) {
+	    [[[GrowthMessage sharedInstance] httpClient] setBaseUrl:[NSURL URLWithString:[NSString stringWithCString:baseUrl encoding:NSUTF8StringEncoding]]];
+	}
+
 }

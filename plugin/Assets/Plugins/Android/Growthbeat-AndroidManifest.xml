@@ -28,6 +28,13 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <intent-filter>
+                <data android:scheme="growthbeat-sample" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
         </activity>
         <activity
             android:name="com.unity3d.player.UnityPlayerNativeActivity"
@@ -97,15 +104,6 @@
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
         </receiver>
-
-        <activity android:name="com.growthbeat.intenthandler.IntentReceiveActivity">
-            <intent-filter>
-                <data android:scheme="growthbeat-sample" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <action android:name="android.intent.action.VIEW" />
-            </intent-filter>
-        </activity>
 
     </application>
 

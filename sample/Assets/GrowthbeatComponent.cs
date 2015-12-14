@@ -8,7 +8,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-using Growthbeat;
 #if UNITY_IPHONE
 using NotificationServices = UnityEngine.iOS.NotificationServices;
 #endif
@@ -26,13 +25,13 @@ public class GrowthbeatComponent : MonoBehaviour
 
 	void Awake ()
 	{
-		GrowthbeatCore.GetInstance ().Initialize (applicationId, credentialId);
+		Growthbeat.GetInstance ().Initialize (applicationId, credentialId);
 		IntentHandler.GetInstance ().AddNoopIntentHandler ();
 		IntentHandler.GetInstance ().AddUrlIntentHandler ();
 		IntentHandler.GetInstance ().AddCustomIntentHandler ("GrowthbeatComponent", "HandleCustomIntent");
 		GrowthLink.GetInstance().Initialize (applicationId, credentialId);
 		GrowthPush.GetInstance ().RequestDeviceToken (senderId, environment);
-		GrowthbeatCore.GetInstance ().Start ();
+		Growthbeat.GetInstance ().Start ();
 
 	}   
 	
@@ -55,7 +54,7 @@ public class GrowthbeatComponent : MonoBehaviour
 
 	void OnDisable ()
 	{
-		GrowthbeatCore.GetInstance ().Stop ();
+		Growthbeat.GetInstance ().Stop ();
 	}
 
 	void HandleCustomIntent(string extra) {

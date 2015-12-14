@@ -25,7 +25,6 @@ Assets/Plugins.meta
 sysinfo.tx
 
 # Sample Project
-sample/Assets/Editor/**
 sample/Assets/Plugins/**
 sample/Assets/Plugin/**
 sample/Assets/Growthbeat/**
