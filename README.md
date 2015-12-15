@@ -7,6 +7,10 @@ Growthbeat SDK for Unity
 
 ## Install
 
+Download to Unity Asset Store or download zip file on Github.
+
+**Case zip file download**
+
 `Assets -> Import Package -> Custom Package...` 
 
 Select growthbeat.unitypackage into downloaded zip file.
