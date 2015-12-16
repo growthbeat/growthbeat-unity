@@ -1,7 +1,6 @@
 Growthbeat SDK for Unity
 ===
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
-[![Download](https://img.shields.io/badge/UnityAssetStore-Latest-brightgreen.svg)](https://www.assetstore.unity3d.com/#!/content/50069)
 
 Growthbeat SDK for Unity
 
