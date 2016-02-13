@@ -4,8 +4,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface UIApplication(SupressWarnings)
+#import "AppDelegateListener.h"
 
-- (BOOL)application:(UIApplication *)application linkOpenURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation;
+@interface GrowthLinkPlugin : NSObject <AppDelegateListener>
+
++ (GrowthLinkPlugin *)sharedInstance;
 
 @end
