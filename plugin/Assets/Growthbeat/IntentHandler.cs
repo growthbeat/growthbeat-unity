@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 public class IntentHandler
 {
 
-	#if UNITY_IPHONE
+	#if UNITY_IPHONE && !UNITY_EDITOR
 	[DllImport("__Internal")] static extern void gb_initializeIntentHandlers();
 	[DllImport("__Internal")] static extern void gb_clearIntentHandlers();
 	[DllImport("__Internal")] static extern void gb_addNoopIntentHandler();
@@ -19,10 +19,10 @@ public class IntentHandler
 	private AndroidJavaObject intentHandler;
 
 	private void RunBlockOnThread(Action runBlock) {
-		
+
 		using(AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer")){
 			var activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-			activity.Call("runOnUiThread", new AndroidJavaRunnable(runBlock));	
+			activity.Call("runOnUiThread", new AndroidJavaRunnable(runBlock));
 		}
 
 	}
@@ -87,5 +87,5 @@ public class IntentHandler
 		gb_addCustomIntentHandler(gameObjectName, methodName);
 		#endif
 	}
-	
+
 }

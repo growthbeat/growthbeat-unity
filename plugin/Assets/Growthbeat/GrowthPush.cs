@@ -14,7 +14,7 @@ using System.Runtime.InteropServices;
 
 public class GrowthPush {
 
-	#if UNITY_IPHONE
+	#if UNITY_IPHONE && !UNITY_EDITOR 
 	[DllImport("__Internal")] private static extern void gp_requestDeviceToken(int environment);
 	[DllImport("__Internal")] private static extern void gp_setDeviceToken(string deviceToken);
 	[DllImport("__Internal")] private static extern void gp_clearBadge();
@@ -130,7 +130,7 @@ public class GrowthPush {
 		httpClient.Call("setBaseUrl", baseUrl);
 		#elif UNITY_IPHONE && !UNITY_EDITOR
 		gp_setBaseUrl(baseUrl);
-		#endif	
+		#endif
 	}
 
 }
