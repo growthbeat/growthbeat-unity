@@ -10,21 +10,21 @@ using System.Collections;
 using System.Runtime.InteropServices;
 
 public class GrowthLink {
-	
-	#if UNITY_IPHONE
+
+	#if UNITY_IPHONE && !UNITY_EDITOR
 	[DllImport("__Internal")] static extern void gl_initializeWithApplicationId(string applicationId, string credentialId);
 	[DllImport("__Internal")] static extern void gl_handleOpenUrl(string url);
 	#endif
-	
-	#if UNITY_ANDROID
+
+	#if UNITY_ANDROID && !UNITY_EDITOR
 	private static AndroidJavaObject growthLink;
 	#endif
-	
+
 	private GrowthLink()
 	{
-		#if UNITY_ANDROID
+		#if UNITY_ANDROID && !UNITY_EDITOR
 		using(AndroidJavaClass gbcclass = new AndroidJavaClass( "com.growthbeat.link.GrowthLink" )) {
-			growthLink = gbcclass.CallStatic<AndroidJavaObject>("getInstance"); 
+			growthLink = gbcclass.CallStatic<AndroidJavaObject>("getInstance");
 		}
 		#endif
 	}
@@ -34,14 +34,14 @@ public class GrowthLink {
 	{
 		return GrowthLink.instance;
 	}
-	
+
 	public void Initialize (string applicationId, string credentialId)
 	{
-		#if UNITY_ANDROID
+		#if UNITY_ANDROID && !UNITY_EDITOR
 		if (growthLink == null)
 			return;
-		AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"); 
-		AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity"); 
+		AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+		AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
 		growthLink.Call("initialize", activity, applicationId, credentialId);
 		#elif UNITY_IPHONE && !UNITY_EDITOR
 		gl_initializeWithApplicationId(applicationId, credentialId);
