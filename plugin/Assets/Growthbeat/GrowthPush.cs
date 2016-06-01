@@ -83,6 +83,8 @@ public class GrowthPush {
 		AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
 		return growthPush.Call<string>("registerGCM", activity);
 		#endif
+
+		return null;
 	}
 
 	public void SetDeviceToken (string deviceToken)
