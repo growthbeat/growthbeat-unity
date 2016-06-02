@@ -13,7 +13,6 @@ public class GrowthLink {
 
 	#if UNITY_IPHONE && !UNITY_EDITOR
 	[DllImport("__Internal")] static extern void gl_initializeWithApplicationId(string applicationId, string credentialId);
-	[DllImport("__Internal")] static extern void gl_handleOpenUrl(string url);
 	#endif
 
 	#if UNITY_ANDROID && !UNITY_EDITOR

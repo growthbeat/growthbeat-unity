@@ -1,11 +1,16 @@
 //
 //  GrowthLinkPlugin.h
+//  Growthbeat-unity
+//
+//  Created by Shigeru Ogawa on 2016/06/01.
+//  Copyright (c) 2016年 SIROK, Inc. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
+#import "AppDelegateListener.h"
 
-@interface UIApplication(SupressWarnings)
+@interface GrowthLinkPlugin : NSObject <AppDelegateListener>
 
-- (BOOL)application:(UIApplication *)application linkOpenURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation;
++ (GrowthLinkPlugin *)sharedInstance;
 
 @end

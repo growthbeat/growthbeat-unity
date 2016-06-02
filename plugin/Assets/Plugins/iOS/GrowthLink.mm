@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <GrowthLink/Growthlink.h>
+#import <Growthbeat/Growthlink.h>
 
 NSString* GLNSStringFromCharString(const char* charString) {
 	if(charString == NULL)
@@ -16,16 +16,10 @@ NSString* GLNSStringFromCharString(const char* charString) {
 }
 
 extern "C" {
-	
+
 	void gl_initializeWithApplicationId(const char* applicationId, const char* credentialId) {
 	    [[GrowthLink sharedInstance] initializeWithApplicationId:[NSString stringWithCString:applicationId encoding:NSUTF8StringEncoding]
 	    											credentialId:[NSString stringWithCString:credentialId encoding:NSUTF8StringEncoding]];
-	}
-
-
-	void gl_handleOpenUrl(const char* url) {
-		NSString *urlString = GLNSStringFromCharString(url);
-		[[GrowthLink sharedInstance] handleOpenUrl:[NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];	
 	}
 
 }
