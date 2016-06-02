@@ -19,53 +19,53 @@ internal interface IGrowthAnalytics {
 	void Tag (string name, string value);
 
 	void Tag (string _namespace, string name, string value);
-	
+
 	void Track (string name);
-	
+
 	void Track (string name, Dictionary<string, string> properties);
-	
+
 	void Track (string name, GrowthAnalytics.TrackOption option);
-	
+
 	void Track (string name, Dictionary<string, string> properties, GrowthAnalytics.TrackOption option);
 
 	void Track (string _namespace, string name, Dictionary<string, string> properties, GrowthAnalytics.TrackOption option);
-	
+
 	void Open ();
-	
+
 	void Close ();
-	
+
 	void Purchase (int price, string category, string product);
-	
+
 	void SetUserId (string userId);
-	
+
 	void SetName (string name);
-	
+
 	void SetAge (int age);
-	
+
 	void SetGender(GrowthAnalytics.Gender gender);
-	
+
 	void SetLevel (int level);
-	
+
 	void SetDevelopment (bool development);
-	
+
 	void SetDeviceModel ();
-	
+
 	void SetOS ();
-	
+
 	void SetLanguage ();
-	
+
 	void SetTimeZone ();
-	
+
 	void SetTimeZoneOffset ();
-	
+
 	void SetAppVersion ();
-	
+
 	void SetRandom ();
-	
+
 	void SetAdvertisingId ();
 
 	void SetTrackingEnabled ();
-	
+
 	void SetBasicTags ();
 
 	void SetBaseUrl(string baseUrl);
@@ -75,10 +75,10 @@ internal interface IGrowthAnalytics {
 internal class GrowthAnalyticsFactory {
 
 	internal static IGrowthAnalytics GenerateInstance () {
-		
-		#if UNITY_IPHONE
+
+		#if UNITY_IPHONE && !UNITY_EDITOR
 		return new GrowthAnalyticsiOS ();
-		#elif UNITY_ANDROID
+		#elif UNITY_ANDROID && !UNITY_EDITOR
 		return new GrowthAnalyticsAndroid ();
 		#endif
 
@@ -86,4 +86,3 @@ internal class GrowthAnalyticsFactory {
 	}
 
 }
-

@@ -14,7 +14,7 @@ using System.Runtime.InteropServices;
 
 public class GrowthPush {
 
-	#if UNITY_IPHONE
+	#if UNITY_IPHONE && !UNITY_EDITOR
 	[DllImport("__Internal")] private static extern void gp_requestDeviceToken(int environment);
 	[DllImport("__Internal")] private static extern void gp_setDeviceToken(string deviceToken);
 	[DllImport("__Internal")] private static extern void gp_clearBadge();
@@ -69,6 +69,22 @@ public class GrowthPush {
 		#elif UNITY_IPHONE && !UNITY_EDITOR
 		RequestDeviceToken(null, environment);
 		#endif
+	}
+
+	/**
+	* Support Only Android.
+	* iOS uses UnityEngine.iOS.NotificationServices.
+	* This method must be call after GrowthPush#RequestDeviceToken
+	*/
+	public string GetDeviceToken ()
+	{
+		#if UNITY_ANDROID && !UNITY_EDITOR
+		AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+		AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+		return growthPush.Call<string>("registerGCM", activity);
+		#endif
+
+		return null;
 	}
 
 	public void SetDeviceToken (string deviceToken)
@@ -130,7 +146,7 @@ public class GrowthPush {
 		httpClient.Call("setBaseUrl", baseUrl);
 		#elif UNITY_IPHONE && !UNITY_EDITOR
 		gp_setBaseUrl(baseUrl);
-		#endif	
+		#endif
 	}
 
 }

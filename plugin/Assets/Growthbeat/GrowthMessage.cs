@@ -15,20 +15,20 @@ using System.Runtime.InteropServices;
 public class GrowthMessage
 {
 
-	#if UNITY_IPHONE
+	#if UNITY_IPHONE && !UNITY_EDITOR
 	[DllImport("__Internal")] static extern void gm_setBaseUrl(string baseUrl);
 	#endif
 
-	#if UNITY_ANDROID
+	#if UNITY_ANDROID && !UNITY_EDITOR
 	private AndroidJavaObject growthMessage;
 	#endif
 
 	private GrowthMessage()
 	{
-		#if UNITY_ANDROID
+		#if UNITY_ANDROID && !UNITY_EDITOR
 		using(AndroidJavaClass gbcclass = new AndroidJavaClass( "com.growthbeat.message.GrowthMessage" ))
 		{
-			growthMessage = gbcclass.CallStatic<AndroidJavaObject>("getInstance"); 
+			growthMessage = gbcclass.CallStatic<AndroidJavaObject>("getInstance");
 		}
 		#endif
 	}
@@ -41,14 +41,14 @@ public class GrowthMessage
 
 	public void SetBaseUrl(string baseUrl)
 	{
-		#if UNITY_ANDROID
+		#if UNITY_ANDROID && !UNITY_EDITOR
 		if(growthMessage == null)
 			return;
 		AndroidJavaObject httpClient = growthMessage.Call<AndroidJavaObject>("getHttpClient");
 		httpClient.Call("setBaseUrl", baseUrl);
 		#elif UNITY_IPHONE && !UNITY_EDITOR
 		gm_setBaseUrl(baseUrl);
-		#endif	
+		#endif
 	}
-	
+
 }
