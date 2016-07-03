@@ -11,19 +11,6 @@
 
 extern "C" {
 	
-	void gb_initializeWithApplicationId(const char* applicationId, const char* credentialId) {
-    	[[Growthbeat sharedInstance] initializeWithApplicationId:[NSString stringWithCString:applicationId encoding:NSUTF8StringEncoding]
-    											credentialId:[NSString stringWithCString:credentialId encoding:NSUTF8StringEncoding]];
-	}
-
-	void gb_start() {
-    	[[Growthbeat sharedInstance] start];
-	}
-
-	void gb_stop() {
-		[[Growthbeat sharedInstance] stop];
-	}
-
 	void gb_setLoggerSilent(bool silent) {
 		[[Growthbeat sharedInstance] setLoggerSilent:silent];
 	}
@@ -32,4 +19,4 @@ extern "C" {
 		[[[GrowthbeatCore sharedInstance] httpClient] setBaseUrl:[NSURL URLWithString:[NSString stringWithCString:baseUrl encoding:NSUTF8StringEncoding]]];
 	}
 
-} 
+}

@@ -18,9 +18,6 @@ public class Growthbeat
 	private static Growthbeat instance = new Growthbeat ();
 
 	#if UNITY_IPHONE && !UNITY_EDITOR
-	[DllImport("__Internal")] static extern void gb_initializeWithApplicationId(string applicationId, string credentialId);
-	[DllImport("__Internal")] static extern void gb_start();
-	[DllImport("__Internal")] static extern void gb_stop();
 	[DllImport("__Internal")] static extern void gb_setLoggerSilent(bool silent);
 	[DllImport("__Internal")] static extern void gb_setBaseUrl(string url);
 	#endif
@@ -39,42 +36,6 @@ public class Growthbeat
 		using(AndroidJavaClass gbcclass = new AndroidJavaClass( "com.growthbeat.Growthbeat" )) {
 			growthbeat = gbcclass.CallStatic<AndroidJavaObject>("getInstance");
 		}
-		#endif
-	}
-
-	public void Initialize (string applicationId, string credentialId)
-	{
-		#if UNITY_ANDROID && !UNITY_EDITOR
-		if (growthbeat == null)
-			return;
-		AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-		AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-		growthbeat.Call("initialize", activity, applicationId, credentialId);
-		#elif UNITY_IPHONE && !UNITY_EDITOR
-		gb_initializeWithApplicationId(applicationId, credentialId);
-		#endif
-
-	}
-
-	public void Start ()
-	{
-		#if UNITY_ANDROID && !UNITY_EDITOR
-		if (growthbeat == null)
-			return;
-		growthbeat.Call("start");
-		#elif UNITY_IPHONE && !UNITY_EDITOR
-		gb_start();
-		#endif
-	}
-
-	public void Stop ()
-	{
-		#if UNITY_ANDROID && !UNITY_EDITOR
-		if (growthbeat == null)
-			return;
-		growthbeat.Call("stop");
-		#elif UNITY_IPHONE && !UNITY_EDITOR
-		gb_stop();
 		#endif
 	}
 
