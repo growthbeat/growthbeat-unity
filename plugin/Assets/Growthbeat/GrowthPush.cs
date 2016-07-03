@@ -15,6 +15,7 @@ using System.Runtime.InteropServices;
 public class GrowthPush {
 
 	#if UNITY_IPHONE && !UNITY_EDITOR
+	[DllImport("__Internal")] private static extern void gp_initialize(int environment);
 	[DllImport("__Internal")] private static extern void gp_requestDeviceToken(int environment);
 	[DllImport("__Internal")] private static extern void gp_setDeviceToken(string deviceToken);
 	[DllImport("__Internal")] private static extern void gp_clearBadge();
@@ -50,24 +51,34 @@ public class GrowthPush {
 		Production = 2
 	}
 
-	public void RequestDeviceToken (string senderId, Environment environment)
-	{
+	public void initialize(string applicationId, string credentialId, Environment environment) {
+
 		#if UNITY_ANDROID && !UNITY_EDITOR
 		using(AndroidJavaClass environmentClass = new AndroidJavaClass( "com.growthpush.model.Environment" ))
 		{
 			AndroidJavaObject environmentObject = environmentClass.GetStatic<AndroidJavaObject>(environment == GrowthPush.Environment.Production ? "production" : "development");
-			growthPush.Call("requestRegistrationId", senderId, environmentObject);
+			growthPush.Call("initialize", applicationId, credentialId, environmentObject);
 		}
 		#elif UNITY_IPHONE && !UNITY_EDITOR
-		gp_requestDeviceToken((int)environment);
+		gp_initialize((int)environment);
+		#endif
+
+	}
+
+	public void RequestDeviceToken (string senderId)
+	{
+		#if UNITY_ANDROID && !UNITY_EDITOR
+		growthPush.Call("requestRegistrationId", senderId);
+		#elif UNITY_IPHONE && !UNITY_EDITOR
+		gp_requestDeviceToken(;
 		#endif
 	}
 
-	public void RequestDeviceToken (Environment environment)
+	public void RequestDeviceToken ()
 	{
 		#if UNITY_ANDROID && !UNITY_EDITOR
 		#elif UNITY_IPHONE && !UNITY_EDITOR
-		RequestDeviceToken(null, environment);
+		RequestDeviceToken(null);
 		#endif
 	}
 

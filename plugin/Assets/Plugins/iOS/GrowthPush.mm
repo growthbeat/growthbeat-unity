@@ -17,8 +17,12 @@ NSString* GPNSStringFromCharString(const char* charString) {
 
 extern "C" {
 
-    void gp_requestDeviceToken (int environment) {
-        [[GrowthPush sharedInstance] requestDeviceTokenWithEnvironment:(GPEnvironment)environment];
+    void gp_initialize (const char* applicationId, const char* credentialId, int environment) {
+      [[GrowthPush sharedInstance] initializeWithApplicationId:GPNSStringFromCharString(applicationId) credentialId:GPNSStringFromCharString(credentialId) environment:(GPEnvironment) environment];
+    }
+
+    void gp_requestDeviceToken () {
+        [[GrowthPush sharedInstance] requestDeviceToken];
     }
 
     void gp_setDeviceToken (const char* deviceToken) {
