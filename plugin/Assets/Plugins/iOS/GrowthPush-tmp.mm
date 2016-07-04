@@ -2,7 +2,7 @@
 #import <Growthbeat/GrowthPush.h>
 
 extern "C" typedef void (*ShowMessageHandler)();
-extern "C" typedef void (*FailureHandler)(char *parameter);
+extern "C" typedef void (*FailureHandler)();
 
 NSString* GPNSStringFromCharString(const char* charString) {
     if(charString == NULL)
@@ -49,7 +49,7 @@ extern "C" {
 	}
 	
 	void gp_trackEvent(const char* name, const char* value, ShowMessageHandler showMessageHandler, FailureHandler failureHandler) {
-		[[GrowthPush sharedInstance] setTag:GPNSStringFromCharString(name) value:GPNSStringFromCharString(value) showMessage: ^{ renderMessage(); } failure: ^ (NSString *detail) {}]
+		[[GrowthPush sharedInstance] setTag:GPNSStringFromCharString(name) value:GPNSStringFromCharString(value) showMessage: ^{ renderMessage(); } failure: ^ (NSString *detail)]
 	}
 
 	void gp_setDeviceTags() {

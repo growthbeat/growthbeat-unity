@@ -6,8 +6,8 @@ using System.Runtime.InteropServices;
 
 public class GrowthPush {
 
-  private delete void ShowMessageHandler ();
-  private delete void FailureHandler ();
+  private delegate void ShowMessageHandler ();
+  private delegate void FailureHandler ();
 
   #if UNITY_IPHONE && !UNITY_EDITOR
   [DllImport("__Internal")] private static extern void gp_requestDeviceToken();
