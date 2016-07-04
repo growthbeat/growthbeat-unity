@@ -21,6 +21,8 @@ public class GrowthPush {
 	[DllImport("__Internal")] private static extern void gp_clearBadge();
 	[DllImport("__Internal")] private static extern void gp_setTag(string name, string value);
 	[DllImport("__Internal")] private static extern void gp_trackEvent(string name, string value);
+	[DllImport("__Internal")] private static extern void gp_trackEvent_with_handler(string name, string value, string gameObject, string methodName);
+	[DllImport("__Internal")] private static extern void gp_render_message (const char* uuid);
 	[DllImport("__Internal")] private static extern void gp_setDeviceTags();
 	[DllImport("__Internal")] private static extern void gp_setBaseUrl(string baseUrl);
 	#endif
@@ -138,6 +140,27 @@ public class GrowthPush {
 		growthPush.Call("trackEvent", name, value);
 		#elif UNITY_IPHONE && !UNITY_EDITOR
 		gp_trackEvent(name, value);
+		#endif
+	}
+
+	public void TrackEvent (string name, string value, string gameObject, string methodName)
+	{
+		#if UNITY_ANDROID && !UNITY_EDITOR
+		using(AndroidJavaClass gpclass = new AndroidJavaClass( "com.growthpush.ShowMessageHandlerWrapper" )) {
+			gpclass.CallStatic<AndroidJavaObject>("trackEvent", name, value, gameObject, methodName);
+		}
+		#elif UNITY_IPHONE && !UNITY_EDITOR
+		gp_trackEvent_with_handler(name, value, gameObject, methodName);
+		#endif
+	}
+
+	public void renderMessage (string uuid) {
+		#if UNITY_ANDROID && !UNITY_EDITOR
+		using(AndroidJavaClass gpclass = new AndroidJavaClass( "com.growthpush.ShowMessageHandlerWrapper" )) {
+			gpclass.CallStatic<AndroidJavaObject>("renderMessage", uuid);
+		}
+		#elif UNITY_IPHONE && !UNITY_EDITOR
+		gp_render_message(uuid);
 		#endif
 	}
 
