@@ -25,13 +25,13 @@ public class GrowthbeatComponent : MonoBehaviour
 
 	void Awake ()
 	{
-		Growthbeat.GetInstance ().Initialize (applicationId, credentialId);
+		GrowthPush.GetInstance ().Initialize (applicationId, credentialId, environment);
 		IntentHandler.GetInstance ().AddNoopIntentHandler ();
 		IntentHandler.GetInstance ().AddUrlIntentHandler ();
 		IntentHandler.GetInstance ().AddCustomIntentHandler ("GrowthbeatComponent", "HandleCustomIntent");
 		GrowthLink.GetInstance().Initialize (applicationId, credentialId);
-		GrowthPush.GetInstance ().RequestDeviceToken (senderId, environment);
-		Growthbeat.GetInstance ().Start ();
+		GrowthPush.GetInstance ().RequestDeviceToken (senderId);
+		GrowthPush.GetInstance ().TrackEvent("Launch");
 
 	}   
 	
@@ -54,7 +54,6 @@ public class GrowthbeatComponent : MonoBehaviour
 
 	void OnDisable ()
 	{
-		Growthbeat.GetInstance ().Stop ();
 	}
 
 	void HandleCustomIntent(string extra) {
@@ -63,21 +62,22 @@ public class GrowthbeatComponent : MonoBehaviour
 	}
 
 	public void ClickedRandom() {
-		GrowthAnalytics.GetInstance ().SetRandom ();
 	}
 
 	public Toggle developmentToggle;
 
 	public void ClickedDevelopment () {
 		bool development = developmentToggle.isOn ? true : false;
-		GrowthAnalytics.GetInstance ().SetDevelopment (development);
 	}
 
 	public InputField levelField;
 
 	public void EndInputLevel () {
 		string level = levelField.text;
-		GrowthAnalytics.GetInstance ().SetLevel (int.Parse(level));
+	}
+
+	public void ShowMessage (string udid) {
+		GrowthPush.GetInstance ().RenderMessage (udid);
 	}
 
 	public InputField itemField;
@@ -85,10 +85,9 @@ public class GrowthbeatComponent : MonoBehaviour
 
 	public void ClickedPurchase () {
 		string item = itemField.text;
+		GrowthPush.GetInstance ().TrackEvent (item, "", "GrowthbeatComponent", "ShowMessage");
 		string price = priceField.text;
-		GrowthAnalytics.GetInstance ().Purchase (int.Parse(price), null, item);
 	}
-
 
 }
   
