@@ -10,13 +10,9 @@
 #import <Growthbeat/Growthbeat.h>
 
 extern "C" {
-	
-	void gb_setLoggerSilent(bool silent) {
-		[[Growthbeat sharedInstance] setLoggerSilent:silent];
-	}
 
 	void gb_setBaseUrl(const char* baseUrl) {
-		[[[GrowthbeatCore sharedInstance] httpClient] setBaseUrl:[NSURL URLWithString:[NSString stringWithCString:baseUrl encoding:NSUTF8StringEncoding]]];
+		[[[Growthbeat sharedInstance] httpClient] setBaseUrl:[NSURL URLWithString:[NSString stringWithCString:baseUrl encoding:NSUTF8StringEncoding]]];
 	}
 
 }
