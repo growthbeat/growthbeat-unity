@@ -2,7 +2,7 @@
 //  GrowthPush.mm
 //  Growthbeat-unity
 //
-//  Created by Baekwoo Chung on 2015/06/15.
+//  Created by Shigeru Ogawa on 2016/07/04.
 //  Copyright (c) 2015年 SIROK, Inc. All rights reserved.
 //
 
@@ -43,13 +43,13 @@ static GrowthPushPlugin *_instance = [GrowthPushPlugin sharedInstance];
 
     if ((self = [super init])) {
         _instance = self;
+        self.renderHandlers = [NSMutableDictionary dictionary];
     }
     return self;
 }
 
 - (void) setShowMessageHandler:(void(^)())messageCallback uuid:(NSString *)uuid {
-    __block void(^messageRenderHandler)() = messageCallback;
-    [[self renderHandlers] setObject:[messageRenderHandler copy] forKey:uuid];
+    [[self renderHandlers] setObject:messageCallback forKey:uuid];
 }
 
 - (void) renderMessage:(NSString *)uuid {
@@ -104,7 +104,7 @@ extern "C" {
         [[GrowthPush sharedInstance] trackEvent:eventName value:eventValue showMessage:^(void(^renderMessage)())
          {
              NSString *uuid = [[NSUUID UUID] UUIDString];
-             [[GrowthPushPlugin sharedInstance] setShowMessageHandler:renderMessage uuid:uuid];
+             [[GrowthPushPlugin sharedInstance] setShowMessageHandler:[renderMessage copy] uuid:uuid];
              UnitySendMessage((char *)[gameObjectStr UTF8String], (char *)[methodNameStr UTF8String], (char *)[uuid UTF8String]);
          } failure:^(NSString *error) {
              NSLog(@"showMessage failure: %@", error);
