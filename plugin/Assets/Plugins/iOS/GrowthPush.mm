@@ -8,7 +8,60 @@
 
 #import <UIKit/UIKit.h>
 #import <Growthbeat/GrowthPush.h>
-#import "GPReceiveHanderPlugin.h"
+#import "GrowthPushPlugin.h"
+
+static GrowthPushPlugin *_instance = [GrowthPushPlugin sharedInstance];
+
+@interface GrowthPushPlugin() {
+
+    NSMutableDictionary *renderHandlers;
+
+}
+
+@property (nonatomic, strong) NSMutableDictionary *renderHandlers;
+
+@end
+
+@implementation GrowthPushPlugin
+
+@synthesize renderHandlers;
+
++ (GrowthPushPlugin *)sharedInstance {
+    return _instance;
+}
+
++ (void)initialize {
+    if (!_instance) {
+        _instance = [[GrowthPushPlugin alloc] init];
+    }
+}
+
+- (id)init {
+    if (_instance != nil) {
+        return _instance;
+    }
+
+    if ((self = [super init])) {
+        _instance = self;
+    }
+    return self;
+}
+
+- (void) setShowMessageHandler:(void(^)())messageCallback uuid:(NSString *)uuid {
+    __block void(^messageRenderHandler)() = messageCallback;
+    [[self renderHandlers] setObject:[messageRenderHandler copy] forKey:uuid];
+}
+
+- (void) renderMessage:(NSString *)uuid {
+    void(^messageRenderHandler)();
+    messageRenderHandler = [[self renderHandlers] objectForKey:uuid];
+    if(messageRenderHandler) {
+        messageRenderHandler();
+        [[self renderHandlers] removeObjectForKey:uuid];
+    }
+}
+
+@end
 
 NSString* GPNSStringFromCharString(const char* charString) {
     if(charString == NULL)
@@ -45,18 +98,21 @@ extern "C" {
     void gp_trackEvent_with_handler (const char* name, const char* value, const char* gameObject, const char* methodName) {
         NSString *eventName = [NSString stringWithCString:name encoding:NSUTF8StringEncoding];
         NSString *eventValue = [NSString stringWithCString:value encoding:NSUTF8StringEncoding];
+        const NSString *gameObjectStr = GPNSStringFromCharString(gameObject);
+        const NSString *methodNameStr = GPNSStringFromCharString(methodName);
+
         [[GrowthPush sharedInstance] trackEvent:eventName value:eventValue showMessage:^(void(^renderMessage)())
-        {
-          NSString *uuid = [[NSUUID UUID] UUIDString];
-          [[GPReceiveHanderPlugin sharedInstance] setShowMessageHandler:renderMessage uuid:uuid];
-          UnitySendMessage(gameObj, method, (char *)[uuid UTF8String]);
-        } failure:(NSString *error) {
-          NSLog(@"showMessage failure: %@", error);
-        }];
+         {
+             NSString *uuid = [[NSUUID UUID] UUIDString];
+             [[GrowthPushPlugin sharedInstance] setShowMessageHandler:renderMessage uuid:uuid];
+             UnitySendMessage((char *)[gameObjectStr UTF8String], (char *)[methodNameStr UTF8String], (char *)[uuid UTF8String]);
+         } failure:^(NSString *error) {
+             NSLog(@"showMessage failure: %@", error);
+         }];
     }
 
-    void gp_render_message (const char* uuid) {
-        [[GPReceiveHanderPlugin sharedInstance] renderMessage:[NSString stringWithCString:uuid encoding:NSUTF8StringEncoding]];
+    void gp_render_message (const char* uuidChar) {
+        [[GrowthPushPlugin sharedInstance] renderMessage:GPNSStringFromCharString(uuidChar)];
     }
 
     void gp_setDeviceTags () {
