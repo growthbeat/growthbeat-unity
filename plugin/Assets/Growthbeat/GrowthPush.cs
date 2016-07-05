@@ -58,8 +58,10 @@ public class GrowthPush {
 	 #if UNITY_ANDROID && !UNITY_EDITOR
 	 using(AndroidJavaClass environmentClass = new AndroidJavaClass( "com.growthpush.model.Environment" ))
 	 {
+     AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+     AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
 		 AndroidJavaObject environmentObject = environmentClass.GetStatic<AndroidJavaObject>(environment == GrowthPush.Environment.Production ? "production" : "development");
-		 growthPush.Call("initialize", applicationId, credentialId, environmentObject);
+		 growthPush.Call("initialize", activity, applicationId, credentialId, environmentObject);
 	 }
 	 #elif UNITY_IPHONE && !UNITY_EDITOR
 	 gp_initialize(applicationId, credentialId, (int)environment);
