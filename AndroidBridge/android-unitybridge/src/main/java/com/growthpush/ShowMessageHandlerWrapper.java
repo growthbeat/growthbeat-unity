@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public class ShowMessageHandlerWrapper {
 
-    private static Map<String, ShowMessageHandler.MessageRenderHandler> showMessageHandlers = new HashMap<>();
+    private static Map<String, ShowMessageHandler.MessageRenderHandler> messageRenderHandlers = new HashMap<>();
 
     public static void trackEvent(final String name, final String value, final String gameObject, final String methodName) {
 
@@ -17,7 +17,7 @@ public class ShowMessageHandlerWrapper {
             @Override
             public void complete(MessageRenderHandler run) {
                 String uuid = UUID.randomUUID().toString();
-                showMessageHandlers.put(uuid, run);
+                messageRenderHandlers.put(uuid, run);
                 UnityPlayer.UnitySendMessage(gameObject, methodName, uuid);
             }
 
@@ -29,9 +29,11 @@ public class ShowMessageHandlerWrapper {
     }
 
     public static void renderMessage(String uuid) {
-        ShowMessageHandler.MessageRenderHandler messageRenderHandler = showMessageHandlers.get(uuid);
-        if (messageRenderHandler != null)
+        ShowMessageHandler.MessageRenderHandler messageRenderHandler = messageRenderHandlers.get(uuid);
+        if (messageRenderHandler != null) {
+            messageRenderHandlers.remove(uuid);
             messageRenderHandler.render();
+        }
     }
 
 }
