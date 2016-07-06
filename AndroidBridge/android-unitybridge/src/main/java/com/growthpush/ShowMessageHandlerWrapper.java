@@ -31,8 +31,8 @@ public class ShowMessageHandlerWrapper {
     public static void renderMessage(String uuid) {
         ShowMessageHandler.MessageRenderHandler messageRenderHandler = messageRenderHandlers.get(uuid);
         if (messageRenderHandler != null) {
-            messageRenderHandlers.remove(uuid);
             messageRenderHandler.render();
+            messageRenderHandlers.remove(uuid);
         }
     }
 

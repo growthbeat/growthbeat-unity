@@ -149,7 +149,7 @@ public class GrowthPush {
  {
 	 #if UNITY_ANDROID && !UNITY_EDITOR
 	 using(AndroidJavaClass gpclass = new AndroidJavaClass( "com.growthpush.ShowMessageHandlerWrapper" )) {
-		 gpclass.CallStatic<AndroidJavaObject>("trackEvent", name, value, gameObject, methodName);
+		 gpclass.CallStatic("trackEvent", name, value, gameObject, methodName);
 	 }
 	 #elif UNITY_IPHONE && !UNITY_EDITOR
 	 gp_trackEvent_with_handler(name, value, gameObject, methodName);
@@ -159,7 +159,7 @@ public class GrowthPush {
  public void RenderMessage (string uuid) {
 	 #if UNITY_ANDROID && !UNITY_EDITOR
 	 using(AndroidJavaClass gpclass = new AndroidJavaClass( "com.growthpush.ShowMessageHandlerWrapper" )) {
-		 gpclass.CallStatic<AndroidJavaObject>("renderMessage", uuid);
+		 gpclass.CallStatic("renderMessage", uuid);
 	 }
 	 #elif UNITY_IPHONE && !UNITY_EDITOR
 	 gp_render_message(uuid);

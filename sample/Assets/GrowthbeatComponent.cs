@@ -31,7 +31,7 @@ public class GrowthbeatComponent : MonoBehaviour
 		IntentHandler.GetInstance ().AddCustomIntentHandler ("GrowthbeatComponent", "HandleCustomIntent");
 		GrowthLink.GetInstance().Initialize (applicationId, credentialId);
 		GrowthPush.GetInstance ().RequestDeviceToken (senderId);
-		GrowthPush.GetInstance ().TrackEvent("Launch");
+		// GrowthPush.GetInstance ().TrackEvent("Launch");
 
 	}   
 	
@@ -61,6 +61,11 @@ public class GrowthbeatComponent : MonoBehaviour
 		Debug.Log(extra);
 	}
 
+	void ShowMessage (string uuid) {
+		Debug.Log("callback unity: " + uuid);
+		GrowthPush.GetInstance ().RenderMessage (uuid);
+	}
+
 	public void ClickedRandom() {
 	}
 
@@ -74,10 +79,6 @@ public class GrowthbeatComponent : MonoBehaviour
 
 	public void EndInputLevel () {
 		string level = levelField.text;
-	}
-
-	public void ShowMessage (string udid) {
-		GrowthPush.GetInstance ().RenderMessage (udid);
 	}
 
 	public InputField itemField;
