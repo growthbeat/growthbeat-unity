@@ -18,6 +18,7 @@ public class Growthbeat
 	private static Growthbeat instance = new Growthbeat ();
 
 	#if UNITY_IPHONE && !UNITY_EDITOR
+	[DllImport("__Internal")] static extern void gb_setLoggerSilent(bool silent);
 	[DllImport("__Internal")] static extern void gb_setBaseUrl(string url);
 	#endif
 
@@ -37,6 +38,18 @@ public class Growthbeat
 		}
 		#endif
 	}
+
+	public void SetLoggerSilent (bool silent)
+	{
+		#if UNITY_ANDROID && !UNITY_EDITOR
+		if (growthbeat == null)
+			return;
+		growthbeat.Call("setLoggerSilent", silent);
+		#elif UNITY_IPHONE && !UNITY_EDITOR
+		gb_setLoggerSilent(silent);
+		#endif
+	}
+
 
 	public void setBaseUrl (string baseUrl)
 	{

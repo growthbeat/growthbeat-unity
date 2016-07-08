@@ -14,6 +14,10 @@
 
 extern "C" {
 
+		void gb_setLoggerSilent(bool silent) {
+			[[Growthbeat sharedInstance] setLoggerSilent:silent];
+		}
+
 		void gb_setBaseUrl(const char* baseUrl) {
 			[[[Growthbeat sharedInstance] httpClient] setBaseUrl:[NSURL URLWithString:[NSString stringWithCString:baseUrl encoding:NSUTF8StringEncoding]]];
 		}
