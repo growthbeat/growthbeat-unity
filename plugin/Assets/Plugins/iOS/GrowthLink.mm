@@ -54,6 +54,8 @@ static GrowthLinkPlugin *_instance = [GrowthLinkPlugin sharedInstance];
 
 @end
 
+#pragma mark - Growth Link UnityPlugin
+
 NSString* GLNSStringFromCharString(const char* charString) {
 	if(charString == NULL)
 		return nil;

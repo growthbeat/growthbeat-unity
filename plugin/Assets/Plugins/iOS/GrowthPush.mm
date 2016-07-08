@@ -26,6 +26,8 @@ static GrowthPushPlugin *_instance = [GrowthPushPlugin sharedInstance];
 
 @synthesize renderHandlers;
 
+#pragma mark - Initialize Object
+
 + (GrowthPushPlugin *)sharedInstance {
     return _instance;
 }
@@ -48,9 +50,13 @@ static GrowthPushPlugin *_instance = [GrowthPushPlugin sharedInstance];
     return self;
 }
 
+#pragma mark - store blocks callback
+
 - (void) setShowMessageHandler:(void(^)())messageCallback uuid:(NSString *)uuid {
     [[self renderHandlers] setObject:messageCallback forKey:uuid];
 }
+
+#pragma mark - show message after call messageRenderHandler
 
 - (void) renderMessage:(NSString *)uuid {
     void(^messageRenderHandler)();
@@ -62,6 +68,8 @@ static GrowthPushPlugin *_instance = [GrowthPushPlugin sharedInstance];
 }
 
 @end
+
+#pragma mark - Growth Push UnityPlugin
 
 NSString* GPNSStringFromCharString(const char* charString) {
     if(charString == NULL)

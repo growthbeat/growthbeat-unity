@@ -12,6 +12,8 @@
 #import <Growthbeat/GBUrlIntentHandler.h>
 #import <Growthbeat/GBNoopIntentHandler.h>
 
+#pragma mark - Growthbeat UnityPlugin
+
 extern "C" {
 
 		void gb_setLoggerSilent(bool silent) {
