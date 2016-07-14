@@ -1,6 +1,6 @@
 package com.growthbeat.intenthandler;
 
-import com.growthbeat.GrowthbeatCore;
+import com.growthbeat.Growthbeat;
 import com.growthbeat.model.CustomIntent;
 import com.unity3d.player.UnityPlayer;
 
@@ -19,7 +19,7 @@ public class IntentHandlerWrapper {
 
     public IntentHandlerWrapper() {
         super();
-        GrowthbeatCore.getInstance().setIntentHandlers(intentHandlers);
+        Growthbeat.getInstance().setIntentHandlers(intentHandlers);
     }
 
     private static IntentHandlerWrapper getInstance() {
@@ -35,7 +35,7 @@ public class IntentHandlerWrapper {
     }
 
     public void addUrlIntentHandler() {
-        intentHandlers.add(new UrlIntentHandler(GrowthbeatCore.getInstance().getContext()));
+        intentHandlers.add(new UrlIntentHandler(Growthbeat.getInstance().getContext()));
     }
 
     public void addCustomIntentHandler(final String gameObject, final String methodName) {
