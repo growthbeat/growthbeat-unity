@@ -8,9 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import <Growthbeat/Growthbeat.h>
-#import <Growthbeat/GBCustomIntentHandler.h>
-#import <Growthbeat/GBUrlIntentHandler.h>
-#import <Growthbeat/GBNoopIntentHandler.h>
 
 #pragma mark - Growthbeat UnityPlugin
 
