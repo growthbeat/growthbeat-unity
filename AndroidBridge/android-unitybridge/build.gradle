@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        minSdkVersion 10
+        minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -23,7 +23,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile "com.android.support:support-v4:$SUPPORT_LIBRARY_VERSION"
     compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.growthbeat:growthbeat-android:1.2.6@aar'
+    compile 'com.growthbeat:growthbeat-android:2.0.1@aar'
 }
 
 task clearJar(type: Delete) {
