@@ -15,7 +15,7 @@ using System.Runtime.InteropServices;
 public class GrowthPush {
 
  #if UNITY_IPHONE && !UNITY_EDITOR
- [DllImport("__Internal")] private static extern void gp_initialize(string applicationId, string credentialId, int environment);
+ [DllImport("__Internal")] private static extern void gp_initialize(string applicationId, string credentialId, int environment, bool adInfoEnable);
  [DllImport("__Internal")] private static extern void gp_requestDeviceToken();
  [DllImport("__Internal")] private static extern void gp_setDeviceToken(string deviceToken);
  [DllImport("__Internal")] private static extern void gp_clearBadge();
@@ -54,19 +54,22 @@ public class GrowthPush {
  }
 
  public void Initialize(string applicationId, string credentialId, Environment environment) {
+    Initialize(applicationId, credentialId, environment, true);
+ }
 
-	 #if UNITY_ANDROID && !UNITY_EDITOR
-	 using(AndroidJavaClass environmentClass = new AndroidJavaClass( "com.growthpush.model.Environment" ))
-	 {
-     AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-     AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-		 AndroidJavaObject environmentObject = environmentClass.GetStatic<AndroidJavaObject>(environment == GrowthPush.Environment.Production ? "production" : "development");
-		 growthPush.Call("initialize", activity, applicationId, credentialId, environmentObject);
-	 }
-	 #elif UNITY_IPHONE && !UNITY_EDITOR
-	 gp_initialize(applicationId, credentialId, (int)environment);
-	 #endif
-
+ public void Initialize(string applicationId, string credentialId, Environment environment, bool adInfoEnable)
+ {
+   #if UNITY_ANDROID && !UNITY_EDITOR
+    using(AndroidJavaClass environmentClass = new AndroidJavaClass( "com.growthpush.model.Environment" ))
+    {
+       AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+       AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+      AndroidJavaObject environmentObject = environmentClass.GetStatic<AndroidJavaObject>(environment == GrowthPush.Environment.Production ? "production" : "development");
+      growthPush.Call("initialize", activity, applicationId, credentialId, environmentObject, adInfoEnable);
+    }
+  #elif UNITY_IPHONE && !UNITY_EDITOR
+    gp_initialize(applicationId, credentialId, (int)environment, adInfoEnable);
+  #endif
  }
 
  public void RequestDeviceToken (string senderId)

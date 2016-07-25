@@ -79,8 +79,8 @@ NSString* GPNSStringFromCharString(const char* charString) {
 
 extern "C" {
 
-    void gp_initialize (const char* applicationId, const char* credentialId, int environment) {
-        [[GrowthPush sharedInstance] initializeWithApplicationId:GPNSStringFromCharString(applicationId) credentialId:GPNSStringFromCharString(credentialId) environment:(GPEnvironment) environment];
+    void gp_initialize (const char* applicationId, const char* credentialId, int environment, bool adInfoEnable) {
+        [[GrowthPush sharedInstance] initializeWithApplicationId:GPNSStringFromCharString(applicationId) credentialId:GPNSStringFromCharString(credentialId) environment:(GPEnvironment) environment adInfoEnable:adInfoEnable];
     }
 
     void gp_requestDeviceToken () {
