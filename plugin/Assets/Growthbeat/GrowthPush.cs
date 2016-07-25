@@ -122,7 +122,7 @@ public class GrowthPush {
 
  public void SetTag (string name)
  {
-	 SetTag (name, null);
+	 SetTag (name, "");
  }
 
  public void SetTag (string name, string value)
@@ -136,7 +136,7 @@ public class GrowthPush {
 
  public void TrackEvent(string name)
  {
-	 TrackEvent (name, null);
+	 TrackEvent (name, "");
  }
 
  public void TrackEvent (string name, string value)
