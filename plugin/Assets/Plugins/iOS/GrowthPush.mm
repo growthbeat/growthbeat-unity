@@ -123,10 +123,6 @@ extern "C" {
         [[GrowthPushPlugin sharedInstance] renderMessage:GPNSStringFromCharString(uuidChar)];
     }
 
-    void gp_setDeviceTags () {
-        [[GrowthPush sharedInstance] setDeviceTags];
-    }
-
     void gp_setBaseUrl(const char* baseUrl) {
         [[[GrowthPush sharedInstance] httpClient] setBaseUrl:[NSURL URLWithString:[NSString stringWithCString:baseUrl encoding:NSUTF8StringEncoding]]];
     }

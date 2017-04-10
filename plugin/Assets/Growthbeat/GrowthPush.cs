@@ -23,7 +23,6 @@ public class GrowthPush {
  [DllImport("__Internal")] private static extern void gp_trackEvent(string name, string value);
  [DllImport("__Internal")] private static extern void gp_trackEvent_with_handler(string name, string value, string gameObject, string methodName);
  [DllImport("__Internal")] private static extern void gp_render_message(string uuid);
- [DllImport("__Internal")] private static extern void gp_setDeviceTags();
  [DllImport("__Internal")] private static extern void gp_setBaseUrl(string baseUrl);
  #endif
 
@@ -166,15 +165,6 @@ public class GrowthPush {
 	 }
 	 #elif UNITY_IPHONE && !UNITY_EDITOR
 	 gp_render_message(uuid);
-	 #endif
- }
-
- public void SetDeviceTags ()
- {
-	 #if UNITY_ANDROID && !UNITY_EDITOR
-	 growthPush.Call("setDeviceTags");
-	 #elif UNITY_IPHONE && !UNITY_EDITOR
-	 gp_setDeviceTags();
 	 #endif
  }
 
