@@ -1,12 +1,12 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    compileSdkVersion 26
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 23
+        minSdkVersion 16
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
     }
@@ -22,8 +22,8 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile "com.android.support:support-v4:$SUPPORT_LIBRARY_VERSION"
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.growthbeat:growthbeat-android:2.0.1@aar'
+    compile "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
+    compile 'com.growthbeat:growthbeat-android:2.0.7-rc.1@aar'
 }
 
 task clearJar(type: Delete) {
