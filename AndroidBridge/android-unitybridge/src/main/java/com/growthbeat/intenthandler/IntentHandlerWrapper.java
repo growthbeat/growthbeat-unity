@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class IntentHandlerWrapper {
 
-    private  List<IntentHandler> intentHandlers = new ArrayList<IntentHandler>();
+    private List<IntentHandler> intentHandlers = new ArrayList<IntentHandler>();
 
     private static final IntentHandlerWrapper instance = new IntentHandlerWrapper();
 
@@ -41,8 +41,9 @@ public class IntentHandlerWrapper {
     public void addCustomIntentHandler(final String gameObject, final String methodName) {
         intentHandlers.add(new IntentHandler() {
             public boolean handle(com.growthbeat.model.Intent intent) {
-                if (intent.getType() != com.growthbeat.model.Intent.Type.custom)
-                    return false;;
+                if (intent.getType() != com.growthbeat.model.Intent.Type.custom) {
+                    return false;
+                }
                 Map<String, String> extra = ((CustomIntent) intent).getExtra();
                 JSONObject json = new JSONObject();
                 for (Map.Entry<String, String> entry : extra.entrySet()) {

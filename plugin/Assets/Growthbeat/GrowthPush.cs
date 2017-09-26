@@ -58,13 +58,18 @@ public class GrowthPush {
 
  public void Initialize(string applicationId, string credentialId, Environment environment, bool adInfoEnable)
  {
+   Initialize(applicationId, credentialId, environment, adInfoEnable, null);
+ }
+
+ public void Initialize(string applicationId, string credentialId, Environment environment, bool adInfoEnable, string channelId)
+ {
    #if UNITY_ANDROID && !UNITY_EDITOR
     using(AndroidJavaClass environmentClass = new AndroidJavaClass( "com.growthpush.model.Environment" ))
     {
        AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
        AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
       AndroidJavaObject environmentObject = environmentClass.GetStatic<AndroidJavaObject>(environment == GrowthPush.Environment.Production ? "production" : "development");
-      growthPush.Call("initialize", activity, applicationId, credentialId, environmentObject, adInfoEnable);
+      growthPush.Call("initialize", activity, applicationId, credentialId, environmentObject, adInfoEnable, channelId);
     }
   #elif UNITY_IPHONE && !UNITY_EDITOR
     gp_initialize(applicationId, credentialId, (int)environment, adInfoEnable);
@@ -166,6 +171,18 @@ public class GrowthPush {
 	 #elif UNITY_IPHONE && !UNITY_EDITOR
 	 gp_render_message(uuid);
 	 #endif
+ }
+
+ public void SetChannelId (string channelId) {
+   #if UNITY_ANDROID && !UNITY_EDITOR
+	  gpclass.CallStatic("setChannelId", channelId);
+   #endif
+ }
+
+ public void DeleteDefaultNotificationChannel () {
+   #if UNITY_ANDROID && !UNITY_EDITOR
+	  gpclass.CallStatic("deleteDefaultNotificationChannel");
+   #endif
  }
 
  public void SetBaseUrl(string baseUrl)
