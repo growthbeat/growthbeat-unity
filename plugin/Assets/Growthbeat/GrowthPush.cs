@@ -175,13 +175,13 @@ public class GrowthPush {
 
  public void SetChannelId (string channelId) {
    #if UNITY_ANDROID && !UNITY_EDITOR
-	  gpclass.CallStatic("setChannelId", channelId);
+	  growthPush.Call("setChannelId", channelId);
    #endif
  }
 
  public void DeleteDefaultNotificationChannel () {
    #if UNITY_ANDROID && !UNITY_EDITOR
-	  gpclass.CallStatic("deleteDefaultNotificationChannel");
+	  growthPush.Call("deleteDefaultNotificationChannel");
    #endif
  }
 
