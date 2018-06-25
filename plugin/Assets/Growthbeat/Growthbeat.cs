@@ -17,7 +17,7 @@ public class Growthbeat
 {
 	private static Growthbeat instance = new Growthbeat ();
 
-	#if UNITY_IPHONE && !UNITY_EDITOR
+	#if UNITY_IOS && !UNITY_EDITOR
 	[DllImport("__Internal")] static extern void gb_setLoggerSilent(bool silent);
 	[DllImport("__Internal")] static extern void gb_setBaseUrl(string url);
 	#endif
@@ -45,7 +45,7 @@ public class Growthbeat
 		if (growthbeat == null)
 			return;
 		growthbeat.Call("setLoggerSilent", silent);
-		#elif UNITY_IPHONE && !UNITY_EDITOR
+		#elif UNITY_IOS && !UNITY_EDITOR
 		gb_setLoggerSilent(silent);
 		#endif
 	}
@@ -59,7 +59,7 @@ public class Growthbeat
 			AndroidJavaObject httpClient = growthbeatCore.Call<AndroidJavaObject>("getHttpClient");
 			httpClient.Call("setBaseUrl", baseUrl);
 		}
-		#elif UNITY_IPHONE && !UNITY_EDITOR
+		#elif UNITY_IOS && !UNITY_EDITOR
 		gb_setBaseUrl(baseUrl);
 		#endif
 	}
