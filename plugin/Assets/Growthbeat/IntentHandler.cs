@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 public class IntentHandler
 {
 
-	#if UNITY_IPHONE && !UNITY_EDITOR
+	#if UNITY_IOS && !UNITY_EDITOR
 	[DllImport("__Internal")] static extern void gb_initializeIntentHandlers();
 	[DllImport("__Internal")] static extern void gb_clearIntentHandlers();
 	[DllImport("__Internal")] static extern void gb_addNoopIntentHandler();
@@ -35,7 +35,7 @@ public class IntentHandler
 		{
 			intentHandler = intentHandlerclass.CallStatic<AndroidJavaObject>("getInstance");
 		}
-		#elif UNITY_IPHONE && !UNITY_EDITOR
+		#elif UNITY_IOS && !UNITY_EDITOR
 		gb_initializeIntentHandlers();
 		#endif
 	}
@@ -52,7 +52,7 @@ public class IntentHandler
 		RunBlockOnThread(() => {
 			intentHandler.Call("clearIntentHandlers");
 		});
-		#elif UNITY_IPHONE && !UNITY_EDITOR
+		#elif UNITY_IOS && !UNITY_EDITOR
 		gb_clearIntentHandlers();
 		#endif
 
@@ -63,7 +63,7 @@ public class IntentHandler
 		RunBlockOnThread(() => {
 			intentHandler.Call("addNoopIntentHandler");
 		});
-		#elif UNITY_IPHONE && !UNITY_EDITOR
+		#elif UNITY_IOS && !UNITY_EDITOR
 		gb_addNoopIntentHandler();
 		#endif
 	}
@@ -73,7 +73,7 @@ public class IntentHandler
 		RunBlockOnThread(() => {
 			intentHandler.Call("addUrlIntentHandler");
 		});
-		#elif UNITY_IPHONE && !UNITY_EDITOR
+		#elif UNITY_IOS && !UNITY_EDITOR
 		gb_addUrlIntentHandler();
 		#endif
 	}
@@ -83,7 +83,7 @@ public class IntentHandler
 		RunBlockOnThread(() => {
 			intentHandler.Call("addCustomIntentHandler", gameObjectName, methodName);
 		});
-		#elif UNITY_IPHONE && !UNITY_EDITOR
+		#elif UNITY_IOS && !UNITY_EDITOR
 		gb_addCustomIntentHandler(gameObjectName, methodName);
 		#endif
 	}
