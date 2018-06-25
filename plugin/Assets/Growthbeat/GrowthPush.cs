@@ -98,9 +98,7 @@ public class GrowthPush {
  public string GetDeviceToken ()
  {
 	 #if UNITY_ANDROID && !UNITY_EDITOR
-	 AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-	 AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-	 return growthPush.Call<string>("registerFCM", activity);
+	 return growthPush.Call<string>("registerFCM");
 	 #endif
 
 	 return null;
