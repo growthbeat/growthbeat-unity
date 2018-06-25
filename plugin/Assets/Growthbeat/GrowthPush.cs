@@ -14,7 +14,7 @@ using System.Runtime.InteropServices;
 
 public class GrowthPush {
 
- #if UNITY_IPHONE && !UNITY_EDITOR
+ #if UNITY_IOS && !UNITY_EDITOR
  [DllImport("__Internal")] private static extern void gp_initialize(string applicationId, string credentialId, int environment, bool adInfoEnable);
  [DllImport("__Internal")] private static extern void gp_requestDeviceToken();
  [DllImport("__Internal")] private static extern void gp_setDeviceToken(string deviceToken);
@@ -63,33 +63,30 @@ public class GrowthPush {
 
  public void Initialize(string applicationId, string credentialId, Environment environment, bool adInfoEnable, string channelId)
  {
-   #if UNITY_ANDROID && !UNITY_EDITOR
+  #if UNITY_ANDROID && !UNITY_EDITOR
     using(AndroidJavaClass environmentClass = new AndroidJavaClass( "com.growthpush.model.Environment" ))
     {
-       AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-       AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+      AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+      AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
       AndroidJavaObject environmentObject = environmentClass.GetStatic<AndroidJavaObject>(environment == GrowthPush.Environment.Production ? "production" : "development");
       growthPush.Call("initialize", activity, applicationId, credentialId, environmentObject, adInfoEnable, channelId);
     }
-  #elif UNITY_IPHONE && !UNITY_EDITOR
+  #elif UNITY_IOS && !UNITY_EDITOR
     gp_initialize(applicationId, credentialId, (int)environment, adInfoEnable);
   #endif
  }
 
  public void RequestDeviceToken (string senderId)
  {
-	 #if UNITY_ANDROID && !UNITY_EDITOR
-	 growthPush.Call("requestRegistrationId", senderId);
-	 #elif UNITY_IPHONE && !UNITY_EDITOR
-	 gp_requestDeviceToken();
-	 #endif
+	 RequestDeviceToken ();
  }
 
  public void RequestDeviceToken ()
  {
 	 #if UNITY_ANDROID && !UNITY_EDITOR
-	 #elif UNITY_IPHONE && !UNITY_EDITOR
-	 RequestDeviceToken(null);
+	 growthPush.Call("requestRegistrationId");
+	 #elif UNITY_IOS && !UNITY_EDITOR
+	 gp_requestDeviceToken();
 	 #endif
  }
 
@@ -101,9 +98,7 @@ public class GrowthPush {
  public string GetDeviceToken ()
  {
 	 #if UNITY_ANDROID && !UNITY_EDITOR
-	 AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-	 AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-	 return growthPush.Call<string>("registerGCM", activity);
+	 return growthPush.Call<string>("registerFCM");
 	 #endif
 
 	 return null;
@@ -112,14 +107,14 @@ public class GrowthPush {
  public void SetDeviceToken (string deviceToken)
  {
 	 #if UNITY_ANDROID && !UNITY_EDITOR
-	 #elif UNITY_IPHONE && !UNITY_EDITOR
+	 #elif UNITY_IOS && !UNITY_EDITOR
 	 gp_setDeviceToken(deviceToken);
 	 #endif
  }
 
  public void ClearBadge ()
  {
-	 #if UNITY_IPHONE && !UNITY_EDITOR
+	 #if UNITY_IOS && !UNITY_EDITOR
 	 gp_clearBadge();
 	 #endif
  }
@@ -133,7 +128,7 @@ public class GrowthPush {
  {
 	 #if UNITY_ANDROID && !UNITY_EDITOR
 	 growthPush.Call("setTag", name, value);
-	 #elif UNITY_IPHONE && !UNITY_EDITOR
+	 #elif UNITY_IOS && !UNITY_EDITOR
 	 gp_setTag(name, value);
 	 #endif
  }
@@ -147,7 +142,7 @@ public class GrowthPush {
  {
 	 #if UNITY_ANDROID && !UNITY_EDITOR
 	 growthPush.Call("trackEvent", name, value);
-	 #elif UNITY_IPHONE && !UNITY_EDITOR
+	 #elif UNITY_IOS && !UNITY_EDITOR
 	 gp_trackEvent(name, value);
 	 #endif
  }
@@ -158,7 +153,7 @@ public class GrowthPush {
 	 using(AndroidJavaClass gpclass = new AndroidJavaClass( "com.growthpush.ShowMessageHandlerWrapper" )) {
 		 gpclass.CallStatic("trackEvent", name, value, gameObject, methodName);
 	 }
-	 #elif UNITY_IPHONE && !UNITY_EDITOR
+	 #elif UNITY_IOS && !UNITY_EDITOR
 	 gp_trackEvent_with_handler(name, value, gameObject, methodName);
 	 #endif
  }
@@ -168,7 +163,7 @@ public class GrowthPush {
 	 using(AndroidJavaClass gpclass = new AndroidJavaClass( "com.growthpush.ShowMessageHandlerWrapper" )) {
 		 gpclass.CallStatic("renderMessage", uuid);
 	 }
-	 #elif UNITY_IPHONE && !UNITY_EDITOR
+	 #elif UNITY_IOS && !UNITY_EDITOR
 	 gp_render_message(uuid);
 	 #endif
  }
@@ -190,7 +185,7 @@ public class GrowthPush {
 	 #if UNITY_ANDROID && !UNITY_EDITOR
 	 AndroidJavaObject httpClient = growthPush.Call<AndroidJavaObject>("getHttpClient");
 	 httpClient.Call("setBaseUrl", baseUrl);
-	 #elif UNITY_IPHONE && !UNITY_EDITOR
+	 #elif UNITY_IOS && !UNITY_EDITOR
 	 gp_setBaseUrl(baseUrl);
 	 #endif
  }
